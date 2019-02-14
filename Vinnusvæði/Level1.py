@@ -23,11 +23,16 @@ class Level_1(arcade.Window):
         self.Player1 = Player1(50, 50, 0, 0, 15, arcade.color.AUBURN)
 
         #Coin and counter
+        self.player_list = None
         self.coin_list = None
         self.coun_counter = 0
 
     def setup(self):
+
+        # Sprite lists
         self.coin_list = arcade.SpriteList()
+
+
 
         # Create the coins
         for i in range(100):
@@ -52,6 +57,16 @@ class Level_1(arcade.Window):
 
     def update(self, delta_time):
         self.Player1.update()
+
+        self.coin_list.update()
+
+        # Generate a list of all sprites that collided with the player.
+        coins_hit_list = arcade.check_for_collision_with_list(self.Player1.player_sprite, self.coin_list)
+
+        # Loop through each colliding sprite, remove it, and add to the score.
+        for coin in coins_hit_list:
+            coin.kill()
+            self.coun_counter += 1
 
     def on_key_press(self, key, modifiers):
         """ Called whenever the user presses a key. """
