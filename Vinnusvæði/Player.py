@@ -21,14 +21,25 @@ class Player1:
         self.radius = radius
         self.color = color
 
+        self.player_list = arcade.SpriteList()
+
+        self.player_sprite = arcade.Sprite("Images/Kall.png", 0.2)
+        self.player_sprite.center_x = position_x
+        self.player_sprite.center_y = position_y
+        self.player_list.append(self.player_sprite)
+
     def draw(self):
         """ Draw the Players with the instance variables we have. """
-        arcade.draw_circle_filled(self.position_x, self.position_y, self.radius, self.color)
+        #arcade.draw_circle_filled(self.position_x, self.position_y, self.radius, self.color)
+        self.player_list.draw()
 
     def update(self):
         # Move the Player
         self.position_y += self.change_y
         self.position_x += self.change_x
+        self.player_sprite.center_y += self.change_y
+        self.player_sprite.center_x += self.change_x
+
 
         # See if the Player hit the edge of the screen. If so, change direction
         if self.position_x < self.radius:
