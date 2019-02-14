@@ -2,7 +2,7 @@ import arcade
 
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 600
-MOVEMENT_SPEED = 3
+MOVEMENT_SPEED = 6
 
 
 class Player1:

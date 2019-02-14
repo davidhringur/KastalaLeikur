@@ -1,9 +1,14 @@
 import arcade
 from Player import *
+import os
+import random
 
 class Level_1(arcade.Window):
 
     def __init__(self, width, height, title):
+
+        file_path = os.path.dirname(os.path.abspath(__file__))
+        os.chdir(file_path)
 
         # Call the parent class's init function
         super().__init__(width, height, title)
@@ -17,9 +22,32 @@ class Level_1(arcade.Window):
         # Create our Player1
         self.Player1 = Player1(50, 50, 0, 0, 15, arcade.color.AUBURN)
 
+        #Coin and counter
+        self.coin_list = None
+        self.coun_counter = 0
+
+    def setup(self):
+        self.coin_list = arcade.SpriteList()
+
+        # Create the coins
+        for i in range(100):
+
+            # Create the coin instance
+            # Coin image from kenney.nl
+            coin = arcade.Sprite("Images/gem.png", 0.07)
+
+            # Position the coin
+            coin.center_x = random.randrange(SCREEN_WIDTH)
+            coin.center_y = random.randrange(SCREEN_HEIGHT)
+
+            # Add the coin to the lists
+            self.coin_list.append(coin)
+
+
     def on_draw(self):
         """ Called whenever we need to draw the window. """
         arcade.start_render()
+        self.coin_list.draw()
         self.Player1.draw()
 
     def update(self, delta_time):
