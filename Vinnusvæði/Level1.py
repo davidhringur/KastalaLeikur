@@ -31,7 +31,7 @@ class Level_1(arcade.Window):
         self.processing_time = 0
         self.draw_time = 0
         #set fps
-        self.set_update_rate(1 / 80)
+        #self.set_update_rate(1 / 80)
 
     def setup(self):
         # Set up Player1
