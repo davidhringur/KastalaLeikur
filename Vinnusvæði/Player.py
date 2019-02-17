@@ -7,7 +7,7 @@ def update_animation(self, frame):
         self.update_animation_frame_counter = 0
 
         if  self.change_x > 0:
-            self._texture = self.walk_right_textures[self.update_animation_counter]    #Breytir um texture í hvert sinn sem fallið er notað
+            self._texture = self.walk_right_textures[self.update_animation_counter]
             self.face_direction = "right"
         elif  self.change_x < 0:
             self._texture = self.walk_left_textures[self.update_animation_counter]
@@ -68,22 +68,19 @@ class Player(arcade.Sprite):
         self.SwordSprite._texture = self.sword_DownRight[0]
         self.update_Sword_animation_counter = 0
         self.update_Sword_animation_frame_counter = 5
-        self.update_Sword_animationKill_frame_counter = 0
         self.sword_gate = 0
 
     def SwordSwing(self):
         if self.update_Sword_animation_frame_counter == 5:            #update sverðið breytist á hverjum 3ja frame og byrja strax!
             self.SwordSprite._texture = self.sword_DownRight[self.update_Sword_animation_counter]
-            self.update_Sword_animation_counter += 1
+            self.update_Sword_animation_counter == 0
             self.update_Sword_animation_frame_counter = 0
         self.update_Sword_animation_frame_counter += 1
         self.update_Sword_animation_counter += 1
 
-        self.SwordSprite.center_x, self.SwordSprite.center_y = self.center_x + 4, self.center_y
-        if self.update_Sword_animationKill_frame_counter == 47:
-            self.SwordSprite.center_x, self.SwordSprite.center_y = -50,-50 #færa út fyrir borð
-            self.update_Sword_animationKill_frame_counter = 0
-        self.update_Sword_animationKill_frame_counter += 1
+        self.SwordSprite.center_x, self.SwordSprite.center_y = self.center_x + 20, self.center_y - 20
+        if self.sword_gate == 0:
+            self.SwordSprite.center_x, self.SwordSprite.center_y = 0,0 #færa út fyrir borð
 
         if self.update_Sword_animation_counter == 3:
             self.update_Sword_animation_counter = 0
