@@ -31,7 +31,7 @@ class Level_1(arcade.Window):
         self.processing_time = 0
         self.draw_time = 0
         #set fps
-        self.set_update_rate(1 / 80)
+        #self.set_update_rate(1 / 80)
 
     def setup(self):
         # Set up Player1
@@ -45,6 +45,7 @@ class Level_1(arcade.Window):
         self.coin_list = arcade.SpriteList()
 
         self.player_list.append(self.Player1)
+        self.player_list.append(self.Player1.SwordSprite)
 
         # Create the coins
         for i in range(15):
@@ -96,8 +97,10 @@ class Level_1(arcade.Window):
 
         self.coin_list.update()
 
+        if self.Player1.sword_gate == 1:
+            self.Player1.SwordSwing()
 
-        self.Player1.update_animation(3)
+        self.Player1.update_animation(5)
 
 
         # Generate a list of all sprites that collided with the player.
@@ -113,7 +116,7 @@ class Level_1(arcade.Window):
 
 
     def on_key_press(self, key, modifiers):
-        """ Called whenever the user pres"""
+        """ Called whenever the user presses a key"""
         if key == arcade.key.LEFT:
             self.Player1.change_x = -MOVEMENT_SPEED
         elif key == arcade.key.RIGHT:
@@ -122,6 +125,8 @@ class Level_1(arcade.Window):
             self.Player1.change_y = MOVEMENT_SPEED
         elif key == arcade.key.DOWN:
             self.Player1.change_y = -MOVEMENT_SPEED
+        if key == arcade.key.SPACE:
+            self.Player1.sword_gate = 1
 
     def on_key_release(self, key, modifiers):
         """ Called whenever a user releases a key. """
@@ -129,3 +134,5 @@ class Level_1(arcade.Window):
             self.Player1.change_x = 0
         elif key == arcade.key.UP or key == arcade.key.DOWN:
             self.Player1.change_y = 0
+        if key == arcade.key.SPACE:
+            self.Player1.sword_gate = 0
