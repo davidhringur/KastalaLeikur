@@ -45,7 +45,7 @@ class Level_1(arcade.Window):
         self.coin_list = arcade.SpriteList()
 
         self.player_list.append(self.Player1)
-        self.player_list.append(self.Player1.SwordSprite)
+        #self.player_list.append(self.Player1.SwordSprite)
 
         # Create the coins
         for i in range(15):
@@ -99,6 +99,7 @@ class Level_1(arcade.Window):
 
         if self.Player1.sword_gate == 1:
             self.Player1.SwordSwing()
+        
 
         self.Player1.update_animation(5)
 
@@ -127,6 +128,7 @@ class Level_1(arcade.Window):
             self.Player1.change_y = -MOVEMENT_SPEED
         if key == arcade.key.SPACE:
             self.Player1.sword_gate = 1
+            self.player_list.append(self.Player1.SwordSprite)
 
     def on_key_release(self, key, modifiers):
         """ Called whenever a user releases a key. """
@@ -136,3 +138,4 @@ class Level_1(arcade.Window):
             self.Player1.change_y = 0
         if key == arcade.key.SPACE:
             self.Player1.sword_gate = 0
+            self.player_list.remove(self.Player1.SwordSprite)
