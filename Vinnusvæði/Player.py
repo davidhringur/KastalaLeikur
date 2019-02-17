@@ -61,6 +61,33 @@ class Player(arcade.Sprite):
         self.walk_down_textures = arcade.load_textures("Images/Character/Character_Down.png",[[8,6,15,20],[40,6,15,20],[72,6,15,20],[104,6,15,20]], scale = 8)
         self.stand_down_textures = arcade.load_textures("Images/Character/Character_RollDown.png",[[8,6,15,20],[40,6,15,20],[72,6,15,20],[104,6,15,20]], scale = 8)
 
+        self.sword_DownRight = arcade.load_textures("Images/Weapon/Sword_DownRight.png",[[94,35,25,20],[158,34,25,20],[221,29,25,20],[285,29,25,20]], scale = 12)
+
+        self.SwordSprite = arcade.Sprite()
+        self.SwordSprite.width, self.SwordSprite.height, self.SwordSprite.scale = 75, 60, 25
+        self.SwordSprite._texture = self.sword_DownRight[0]
+        self.update_Sword_animation_counter = 0
+        self.update_Sword_animation_frame_counter = 5
+        self.update_Sword_animationKill_frame_counter = 0
+        self.sword_gate = 0
+
+    def SwordSwing(self):
+        if self.update_Sword_animation_frame_counter == 5:            #update sverðið breytist á hverjum 3ja frame og byrja strax!
+            self.SwordSprite._texture = self.sword_DownRight[self.update_Sword_animation_counter]
+            self.update_Sword_animation_counter += 1
+            self.update_Sword_animation_frame_counter = 0
+        self.update_Sword_animation_frame_counter += 1
+        self.update_Sword_animation_counter += 1
+
+        self.SwordSprite.center_x, self.SwordSprite.center_y = self.center_x + 4, self.center_y
+        if self.update_Sword_animationKill_frame_counter == 47:
+            self.SwordSprite.center_x, self.SwordSprite.center_y = -50,-50 #færa út fyrir borð
+            self.update_Sword_animationKill_frame_counter = 0
+        self.update_Sword_animationKill_frame_counter += 1
+
+        if self.update_Sword_animation_counter == 3:
+            self.update_Sword_animation_counter = 0
+
 
     def update(self):
 
