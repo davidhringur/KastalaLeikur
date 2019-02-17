@@ -21,7 +21,7 @@ class Level_1(arcade.Window):
         arcade.set_background_color(arcade.color.ASH_GREY)
 
         # Create our Player1
-        self.Player1 = Player1(50, 50, 0, 0, 15, arcade.color.AUBURN)
+        self.Player1 = None
 
         #Coin and counter
         self.player_list = None
@@ -32,14 +32,19 @@ class Level_1(arcade.Window):
         self.draw_time = 0
         #set fps
         self.set_update_rate(1 / 80)
-        self.animation_frame = 0
 
     def setup(self):
+        # Set up Player1
+        self.Player1 = Player("Images/Kall.png", 0.2)
+        self.Player1.PlayerSetup()
+        self.Player1.center_x, self.Player1.center_y = 50, 50
+
 
         # Sprite lists
+        self.player_list = arcade.SpriteList()
         self.coin_list = arcade.SpriteList()
 
-
+        self.player_list.append(self.Player1)
 
         # Create the coins
         for i in range(15):
@@ -63,7 +68,7 @@ class Level_1(arcade.Window):
         """ Called whenever we need to draw the window. """
         arcade.start_render()
         self.coin_list.draw()
-        self.Player1.draw()
+        self.player_list.draw()
 
         # Display timings
         output = f"Processing time: {self.processing_time:.3f}"
@@ -91,13 +96,12 @@ class Level_1(arcade.Window):
 
         self.coin_list.update()
 
-        if self.animation_frame == 3:
-            self.Player1.player_sprite.update_animation()
-            self.animation_frame = 0
-        self.animation_frame += 1
+
+        self.Player1.update_animation(3)
+
 
         # Generate a list of all sprites that collided with the player.
-        coins_hit_list = arcade.check_for_collision_with_list(self.Player1.player_sprite, self.coin_list)
+        coins_hit_list = arcade.check_for_collision_with_list(self.Player1, self.coin_list)
 
         # Loop through each colliding sprite, remove it, and add to the score.
         for coin in coins_hit_list:
@@ -109,19 +113,19 @@ class Level_1(arcade.Window):
 
 
     def on_key_press(self, key, modifiers):
-        """ Called whenever the user presses a key. """
+        """ Called whenever the user pres"""
         if key == arcade.key.LEFT:
-            self.Player1.player_sprite.change_x = -MOVEMENT_SPEED
+            self.Player1.change_x = -MOVEMENT_SPEED
         elif key == arcade.key.RIGHT:
-            self.Player1.player_sprite.change_x = MOVEMENT_SPEED
+            self.Player1.change_x = MOVEMENT_SPEED
         elif key == arcade.key.UP:
-            self.Player1.player_sprite.change_y = MOVEMENT_SPEED
+            self.Player1.change_y = MOVEMENT_SPEED
         elif key == arcade.key.DOWN:
-            self.Player1.player_sprite.change_y = -MOVEMENT_SPEED
+            self.Player1.change_y = -MOVEMENT_SPEED
 
     def on_key_release(self, key, modifiers):
         """ Called whenever a user releases a key. """
         if key == arcade.key.LEFT or key == arcade.key.RIGHT:
-            self.Player1.player_sprite.change_x = 0
+            self.Player1.change_x = 0
         elif key == arcade.key.UP or key == arcade.key.DOWN:
-            self.Player1.player_sprite.change_y = 0
+            self.Player1.change_y = 0
