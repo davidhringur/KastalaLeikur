@@ -3,6 +3,7 @@ from Player import *
 import os
 import random
 import timeit
+import Room
 
 class Level_1(arcade.Window):
 
@@ -45,6 +46,10 @@ class Level_1(arcade.Window):
         self.coin_list = arcade.SpriteList()
 
         self.player_list.append(self.Player1)
+
+        self.rooms = []
+        room = Room.setup_room_1()
+        self.rooms.append(room)
         #self.player_list.append(self.Player1.SwordSprite)
 
         # Create the coins
@@ -68,9 +73,14 @@ class Level_1(arcade.Window):
 
         """ Called whenever we need to draw the window. """
         arcade.start_render()
+
+        arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
+                                      SCREEN_WIDTH, SCREEN_HEIGHT, self.rooms[0].background)
+
+
         self.coin_list.draw()
         self.player_list.draw()
-
+        self.rooms[0].wall_list.draw()
         # Display timings
         output = f"Processing time: {self.processing_time:.3f}"
         arcade.draw_text(output, 20, SCREEN_HEIGHT - 20, arcade.color.BLACK, 16)
@@ -99,7 +109,7 @@ class Level_1(arcade.Window):
 
         if self.Player1.sword_gate == 1:
             self.Player1.SwordSwing()
-        
+
 
         self.Player1.update_animation(5)
 
