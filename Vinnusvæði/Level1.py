@@ -2,6 +2,7 @@ import arcade
 from Player import *
 import os
 import random
+import timeit
 
 class Level_1(arcade.Window):
 
@@ -27,6 +28,12 @@ class Level_1(arcade.Window):
         self.coin_list = None
         self.coun_counter = 0
 
+        self.processing_time = 0
+        self.draw_time = 0
+        #set fps
+        self.set_update_rate(1 / 80)
+        self.animation_frame = 0
+
     def setup(self):
 
         # Sprite lists
@@ -35,7 +42,7 @@ class Level_1(arcade.Window):
 
 
         # Create the coins
-        for i in range(100):
+        for i in range(15):
 
             # Create the coin instance
             # Coin image from kenney.nl
@@ -50,15 +57,44 @@ class Level_1(arcade.Window):
 
 
     def on_draw(self):
+        # Start timing how long this takes
+        draw_start_time = timeit.default_timer()
+
         """ Called whenever we need to draw the window. """
         arcade.start_render()
         self.coin_list.draw()
         self.Player1.draw()
 
+        # Display timings
+        output = f"Processing time: {self.processing_time:.3f}"
+        arcade.draw_text(output, 20, SCREEN_HEIGHT - 20, arcade.color.BLACK, 16)
+
+        output = f"Drawing time: {self.draw_time:.3f}"
+        arcade.draw_text(output, 20, SCREEN_HEIGHT - 40, arcade.color.BLACK, 16)
+
+        output = f"Coins hit: {self.coun_counter:3}"
+        arcade.draw_text(output, 20, SCREEN_HEIGHT - 60, arcade.color.BLACK, 16)
+        try:
+            fps = 1 / (self.draw_time + self.processing_time)
+            output = f"Max FPS: {fps:3.1f}"
+            arcade.draw_text(output, 20, SCREEN_HEIGHT - 80, arcade.color.BLACK, 16)
+        except:
+            pass
+        self.draw_time = timeit.default_timer() - draw_start_time
+
+
+
     def update(self, delta_time):
+        start_time = timeit.default_timer()
+
         self.Player1.update()
 
         self.coin_list.update()
+
+        if self.animation_frame == 3:
+            self.Player1.player_sprite.update_animation()
+            self.animation_frame = 0
+        self.animation_frame += 1
 
         # Generate a list of all sprites that collided with the player.
         coins_hit_list = arcade.check_for_collision_with_list(self.Player1.player_sprite, self.coin_list)
@@ -68,20 +104,24 @@ class Level_1(arcade.Window):
             coin.kill()
             self.coun_counter += 1
 
+        # Save the time it took to do this.
+        self.processing_time = timeit.default_timer() - start_time
+
+
     def on_key_press(self, key, modifiers):
         """ Called whenever the user presses a key. """
         if key == arcade.key.LEFT:
-            self.Player1.change_x = -MOVEMENT_SPEED
+            self.Player1.player_sprite.change_x = -MOVEMENT_SPEED
         elif key == arcade.key.RIGHT:
-            self.Player1.change_x = MOVEMENT_SPEED
+            self.Player1.player_sprite.change_x = MOVEMENT_SPEED
         elif key == arcade.key.UP:
-            self.Player1.change_y = MOVEMENT_SPEED
+            self.Player1.player_sprite.change_y = MOVEMENT_SPEED
         elif key == arcade.key.DOWN:
-            self.Player1.change_y = -MOVEMENT_SPEED
+            self.Player1.player_sprite.change_y = -MOVEMENT_SPEED
 
     def on_key_release(self, key, modifiers):
         """ Called whenever a user releases a key. """
         if key == arcade.key.LEFT or key == arcade.key.RIGHT:
-            self.Player1.change_x = 0
+            self.Player1.player_sprite.change_x = 0
         elif key == arcade.key.UP or key == arcade.key.DOWN:
-            self.Player1.change_y = 0
+            self.Player1.player_sprite.change_y = 0
