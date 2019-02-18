@@ -18,9 +18,6 @@ class Level_1(arcade.Window):
         # Viljum að músin hverfi þegar hún er staðsett yfir glugganum
         self.set_mouse_visible(False)
 
-        # Setjum bakgrunninn, notum samt ekki (taka út?)
-        arcade.set_background_color(arcade.color.ASH_GREY)
-
         # Búum til playerinn
         self.Player1 = None
 
@@ -39,7 +36,7 @@ class Level_1(arcade.Window):
         # Setjum upp playerinn
         self.Player1 = Player("Images/Kall.png", 0.2)
         self.Player1.PlayerSetup()
-        self.Player1.center_x, self.Player1.center_y = 50, 50
+        self.Player1.center_x, self.Player1.center_y = 150, 150
 
 
         # Sprite-listi
@@ -114,6 +111,9 @@ class Level_1(arcade.Window):
         # Gera lista með öllum sprite-um sem rekast í/ skarast við player
         coins_hit_list = arcade.check_for_collision_with_list(self.Player1, self.coin_list)
 
+        if arcade.check_for_collision_with_list(self.Player1, self.rooms[0].wall_list):
+            self.Player1.change_x,self.Player1.change_y = 0,0
+
         # Loopum í gegnum sprite sem skarast á við og eyðum þeim og bætum við teljara
         for coin in coins_hit_list:
             coin.kill()
@@ -138,7 +138,7 @@ class Level_1(arcade.Window):
             self.player_list.append(self.Player1.SwordSprite)
 
     def on_key_release(self, key, modifiers):
-        # Kallað er á þetta í hvert sinn sem notandi hættir að ýta á takka 
+        # Kallað er á þetta í hvert sinn sem notandi hættir að ýta á takka
         if key == arcade.key.LEFT or key == arcade.key.RIGHT:
             self.Player1.change_x = 0
         elif key == arcade.key.UP or key == arcade.key.DOWN:

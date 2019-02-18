@@ -50,7 +50,7 @@ def setup_room_1():
     for y in (0, SCREEN_HEIGHT - SPRITE_SIZE):
         # Loop for each box going across
         for x in range(0, SCREEN_WIDTH, SPRITE_SIZE):
-            wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=34)
+            wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=34, image_height=34)
             wall.left = x
             wall.bottom = y
             room.wall_list.append(wall)
@@ -61,12 +61,12 @@ def setup_room_1():
         for y in range(SPRITE_SIZE, SCREEN_HEIGHT - SPRITE_SIZE, SPRITE_SIZE):
             # Skip making a block 4 and 5 blocks up on the right side
             if (y != SPRITE_SIZE * 4 and y != SPRITE_SIZE * 5) or x == 0:
-                wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=34)
+                wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=34, image_height=34)
                 wall.left = x
                 wall.bottom = y
                 room.wall_list.append(wall)
 
-    wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=34)
+    wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=34, image_height=34)
     wall.left = 7 * SPRITE_SIZE
     wall.bottom = 5 * SPRITE_SIZE
     room.wall_list.append(wall)
