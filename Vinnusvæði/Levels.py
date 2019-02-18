@@ -108,6 +108,7 @@ class Level_1(arcade.Window):
         self.coin_list.update()
 
         if self.Player1.sword_gate == 1:
+            self.player_list.recalculate_spatial_hash(self.Player1.SwordSprite)
             self.Player1.SwordSwing()
 
 
@@ -146,6 +147,6 @@ class Level_1(arcade.Window):
             self.Player1.change_x = 0
         elif key == arcade.key.UP or key == arcade.key.DOWN:
             self.Player1.change_y = 0
-        if key == arcade.key.SPACE:
+        elif key == arcade.key.SPACE:
             self.Player1.sword_gate = 0
-            self.player_list.remove(self.Player1.SwordSprite)
+            self.Player1.SwordSprite.kill()
