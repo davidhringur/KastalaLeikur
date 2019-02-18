@@ -16,39 +16,25 @@ MOVEMENT_SPEED = 5
 
 
 class Room:
-    """
-    This class holds all the information about the
-    different rooms.
-    """
+# Þessi klasi inniheldur allar upplýsingar um herbergin/levelin
     def __init__(self):
-        # You may want many lists. Lists for coins, monsters, etc.
+
+        # Aðrir listar fyrir t.d. gimsteina eru í levels file
         self.wall_list = None
 
-        # This holds the background images. If you don't want changing
-        # background images, you can delete this part.
+        # Bakgrunnsmynd
         self.background = None
 
 
 def setup_room_1():
-    """
-    Create and return room 1.
-    If your program gets large, you may want to separate this into different
-    files.
-    """
+# Mögulega munum við færa room1 inn í aðra möppu ef þetta verður mikið
     room = Room()
-
-    """ Set up the game and initialize the variables. """
-    # Sprite lists
+    # Sprite listi
     room.wall_list = arcade.SpriteList()
-    # Skilgreina myndina úr pakkanum
-    #arcade.draw_commands.get_image(x=0, y=47, width=32, height=34)
-    #image = arcade.get_image()
-    #image.save('Images/ModelPack/Dungeon_Tileset.png', 'PNG')
-    # Setjum nú upp veggina
+
     # Búum til efri og neðri línu af útlínum borðsins
-    # This y loops a list of two, the coordinate 0, and just under the top of window
     for y in (0, SCREEN_HEIGHT - SPRITE_SIZE):
-        # Loop for each box going across
+        # Loopum fyrir boxin til að fara til hliðar
         for x in range(0, SCREEN_WIDTH, SPRITE_SIZE):
             wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=34)
             wall.left = x
@@ -57,23 +43,23 @@ def setup_room_1():
 
     # Búum til hægri og vinstri línuna af borðinu
     for x in (0, SCREEN_WIDTH - SPRITE_SIZE):
-        # Loop for each box going across
+        # Loopum fyrir boxin að fara upp og niður alveg
         for y in range(SPRITE_SIZE, SCREEN_HEIGHT - SPRITE_SIZE, SPRITE_SIZE):
-            # Skip making a block 4 and 5 blocks up on the right side
+            # Viljum skilja eftir autt pláss svo hægt sé að
+            # "labba" yfir í næsta borð
             if (y != SPRITE_SIZE * 4 and y != SPRITE_SIZE * 5) or x == 0:
                 wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=34)
                 wall.left = x
                 wall.bottom = y
                 room.wall_list.append(wall)
 
+    # Setjum mynd á sprite-ið fyrir boxin/kassana
     wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=34)
     wall.left = 7 * SPRITE_SIZE
     wall.bottom = 5 * SPRITE_SIZE
     room.wall_list.append(wall)
 
-    # If you want coins or monsters in a level, then add that code here.
-
-    # Load the background image for this level.
+    # Bakgrunnsmynd 
     room.background = arcade.load_texture("Images/ModelPack/MakingMap1.png")
 
     return room
