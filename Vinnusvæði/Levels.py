@@ -138,7 +138,12 @@ class Level_1(arcade.Window):
             self.Player1.change_y = -MOVEMENT_SPEED
         if key == arcade.key.SPACE:
             self.Player1.sword_gate = 1
-            self.player_list.append(self.Player1.SwordSprite)
+            if self.Player1.face_direction == "up"or"left": #setja sverð undir kallinn
+                self.Player1.kill()
+                self.player_list.append(self.Player1.SwordSprite)
+                self.player_list.append(self.Player1)
+            else:
+                self.player_list.append(self.Player1.SwordSprite)
 
     def on_key_release(self, key, modifiers):
         # Kallað er á þetta í hvert sinn sem notandi hættir að ýta á takka
