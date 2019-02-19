@@ -20,7 +20,8 @@ class Room:
     def __init__(self):
 
         # Aðrir listar fyrir t.d. gimsteina eru í levels file
-        self.wall_list = None
+        self.wall_list_horizontal = None
+        self.wall_list_vertical = None
 
         # Bakgrunnsmynd
         self.background = None
@@ -30,7 +31,8 @@ def setup_room_1():
 # Mögulega munum við færa room1 inn í aðra möppu ef þetta verður mikið
     room = Room()
     # Sprite listi
-    room.wall_list = arcade.SpriteList()
+    room.wall_list_horizontal = arcade.SpriteList()
+    room.wall_list_vertical = arcade.SpriteList()
 
     # Búum til efri og neðri línu af útlínum borðsins
     for y in (0, SCREEN_HEIGHT - SPRITE_SIZE):
@@ -39,7 +41,7 @@ def setup_room_1():
             wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=34)
             wall.left = x
             wall.bottom = y
-            room.wall_list.append(wall)
+            room.wall_list_horizontal.append(wall)
 
     # Búum til hægri og vinstri línuna af borðinu
     for x in (0, SCREEN_WIDTH - SPRITE_SIZE):
@@ -51,15 +53,15 @@ def setup_room_1():
                 wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=34)
                 wall.left = x
                 wall.bottom = y
-                room.wall_list.append(wall)
+                room.wall_list_vertical.append(wall)
 
     # Setjum mynd á sprite-ið fyrir boxin/kassana
-    wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=34)
-    wall.left = 7 * SPRITE_SIZE
-    wall.bottom = 5 * SPRITE_SIZE
-    room.wall_list.append(wall)
+    #wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=34)
+    #wall.left = 7 * SPRITE_SIZE
+    #wall.bottom = 5 * SPRITE_SIZE
+    #room.wall_list.append(wall)
 
-    # Bakgrunnsmynd 
+    # Bakgrunnsmynd
     room.background = arcade.load_texture("Images/ModelPack/MakingMap1.png")
 
     return room

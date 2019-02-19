@@ -45,9 +45,9 @@ class Level_1(arcade.Window):
 
         self.player_list.append(self.Player1)
 
-        self.rooms = []
-        room = Room.setup_room_1()
-        self.rooms.append(room)
+        #self.rooms = []
+        self.room = Room.setup_room_1()
+        #self.rooms.append(room)
         #self.player_list.append(self.Player1.SwordSprite)
 
         # Búum til gimsteinana
@@ -72,11 +72,12 @@ class Level_1(arcade.Window):
         arcade.start_render()
 
         arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
-                                      SCREEN_WIDTH, SCREEN_HEIGHT, self.rooms[0].background)
+                                      SCREEN_WIDTH, SCREEN_HEIGHT, self.room.background)
 
         self.coin_list.draw()
         self.player_list.draw()
-        self.rooms[0].wall_list.draw()
+        self.room.wall_list_vertical.draw()
+        self.room.wall_list_horizontal.draw()
         # Sýna timera
         output = f"Processing time: {self.processing_time:.3f}"
         arcade.draw_text(output, 20, SCREEN_HEIGHT - 20, arcade.color.BLACK, 16)
@@ -111,8 +112,10 @@ class Level_1(arcade.Window):
         # Gera lista með öllum sprite-um sem rekast í/ skarast við player
         coins_hit_list = arcade.check_for_collision_with_list(self.Player1, self.coin_list)
 
-        if arcade.check_for_collision_with_list(self.Player1, self.rooms[0].wall_list):
-            self.Player1.change_x,self.Player1.change_y = 0,0
+        if arcade.check_for_collision_with_list(self.Player1, self.room.wall_list_horizontal):
+            self.Player1.change_y = 0
+        if arcade.check_for_collision_with_list(self.Player1, self.room.wall_list_vertical):
+            self.Player1.change_x = 0
 
         # Loopum í gegnum sprite sem skarast á við og eyðum þeim og bætum við teljara
         for coin in coins_hit_list:
