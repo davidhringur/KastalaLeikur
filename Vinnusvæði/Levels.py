@@ -30,7 +30,7 @@ class Level_1(arcade.Window):
         self.processing_time = 0
         self.draw_time = 0
         #set fps
-        #self.set_update_rate(1 / 80)
+        self.set_update_rate(1 / 80)
 
     def setup(self):
         # Setjum upp playerinn
@@ -112,11 +112,12 @@ class Level_1(arcade.Window):
         # Gera lista með öllum sprite-um sem rekast í/ skarast við player
         coins_hit_list = arcade.check_for_collision_with_list(self.Player1, self.coin_list)
 
-        if arcade.check_for_collision_with_list(self.Player1, self.room.wall_list_horizontal):
+        if arcade.check_for_collision_with_list(self.Player1, self.room.wall_list_horizontal): #Ef leikmaður klessir á vegg fer hann skref aftur á bak í öfuga átt
+            self.Player1.center_y += -self.Player1.change_y
             self.Player1.change_y = 0
         if arcade.check_for_collision_with_list(self.Player1, self.room.wall_list_vertical):
+            self.Player1.center_x += -self.Player1.change_x
             self.Player1.change_x = 0
-
         # Loopum í gegnum sprite sem skarast á við og eyðum þeim og bætum við teljara
         for coin in coins_hit_list:
             coin.kill()

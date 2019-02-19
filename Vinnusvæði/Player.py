@@ -87,14 +87,12 @@ class Player(arcade.Sprite):
         if self.change_x > 0 or self.face_direction == "right": #uppfæra hvar sverðið er
             self.SwordSprite.center_x, self.SwordSprite.center_y = self.center_x + 20, self.center_y - 20
         elif self.change_x < 0 or self.face_direction == "left":
-            self.SwordSprite.center_x, self.SwordSprite.center_y = self.center_x - 20, self.center_y
+            self.SwordSprite.center_x, self.SwordSprite.center_y = self.center_x - 10, self.center_y
         elif self.change_y < 0 or self.face_direction == "up":
             self.SwordSprite.center_x, self.SwordSprite.center_y = self.center_x, self.center_y
 
         self.update_Sword_animation_frame_counter += 1
         self.update_Sword_animation_counter += 1
-
-        #self.SwordSprite.center_x, self.SwordSprite.center_y = self.center_x + 20, self.center_y - 20
 
         if self.update_Sword_animation_counter == 3:
             self.update_Sword_animation_counter = 0
