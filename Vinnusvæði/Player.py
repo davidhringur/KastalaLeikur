@@ -41,16 +41,22 @@ setattr(arcade.Sprite, "update_animation_frame_counter", 0)
 
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 600
-MOVEMENT_SPEED = 6
 
 
 class Player(arcade.Sprite):
 
-    Hp = 100
-    Gender = 0
-    Clothes = [1,2,3,4,5]
-
-    def PlayerSetup(self):
+    def __init__(self,
+                 filename: str=None,
+                 scale: float=1,
+                 image_x: float=0, image_y: float=0,
+                 image_width: float=0, image_height: float=0,
+                 center_x: float=0, center_y: float=0,
+                 repeat_count_x=1, repeat_count_y=1):
+        super(Player, self).__init__(filename=filename, scale=scale,
+                 image_x=image_x, image_y=image_y,
+                 image_width=image_width, image_height=image_height,
+                 repeat_count_x=repeat_count_x, repeat_count_y=repeat_count_y,
+                 center_x=center_x, center_y=center_y)
 
         self.walk_right_textures = arcade.load_textures("Images/Character/Character_Right.png",[[8,6,15,20],[40,6,15,20],[72,6,15,20],[104,6,15,20]], scale = 8)
         self.stand_right_textures = arcade.load_textures("Images/Character/Character_RollRight.png",[[8,6,15,20],[40,6,15,20],[72,6,15,20],[104,6,15,20]], scale = 8)
@@ -72,6 +78,8 @@ class Player(arcade.Sprite):
         self.update_Sword_animation_counter = 0
         self.update_Sword_animation_frame_counter = 5
         self.sword_gate = 0
+
+        self.MOVEMENT_SPEED = 6
 
     def SwordSwing(self):
         if self.update_Sword_animation_frame_counter == 5:            #update sverðið breytist á hverjum 5ta frame og byrja strax!

@@ -35,7 +35,7 @@ class Level_1(arcade.Window):
     def setup(self):
         # Setjum upp playerinn
         self.Player1 = Player("Images/Kall.png", 0.2)
-        self.Player1.PlayerSetup()
+        #self.Player1.PlayerSetup()
         self.Player1.center_x, self.Player1.center_y = 150, 150
         self.Player1._set_collision_radius = 50
 
@@ -134,13 +134,13 @@ class Level_1(arcade.Window):
     def on_key_press(self, key, modifiers):
         # Kallað er á þetta í hvert sinn sem notandi ýtir á takka
         if key == arcade.key.LEFT:
-            self.Player1.change_x += -MOVEMENT_SPEED
+            self.Player1.change_x += -self.Player1.MOVEMENT_SPEED
         elif key == arcade.key.RIGHT:
-            self.Player1.change_x += MOVEMENT_SPEED
+            self.Player1.change_x += self.Player1.MOVEMENT_SPEED
         elif key == arcade.key.UP:
-            self.Player1.change_y += MOVEMENT_SPEED
+            self.Player1.change_y += self.Player1.MOVEMENT_SPEED
         elif key == arcade.key.DOWN:
-            self.Player1.change_y += -MOVEMENT_SPEED
+            self.Player1.change_y += -self.Player1.MOVEMENT_SPEED
         if key == arcade.key.SPACE:
             self.Player1.sword_gate = 1
             if self.Player1.face_direction == "up" or self.Player1.face_direction == "left": #setja sverð undir kallinn fyrir þessar áttir
@@ -153,13 +153,13 @@ class Level_1(arcade.Window):
     def on_key_release(self, key, modifiers):
         # Kallað er á þetta í hvert sinn sem notandi hættir að ýta á takka
         if key == arcade.key.LEFT:
-            self.Player1.change_x += MOVEMENT_SPEED
+            self.Player1.change_x += self.Player1.MOVEMENT_SPEED
         elif key == arcade.key.RIGHT:
-            self.Player1.change_x += -MOVEMENT_SPEED
+            self.Player1.change_x += -self.Player1.MOVEMENT_SPEED
         elif key == arcade.key.UP:
-            self.Player1.change_y += -MOVEMENT_SPEED
+            self.Player1.change_y += -self.Player1.MOVEMENT_SPEED
         elif key == arcade.key.DOWN:
-            self.Player1.change_y += MOVEMENT_SPEED
+            self.Player1.change_y += self.Player1.MOVEMENT_SPEED
         elif key == arcade.key.SPACE:
             self.Player1.sword_gate = 0
             self.Player1.SwordSprite.kill()
