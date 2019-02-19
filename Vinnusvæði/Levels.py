@@ -29,7 +29,7 @@ class Level_1(arcade.Window):
         # Upplýsingar sem Davíð vill sjá, eyða örgl
         self.processing_time = 0
         self.draw_time = 0
-        #set fps
+        #setja fps svo hann keyri betur
         self.set_update_rate(1 / 80)
 
     def setup(self):
@@ -37,6 +37,7 @@ class Level_1(arcade.Window):
         self.Player1 = Player("Images/Kall.png", 0.2)
         self.Player1.PlayerSetup()
         self.Player1.center_x, self.Player1.center_y = 150, 150
+        self.Player1._set_collision_radius = 50
 
 
         # Sprite-listi
@@ -102,22 +103,25 @@ class Level_1(arcade.Window):
 
         self.coin_list.update()
 
+
         if self.Player1.sword_gate == 1:
-            self.player_list.recalculate_spatial_hash(self.Player1.SwordSprite)
+            #self.player_list.recalculate_spatial_hash(self.Player1.SwordSprite)
             self.Player1.SwordSwing()
 
-
+        #Uppfæra kallinn að labba á hverjum 5-ta frame(fallið búið til að ofan)
         self.Player1.update_animation(5)
 
         # Gera lista með öllum sprite-um sem rekast í/ skarast við player
         coins_hit_list = arcade.check_for_collision_with_list(self.Player1, self.coin_list)
+        coins_hit_list.extend(arcade.check_for_collision_with_list(self.Player1.SwordSprite, self.coin_list))
 
         if arcade.check_for_collision_with_list(self.Player1, self.room.wall_list_horizontal): #Ef leikmaður klessir á vegg fer hann skref aftur á bak í öfuga átt
             self.Player1.center_y += -self.Player1.change_y
-            self.Player1.change_y = 0
+            #self.Player1.change_y = 0
         if arcade.check_for_collision_with_list(self.Player1, self.room.wall_list_vertical):
             self.Player1.center_x += -self.Player1.change_x
-            self.Player1.change_x = 0
+            #self.Player1.change_x = 0
+
         # Loopum í gegnum sprite sem skarast á við og eyðum þeim og bætum við teljara
         for coin in coins_hit_list:
             coin.kill()
@@ -130,16 +134,16 @@ class Level_1(arcade.Window):
     def on_key_press(self, key, modifiers):
         # Kallað er á þetta í hvert sinn sem notandi ýtir á takka
         if key == arcade.key.LEFT:
-            self.Player1.change_x = -MOVEMENT_SPEED
+            self.Player1.change_x += -MOVEMENT_SPEED
         elif key == arcade.key.RIGHT:
-            self.Player1.change_x = MOVEMENT_SPEED
+            self.Player1.change_x += MOVEMENT_SPEED
         elif key == arcade.key.UP:
-            self.Player1.change_y = MOVEMENT_SPEED
+            self.Player1.change_y += MOVEMENT_SPEED
         elif key == arcade.key.DOWN:
-            self.Player1.change_y = -MOVEMENT_SPEED
+            self.Player1.change_y += -MOVEMENT_SPEED
         if key == arcade.key.SPACE:
             self.Player1.sword_gate = 1
-            if self.Player1.face_direction == "up" or self.Player1.face_direction == "left": #setja sverð undir kallinn
+            if self.Player1.face_direction == "up" or self.Player1.face_direction == "left": #setja sverð undir kallinn fyrir þessar áttir
                 self.Player1.kill()
                 self.player_list.append(self.Player1.SwordSprite)
                 self.player_list.append(self.Player1)
@@ -148,10 +152,14 @@ class Level_1(arcade.Window):
 
     def on_key_release(self, key, modifiers):
         # Kallað er á þetta í hvert sinn sem notandi hættir að ýta á takka
-        if key == arcade.key.LEFT or key == arcade.key.RIGHT:
-            self.Player1.change_x = 0
-        elif key == arcade.key.UP or key == arcade.key.DOWN:
-            self.Player1.change_y = 0
+        if key == arcade.key.LEFT:
+            self.Player1.change_x += MOVEMENT_SPEED
+        elif key == arcade.key.RIGHT:
+            self.Player1.change_x += -MOVEMENT_SPEED
+        elif key == arcade.key.UP:
+            self.Player1.change_y += -MOVEMENT_SPEED
+        elif key == arcade.key.DOWN:
+            self.Player1.change_y += MOVEMENT_SPEED
         elif key == arcade.key.SPACE:
             self.Player1.sword_gate = 0
             self.Player1.SwordSprite.kill()
