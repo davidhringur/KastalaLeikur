@@ -139,7 +139,7 @@ class Level_1(arcade.Window):
             self.Player1.change_y = -MOVEMENT_SPEED
         if key == arcade.key.SPACE:
             self.Player1.sword_gate = 1
-            if self.Player1.face_direction == "up"or"left": #setja sverð undir kallinn
+            if self.Player1.face_direction == "up" or self.Player1.face_direction == "left": #setja sverð undir kallinn
                 self.Player1.kill()
                 self.player_list.append(self.Player1.SwordSprite)
                 self.player_list.append(self.Player1)

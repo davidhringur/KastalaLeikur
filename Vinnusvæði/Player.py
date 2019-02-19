@@ -64,6 +64,7 @@ class Player(arcade.Sprite):
         self.sword_DownRight = arcade.load_textures("Images/Weapon/Sword_DownRight.png",[[94,35,25,20],[158,34,25,20],[221,29,25,20],[285,29,25,20]], scale = 12)
         self.sword_UpLeft = arcade.load_textures("Images/Weapon/Sword_UpLeft.png",[[73,12,26,32],[138,12,26,32],[202,12,26,32],[266,12,26,32]], scale = 12)
         self.sword_UpRight = arcade.load_textures("Images/Weapon/Sword_UpRight.png",[[83,11,35,26],[148,11,35,26],[213,11,35,26],[278,11,35,26]], scale = 12)
+        self.sword_DownLeft = arcade.load_textures("Images/Weapon/Sword_DownLeft.png",[[74,34,33,23],[137,34,33,23],[201,34,33,23],[266,34,33,23]], scale = 12)
 
         self.SwordSprite = arcade.Sprite()
         self.SwordSprite.width, self.SwordSprite.height = 75, 60
@@ -78,8 +79,10 @@ class Player(arcade.Sprite):
                 self.SwordSprite._texture = self.sword_DownRight[self.update_Sword_animation_counter]
             elif self.change_x < 0 or self.face_direction == "left":
                 self.SwordSprite._texture = self.sword_UpLeft[self.update_Sword_animation_counter]
-            elif self.change_y < 0 or self.face_direction == "up":
+            elif self.change_y > 0 or self.face_direction == "up":
                 self.SwordSprite._texture = self.sword_UpRight[self.update_Sword_animation_counter]
+            elif self.change_y < 0 or self.face_direction == "down":
+                self.SwordSprite._texture = self.sword_DownLeft[self.update_Sword_animation_counter]
 
             self.update_Sword_animation_counter == 0
             self.update_Sword_animation_frame_counter = 0
@@ -88,8 +91,10 @@ class Player(arcade.Sprite):
             self.SwordSprite.center_x, self.SwordSprite.center_y = self.center_x + 20, self.center_y - 20
         elif self.change_x < 0 or self.face_direction == "left":
             self.SwordSprite.center_x, self.SwordSprite.center_y = self.center_x - 10, self.center_y
-        elif self.change_y < 0 or self.face_direction == "up":
+        elif self.change_y > 0 or self.face_direction == "up":
             self.SwordSprite.center_x, self.SwordSprite.center_y = self.center_x, self.center_y
+        elif self.change_y < 0 or self.face_direction == "down":
+            self.SwordSprite.center_x, self.SwordSprite.center_y = self.center_x - 4, self.center_y - 23
 
         self.update_Sword_animation_frame_counter += 1
         self.update_Sword_animation_counter += 1
