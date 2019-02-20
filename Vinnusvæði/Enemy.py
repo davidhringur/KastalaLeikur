@@ -1,6 +1,7 @@
 import arcade
 
-
+SCREEN_WIDTH = 1200
+SCREEN_HEIGHT = 600
 
 class Enemy(arcade.Sprite):
 
@@ -11,7 +12,7 @@ class Enemy(arcade.Sprite):
                  image_width: float=0, image_height: float=0,
                  center_x: float=0, center_y: float=0,
                  repeat_count_x=1, repeat_count_y=1):
-        super(Player, self).__init__(filename=filename, scale=scale,
+        super(Enemy, self).__init__(filename=filename, scale=scale,
                  image_x=image_x, image_y=image_y,
                  image_width=image_width, image_height=image_height,
                  repeat_count_x=repeat_count_x, repeat_count_y=repeat_count_y,
@@ -64,7 +65,13 @@ class Enemy(arcade.Sprite):
         distX = player.center_x - self.center_x
         distY = player.center_y - self.center_y
         #færa sig í átt að spilara (Bara lóðrétt og lárétt)
-        
+        try:
+            if abs(distX) > abs(distY):
+                self.center_x += distX/abs(distX) * self.MOVEMENT_SPEED
+            else:
+                self.center_y += distY/abs(distY) * self.MOVEMENT_SPEED
+        except:
+            pass
 
     def update(self):
 

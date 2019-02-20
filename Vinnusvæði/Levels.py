@@ -1,5 +1,6 @@
 import arcade
 from Player import *
+from Enemy import *
 import os
 import random
 import timeit
@@ -43,6 +44,7 @@ class Level_1(arcade.Window):
         # Sprite-listi
         self.player_list = arcade.SpriteList()
         self.coin_list = arcade.SpriteList()
+        self.enemy_list = arcade.SpriteList()
 
         self.player_list.append(self.Player1)
 
@@ -50,6 +52,10 @@ class Level_1(arcade.Window):
         self.room = Room.setup_room_1()
         #self.rooms.append(room)
         #self.player_list.append(self.Player1.SwordSprite)
+
+        self.Enemy1 = Enemy("Images/Enemy/Dungeon_Character.png", image_x=17, image_y=17, image_width=12, image_height=13, scale=8) #óvinur sem eltir player1
+        self.Enemy1.center_x, self.Enemy1.center_y = 250, 150
+        self.enemy_list.append(self.Enemy1)
 
         # Búum til gimsteinana
         for i in range(15):
@@ -77,6 +83,7 @@ class Level_1(arcade.Window):
 
         self.coin_list.draw()
         self.player_list.draw()
+        self.enemy_list.draw()
         self.room.wall_list_vertical.draw()
         self.room.wall_list_horizontal.draw()
         # Sýna timera
@@ -100,6 +107,8 @@ class Level_1(arcade.Window):
         start_time = timeit.default_timer()
 
         self.Player1.update()
+        self.Enemy1.update()
+        self.Enemy1.Attack(self.Player1)
 
         self.coin_list.update()
 
