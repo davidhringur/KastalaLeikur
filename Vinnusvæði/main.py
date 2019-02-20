@@ -2,7 +2,7 @@
 import arcade
 #Hér koma okkar skrár
 import Player
-from Level1 import *
+from Levels import *
 
 def main():
     window = Level_1(1200, 600, "Highburn Fortress")
