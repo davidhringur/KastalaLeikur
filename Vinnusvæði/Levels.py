@@ -1,6 +1,7 @@
 import arcade
 from Player import *
 from Enemy import *
+from PhysicsEngineHighburn import *
 import os
 import random
 import timeit
@@ -70,6 +71,8 @@ class Level_1(arcade.Window):
             # Bætum við gimsteinum við listann
             self.coin_list.append(coin)
 
+         # Create a physics engine for this room
+        self.physics_engine = PhysicsEngineHighburn(self.Player1, self.room.wall_list)
 
     def on_draw(self):
         # Timer
@@ -84,8 +87,7 @@ class Level_1(arcade.Window):
         self.coin_list.draw()
         self.player_list.draw()
         self.enemy_list.draw()
-        self.room.wall_list_vertical.draw()
-        self.room.wall_list_horizontal.draw()
+        self.room.wall_list.draw()
         # Sýna timera
         output = f"Processing time: {self.processing_time:.3f}"
         arcade.draw_text(output, 20, SCREEN_HEIGHT - 20, arcade.color.BLACK, 16)
@@ -124,12 +126,7 @@ class Level_1(arcade.Window):
         coins_hit_list = arcade.check_for_collision_with_list(self.Player1, self.coin_list)
         coins_hit_list.extend(arcade.check_for_collision_with_list(self.Player1.SwordSprite, self.coin_list))
 
-        if arcade.check_for_collision_with_list(self.Player1, self.room.wall_list_horizontal): #Ef leikmaður klessir á vegg fer hann skref aftur á bak í öfuga átt
-            self.Player1.center_y += -self.Player1.change_y
-            #self.Player1.change_y = 0
-        if arcade.check_for_collision_with_list(self.Player1, self.room.wall_list_vertical):
-            self.Player1.center_x += -self.Player1.change_x
-            #self.Player1.change_x = 0
+        self.physics_engine.update()
 
         # Loopum í gegnum sprite sem skarast á við og eyðum þeim og bætum við teljara
         for coin in coins_hit_list:

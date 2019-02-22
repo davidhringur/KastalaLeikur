@@ -2,14 +2,12 @@
 import arcade
 import os
 
-SPRITE_SCALING = 1.3
-SPRITE_NATIVE_SIZE = 30
-SPRITE_SIZE = int(SPRITE_NATIVE_SIZE * SPRITE_SCALING)
-
-#SCREEN_WIDTH = SPRITE_SIZE * 14
-#SCREEN_HEIGHT = SPRITE_SIZE * 10
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 600
+SPRITE_SIZE = int(1200/30) #ATH 30 Verður að ganga upp í 1200 svo þetta passar!
+SPRITE_NATIVE_SIZE = 32
+SPRITE_SCALING = SPRITE_SIZE/SPRITE_NATIVE_SIZE
+
 SCREEN_TITLE = "Level 1"
 
 MOVEMENT_SPEED = 5
@@ -20,8 +18,7 @@ class Room:
     def __init__(self):
 
         # Aðrir listar fyrir t.d. gimsteina eru í levels file
-        self.wall_list_horizontal = None
-        self.wall_list_vertical = None
+        self.wall_list = None
 
         # Bakgrunnsmynd
         self.background = None
@@ -31,8 +28,7 @@ def setup_room_1():
 # Mögulega munum við færa room1 inn í aðra möppu ef þetta verður mikið
     room = Room()
     # Sprite listi
-    room.wall_list_horizontal = arcade.SpriteList()
-    room.wall_list_vertical = arcade.SpriteList()
+    room.wall_list = arcade.SpriteList()
 
     # Búum til efri og neðri línu af útlínum borðsins
     for y in (0, SCREEN_HEIGHT - SPRITE_SIZE):
@@ -41,7 +37,7 @@ def setup_room_1():
             wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=34)
             wall.left = x
             wall.bottom = y
-            room.wall_list_horizontal.append(wall)
+            room.wall_list.append(wall)
 
     # Búum til hægri og vinstri línuna af borðinu
     for x in (0, SCREEN_WIDTH - SPRITE_SIZE):
@@ -53,7 +49,7 @@ def setup_room_1():
                 wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=34)
                 wall.left = x
                 wall.bottom = y
-                room.wall_list_vertical.append(wall)
+                room.wall_list.append(wall)
 
     # Setjum mynd á sprite-ið fyrir boxin/kassana
     #wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=34)
