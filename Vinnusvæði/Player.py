@@ -39,8 +39,6 @@ setattr(arcade.Sprite, "face_direction", "right")
 setattr(arcade.Sprite, "update_animation_frame_counter", 0)
 
 
-SCREEN_WIDTH = 1200
-SCREEN_HEIGHT = 600
 
 
 class Player(arcade.Sprite):
@@ -114,6 +112,7 @@ class Player(arcade.Sprite):
         if hit_list:
             for enemy in hit_list:
                 enemy.hp -= 5
+                enemy._set_color=(124, 10, 2)
                 if enemy.hp == 0:
                     enemy.kill()
 
@@ -124,7 +123,7 @@ class Player(arcade.Sprite):
         self.center_x += self.change_x
         self.center_y += self.change_y
 
-
+'''
         # See if the Player hit the edge of the screen. If so, change direction
         if self.center_x < 0:
             self.center_x = 0
@@ -137,3 +136,4 @@ class Player(arcade.Sprite):
 
         if self.center_y > SCREEN_HEIGHT - 0:
             self.center_y = SCREEN_HEIGHT -0
+'''

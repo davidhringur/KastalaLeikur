@@ -76,7 +76,7 @@ class Enemy(arcade.Sprite):
                 self.center_y += distY/abs(distY) * self.MOVEMENT_SPEED
         except:
             pass
-
+'''
     def update(self):
 
         # Move the Player
@@ -95,3 +95,4 @@ class Enemy(arcade.Sprite):
 
         if self.center_y > SCREEN_HEIGHT - 0:
             self.center_y = SCREEN_HEIGHT -0
+'''

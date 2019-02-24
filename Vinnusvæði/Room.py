@@ -2,17 +2,6 @@
 import arcade
 import os
 
-SCREEN_WIDTH = 1200
-SCREEN_HEIGHT = 600
-SPRITE_SIZE = int(1200/30) #ATH 30 Verður að ganga upp í 1200 svo þetta passar!
-SPRITE_NATIVE_SIZE = 32
-SPRITE_SCALING = SPRITE_SIZE/SPRITE_NATIVE_SIZE
-
-SCREEN_TITLE = "Level 1"
-
-MOVEMENT_SPEED = 5
-
-
 class Room:
 # Þessi klasi inniheldur allar upplýsingar um herbergin/levelin
     def __init__(self):
@@ -24,8 +13,14 @@ class Room:
         self.background = None
 
 
-def setup_room_1():
+def setup_room_1(width, height):
 # Mögulega munum við færa room1 inn í aðra möppu ef þetta verður mikið
+    SCREEN_WIDTH = width
+    SCREEN_HEIGHT = height
+    SPRITE_SIZE = int(1200/30) #ATH 30 Verður að ganga upp í 1200 svo þetta passar!
+    SPRITE_NATIVE_SIZE = 32
+    SPRITE_SCALING = SPRITE_SIZE/SPRITE_NATIVE_SIZE
+
     room = Room()
     # Sprite listi
     room.wall_list = arcade.SpriteList()
