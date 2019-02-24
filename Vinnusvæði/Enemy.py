@@ -32,6 +32,8 @@ class Enemy(arcade.Sprite):
         self.update_Sword_animation_frame_counter = 5
         self.sword_gate = 0
 
+        self.hp = 100
+
     def SwordSwing(self):
         if self.update_Sword_animation_frame_counter == 5:            #update sverðið breytist á hverjum 5ta frame og byrja strax!
             if self.change_x > 0 or self.face_direction == "right":
@@ -60,6 +62,8 @@ class Enemy(arcade.Sprite):
 
         if self.update_Sword_animation_counter == 3:
             self.update_Sword_animation_counter = 0
+
+
 
     def Attack(self, player):
         distX = player.center_x - self.center_x

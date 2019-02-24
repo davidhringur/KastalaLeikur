@@ -81,7 +81,7 @@ class Player(arcade.Sprite):
 
         self.MOVEMENT_SPEED = 6
 
-    def SwordSwing(self):
+    def SwordSwing(self, enemy_sprite_list):
         if self.update_Sword_animation_frame_counter == 5:            #update sverðið breytist á hverjum 5ta frame og byrja strax!
             if self.change_x > 0 or self.face_direction == "right":
                 self.SwordSprite._texture = self.sword_DownRight[self.update_Sword_animation_counter]
@@ -109,6 +109,13 @@ class Player(arcade.Sprite):
 
         if self.update_Sword_animation_counter == 3:
             self.update_Sword_animation_counter = 0
+
+        hit_list = arcade.check_for_collision_with_list(self.SwordSprite, enemy_sprite_list)
+        if hit_list:
+            for enemy in hit_list:
+                enemy.hp -= 5
+                if enemy.hp == 0:
+                    enemy.kill()
 
 
     def update(self):

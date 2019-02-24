@@ -109,7 +109,7 @@ class Level_1(arcade.Window):
         start_time = timeit.default_timer()
 
         self.Player1.update()
-        self.Enemy1.update()
+        self.enemy_list.update()
         self.Enemy1.Attack(self.Player1)
 
         self.coin_list.update()
@@ -117,7 +117,7 @@ class Level_1(arcade.Window):
 
         if self.Player1.sword_gate == 1:
             #self.player_list.recalculate_spatial_hash(self.Player1.SwordSprite)
-            self.Player1.SwordSwing()
+            self.Player1.SwordSwing(self.enemy_list)
 
         #Uppfæra kallinn að labba á hverjum 5-ta frame(fallið búið til að ofan)
         self.Player1.update_animation(5)

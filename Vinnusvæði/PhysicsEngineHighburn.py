@@ -21,8 +21,8 @@ class PhysicsEngineHighburn:
             corner_test = 0
             #Athuga hvort það er rekist á uppi
             self.player_sprite.center_y -= 2
-            hit_list = check_for_collision_with_list(self.player_sprite, self.walls) #Það er fært kallinn niður og ef hann rekst ekki á í þetta skipti
-            self.player_sprite.center_y += 2                                         #þá vitum við að hann sé niðri (kallinn er box)
+            hit_list = check_for_collision_with_list(self.player_sprite, self.walls) #Það er fært kallinn 2 pixla niður og ef hann rekst ekki á í þetta skipti
+            self.player_sprite.center_y += 2                            #þá vitum við að hann sé niðri (kallinn er box og við viljum vitha hvaða hlið klesir á)
             if len(hit_list) > 0:
                 self.player_sprite.center_y -= self.player_sprite.change_y
                 corner_test +=1

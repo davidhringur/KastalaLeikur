@@ -34,7 +34,7 @@ def setup_room_1():
     for y in (0, SCREEN_HEIGHT - SPRITE_SIZE):
         # Loopum fyrir boxin til að fara til hliðar
         for x in range(0, SCREEN_WIDTH, SPRITE_SIZE):
-            wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=34)
+            wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=32)
             wall.left = x
             wall.bottom = y
             room.wall_list.append(wall)
@@ -46,7 +46,7 @@ def setup_room_1():
             # Viljum skilja eftir autt pláss svo hægt sé að
             # "labba" yfir í næsta borð
             if (y != SPRITE_SIZE * 4 and y != SPRITE_SIZE * 5) or x == 0:
-                wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=34)
+                wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=32)
                 wall.left = x
                 wall.bottom = y
                 room.wall_list.append(wall)
