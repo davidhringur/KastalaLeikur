@@ -135,7 +135,6 @@ class Level_1(arcade.Window):
 
 
         if self.Player1.sword_gate == 1:
-            #self.player_list.recalculate_spatial_hash(self.Player1.SwordSprite)
             self.Player1.SwordSwing(self.enemy_list)
 
         #Uppfæra kallinn að labba á hverjum 5-ta frame(fallið búið til að ofan)
@@ -155,23 +154,33 @@ class Level_1(arcade.Window):
         # Vistum tímann sem þetta tekur
         self.processing_time = timeit.default_timer() - start_time
 
-        #
-        if self.Player1.right > self.SCREEN_WIDTH or self.Player1.center_x < 0:
-            self.move_gate = [self.Player1.right > self.SCREEN_WIDTH, self.Player1.center_x < 0]
+        #Færa alla hluti til þess að fara á næsta borð
+        if self.Player1.right > self.SCREEN_WIDTH or self.Player1.center_x < 0 or self.Player1.top > self.SCREEN_HEIGHT or self.Player1.center_y < 0:
+            self.move_gate = [self.Player1.center_x < 0, self.Player1.right > self.SCREEN_WIDTH, self.Player1.top > self.SCREEN_HEIGHT, self.Player1.center_y < 0]
 
         if self.move_lenght > 0 and self.move_gate and self.move_height > 0:
             if self.move_gate[0]:
-                self.move_everything(-20,0)
-                self.move_lenght -= 20
-            if self.move_gate[1]:
                 self.move_everything(20,0)
                 self.move_lenght -= 20
+            elif self.move_gate[1]:
+                self.move_everything(-20,0)
+                self.move_lenght -= 20
+            elif self.move_gate[2]:
+                self.move_everything(0,-20)
+                self.move_height -= 20
+            elif self.move_gate[3]:
+                self.move_everything(0,20)
+                self.move_height -= 20
+
         elif self.move_lenght <= 0 or self.move_height <= 0:
             self.move_gate = 0
             self.move_lenght = self.SCREEN_WIDTH - 40
+            self.move_height = self.SCREEN_HEIGHT - 40
             if self.LEFT_RIGHT_UP_DOWN_key_is_down:
                 self.Player1.change_x -= self.LEFT_RIGHT_UP_DOWN_key_is_down[0]*self.Player1.MOVEMENT_SPEED
                 self.Player1.change_x += self.LEFT_RIGHT_UP_DOWN_key_is_down[1]*self.Player1.MOVEMENT_SPEED
+                self.Player1.change_y += self.LEFT_RIGHT_UP_DOWN_key_is_down[2]*self.Player1.MOVEMENT_SPEED
+                self.Player1.change_y -= self.LEFT_RIGHT_UP_DOWN_key_is_down[3]*self.Player1.MOVEMENT_SPEED
 
 
     def on_key_press(self, key, modifiers):
