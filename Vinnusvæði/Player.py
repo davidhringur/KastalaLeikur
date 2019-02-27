@@ -19,7 +19,7 @@ def update_animation(self, frame):
             self._texture = self.walk_down_textures[self.update_animation_counter]
             self.face_direction = "down"
 
-        if self.update_animation_counter == 3:
+        if self.update_animation_counter == 2:
             self.update_animation_counter = 0
 
     if  self.change_x == 0 and self.change_y == 0:
@@ -56,14 +56,26 @@ class Player(arcade.Sprite):
                  repeat_count_x=repeat_count_x, repeat_count_y=repeat_count_y,
                  center_x=center_x, center_y=center_y)
 
-        self.walk_right_textures = arcade.load_textures("Images/Character/Character_Right.png",[[8,6,15,20],[40,6,15,20],[72,6,15,20],[104,6,15,20]], scale = 8)
-        self.stand_right_textures = arcade.load_textures("Images/Character/Character_RollRight.png",[[8,6,15,20],[40,6,15,20],[72,6,15,20],[104,6,15,20]], scale = 8)
-        self.walk_left_textures = arcade.load_textures("Images/Character/Character_Left.png",[[8,6,15,20],[40,6,15,20],[72,6,15,20],[104,6,15,20]], scale = 8)
-        self.stand_left_textures = arcade.load_textures("Images/Character/Character_RollLeft.png",[[8,6,15,20],[40,6,15,20],[72,6,15,20],[104,6,15,20]], scale = 8)
-        self.walk_up_textures = arcade.load_textures("Images/Character/Character_Up.png",[[8,6,15,20],[40,6,15,20],[72,6,15,20],[104,6,15,20]], scale = 8)
-        self.stand_up_textures = arcade.load_textures("Images/Character/Character_RollUp.png",[[8,6,15,20],[40,6,15,20],[72,6,15,20],[104,6,15,20]], scale = 8)
-        self.walk_down_textures = arcade.load_textures("Images/Character/Character_Down.png",[[8,6,15,20],[40,6,15,20],[72,6,15,20],[104,6,15,20]], scale = 8)
-        self.stand_down_textures = arcade.load_textures("Images/Character/Character_RollDown.png",[[8,6,15,20],[40,6,15,20],[72,6,15,20],[104,6,15,20]], scale = 8)
+#Leikmaður 1
+        self.walk_right_textures = arcade.load_textures("Images/Character/p1.png",[[4,63,25,32],[36,63,25,32],[67,63,25,32]], scale = 3)
+        self.stand_right_textures = arcade.load_textures("Images/Character/p1.png",[[4,63,25,32],[36,63,25,32],[67,63,25,32]], scale = 3)
+        self.walk_left_textures = arcade.load_textures("Images/Character/p1.png",[[4,32,25,32],[36,32,25,32],[67,32,25,32]], scale = 3)
+        self.stand_left_textures = arcade.load_textures("Images/Character/p1.png",[[4,32,25,32],[36,32,25,32],[67,32,25,32]], scale = 3)
+        self.walk_up_textures = arcade.load_textures("Images/Character/p1.png",[[4,96,25,32],[36,96,25,32],[67,96,25,32]], scale = 3)
+        self.stand_up_textures = arcade.load_textures("Images/Character/p1.png",[[4,96,25,32],[36,96,25,32],[67,96,25,32]], scale = 3)
+        self.walk_down_textures = arcade.load_textures("Images/Character/p1.png",[[4,0,25,32],[36,0,25,32],[67,0,25,32]], scale = 3)
+        self.stand_down_textures = arcade.load_textures("Images/Character/p1.png",[[4,0,25,32],[36,0,25,32],[67,0,25,32]], scale = 3)
+#Leikmaður 2
+        self.walk_right_textures = arcade.load_textures("Images/Character/p2.png",[[4,63,25,32],[36,63,25,32],[67,63,25,32]], scale = 3)
+        self.stand_right_textures = arcade.load_textures("Images/Character/p2.png",[[4,63,25,32],[36,63,25,32],[67,63,25,32]], scale = 3)
+        self.walk_left_textures = arcade.load_textures("Images/Character/p2.png",[[4,32,25,32],[36,32,25,32],[67,32,25,32]], scale = 3)
+        self.stand_left_textures = arcade.load_textures("Images/Character/p2.png",[[4,32,25,32],[36,32,25,32],[67,32,25,32]], scale = 3)
+        self.walk_up_textures = arcade.load_textures("Images/Character/p2.png",[[4,96,25,32],[36,96,25,32],[67,96,25,32]], scale = 3)
+        self.stand_up_textures = arcade.load_textures("Images/Character/p2.png",[[4,96,25,32],[36,96,25,32],[67,96,25,32]], scale = 3)
+        self.walk_down_textures = arcade.load_textures("Images/Character/p2.png",[[4,0,25,32],[36,0,25,32],[67,0,25,32]], scale = 3)
+        self.stand_down_textures = arcade.load_textures("Images/Character/p2.png",[[4,0,25,32],[36,0,25,32],[67,0,25,32]], scale = 3)
+
+
 
         self.sword_DownRight = arcade.load_textures("Images/Weapon/Sword_DownRight.png",[[94,35,25,20],[158,34,25,20],[221,29,25,20],[285,29,25,20]], scale = 12)
         self.sword_UpLeft = arcade.load_textures("Images/Weapon/Sword_UpLeft.png",[[73,12,26,32],[138,12,26,32],[202,12,26,32],[266,12,26,32]], scale = 12)
