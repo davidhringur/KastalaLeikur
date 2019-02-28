@@ -1,6 +1,5 @@
 import arcade
 from Player import *
-from Enemy import *
 from PhysicsEngineHighburn import *
 import os
 import random
@@ -28,7 +27,6 @@ class Level_1(arcade.Window):
 
         # Gimsteinar og teljari
         self.player_list = None
-        self.coin_list = None
         self.coun_counter = 0
 
         # Upplýsingar sem Davíð vill sjá, eyða örgl
@@ -49,44 +47,26 @@ class Level_1(arcade.Window):
 
         # Sprite-listi
         self.player_list = arcade.SpriteList()
-        self.coin_list = arcade.SpriteList()
-        self.enemy_list = arcade.SpriteList()
 
         self.player_list.append(self.Player1)
 
-        #self.rooms = []
-        self.room = Room.setup_room_1(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
-        #self.rooms.append(room)
-        #self.player_list.append(self.Player1.SwordSprite)
-
-        self.Enemy1 = Enemy("Images/Enemy/Dungeon_Character.png", image_x=17, image_y=17, image_width=12, image_height=13, scale=8) #óvinur sem eltir player1
-        self.Enemy1.center_x, self.Enemy1.center_y = 250, 150
-        self.enemy_list.append(self.Enemy1)
+        self.rooms = []
+        room = Room.setup_room_1(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+        self.rooms.append(room)
 
         self.move_lenght = self.SCREEN_WIDTH - 40
         self.move_height = self.SCREEN_HEIGHT - 40
 
-        # Búum til gimsteinana
-        for i in range(15):
 
-            # Setjum inn myndina við gimsteinana
-            coin = arcade.Sprite("Images/gem.png", 0.07)
-
-            # Staðsetjum gimsteinana
-            coin.center_x = 32 + random.randrange(SCREEN_WIDTH - 64)
-            coin.center_y = 32 + random.randrange(SCREEN_HEIGHT - 64)
-
-            # Bætum við gimsteinum við listann
-            self.coin_list.append(coin)
 
          # Create a physics engine for this room
-        self.physics_engine = PhysicsEngineHighburn(self.Player1, self.room.wall_list)
+        self.physics_engine = PhysicsEngineHighburn(self.Player1, self.rooms[0].wall_list)
 
     def move_everything(self, x, y):
         self.player_list.move(x, y)
-        self.enemy_list.move(x, y)
-        self.room.wall_list.move(x, y)
-        self.coin_list.move(x, y)
+        self.rooms[0].enemy_list.move(x, y)
+        self.rooms[0].wall_list.move(x, y)
+        self.rooms[0].coin_list.move(x, y)
 
         for player in self.player_list:
             player.change_x -= player.change_x
@@ -100,25 +80,25 @@ class Level_1(arcade.Window):
         arcade.start_render()
 
         arcade.draw_texture_rectangle(self.SCREEN_WIDTH // 2, self.SCREEN_HEIGHT // 2,
-                                      self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.room.background)
+                                      self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.rooms[0].background)
 
-        self.coin_list.draw()
+        self.rooms[0].coin_list.draw()
         self.player_list.draw()
-        self.enemy_list.draw()
-        self.room.wall_list.draw()
+        self.rooms[0].enemy_list.draw()
+        self.rooms[0].wall_list.draw()
         # Sýna timera
         output = f"Processing time: {self.processing_time:.3f}"
-        arcade.draw_text(output, 20, SCREEN_HEIGHT - 20, arcade.color.BLACK, 16)
+        arcade.draw_text(output, 20, self.SCREEN_HEIGHT - 20, arcade.color.BLACK, 16)
 
         output = f"Drawing time: {self.draw_time:.3f}"
-        arcade.draw_text(output, 20, SCREEN_HEIGHT - 40, arcade.color.BLACK, 16)
+        arcade.draw_text(output, 20, self.SCREEN_HEIGHT - 40, arcade.color.BLACK, 16)
 
         output = f"Coins hit: {self.coun_counter:3}"
-        arcade.draw_text(output, 20, SCREEN_HEIGHT - 60, arcade.color.BLACK, 16)
+        arcade.draw_text(output, 20, self.SCREEN_HEIGHT - 60, arcade.color.BLACK, 16)
         try:
             fps = 1 / (self.draw_time + self.processing_time)
             output = f"Max FPS: {fps:3.1f}"
-            arcade.draw_text(output, 20, SCREEN_HEIGHT - 80, arcade.color.BLACK, 16)
+            arcade.draw_text(output, 20, self.SCREEN_HEIGHT - 80, arcade.color.BLACK, 16)
         except:
             pass
         self.draw_time = timeit.default_timer() - draw_start_time
@@ -128,21 +108,22 @@ class Level_1(arcade.Window):
         start_time = timeit.default_timer()
 
         self.Player1.update()
-        self.enemy_list.update()
-        self.Enemy1.Attack(self.Player1)
+        self.rooms[0].enemy_list.update()
+        for enemy in self.rooms[0].enemy_list:
+            enemy.Attack(self.Player1)
 
-        self.coin_list.update()
+        self.rooms[0].coin_list.update()
 
 
         if self.Player1.sword_gate == 1:
-            self.Player1.SwordSwing(self.enemy_list)
+            self.Player1.SwordSwing(self.rooms[0].enemy_list)
 
         #Uppfæra kallinn að labba á hverjum 5-ta frame(fallið búið til að ofan)
         self.Player1.update_animation(5)
 
         # Gera lista með öllum sprite-um sem rekast í/ skarast við player
-        coins_hit_list = arcade.check_for_collision_with_list(self.Player1, self.coin_list)
-        coins_hit_list.extend(arcade.check_for_collision_with_list(self.Player1.SwordSprite, self.coin_list))
+        coins_hit_list = arcade.check_for_collision_with_list(self.Player1, self.rooms[0].coin_list)
+        coins_hit_list.extend(arcade.check_for_collision_with_list(self.Player1.SwordSprite, self.rooms[0].coin_list))
 
         self.physics_engine.update()
 

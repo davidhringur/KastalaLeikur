@@ -1,6 +1,9 @@
 
 import arcade
 import os
+import random
+from Enemy import *
+
 
 class Room:
 # Þessi klasi inniheldur allar upplýsingar um herbergin/levelin
@@ -8,6 +11,8 @@ class Room:
 
         # Aðrir listar fyrir t.d. gimsteina eru í levels file
         self.wall_list = None
+        self.enemy_list = None
+        self.coin_list = None
 
         # Bakgrunnsmynd
         self.background = None
@@ -24,6 +29,8 @@ def setup_room_1(width, height):
     room = Room()
     # Sprite listi
     room.wall_list = arcade.SpriteList()
+    room.enemy_list = arcade.SpriteList()
+    room.coin_list = arcade.SpriteList()
 
     # Búum til efri og neðri línu af útlínum borðsins
     for y in (0, SCREEN_HEIGHT - SPRITE_SIZE):
@@ -54,5 +61,23 @@ def setup_room_1(width, height):
 
     # Bakgrunnsmynd
     room.background = arcade.load_texture("Images/ModelPack/MakingMap1.png")
+
+    #Búum til óvini
+    room.Enemy1 = Enemy("Images/Enemy/Dungeon_Character.png", image_x=17, image_y=17, image_width=12, image_height=13, scale=8) #óvinur sem eltir player1
+    room.Enemy1.center_x, room.Enemy1.center_y = 250, 150
+    room.enemy_list.append(room.Enemy1)
+
+    # Búum til gimsteinana
+    for i in range(15):
+
+        # Setjum inn myndina við gimsteinana
+        coin = arcade.Sprite("Images/gem.png", 0.07)
+
+        # Staðsetjum gimsteinana
+        coin.center_x = 52 + random.randrange(SCREEN_WIDTH - 74)
+        coin.center_y = 52 + random.randrange(SCREEN_HEIGHT - 74)
+
+        # Bætum við gimsteinum við listann
+        room.coin_list.append(coin)
 
     return room
