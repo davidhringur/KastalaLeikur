@@ -20,10 +20,6 @@ class MainMenu(arcade.Window):
         #Viljum að músin hverfi þegar hún er staðsett yfir glugganum
         self.set_mouse_visible(False)
 
-        title = 'Choose a player'
-        options = ['p1', 'p2', 'p3', 'p4']
-        option, index = pick.pick(options, title)
-        print(option)
 
         self.LEFT_RIGHT_UP_DOWN_key_is_down = [0,0,0,0]
 
@@ -37,4 +33,6 @@ class MainMenu(arcade.Window):
                                   self.SCREEN_WIDTH, self.SCREEN_HEIGHT, arcade.load_texture("Images/ModelPack/MakingMap1.png"))
 
 
-        arcade.draw(center_x: float, center_y: float, width: float, height: float, angle: float = 0, alpha: float = 1, transparent: bool = True, repeat_count_x=1, repeat_count_y=1)
+        character1 = arcade.load_textures("Images/Character/p1.png",[[0,0,31,33]], scale = 3)
+    #    character2 = arcade.load_textures("Images/Character/p2.png",[[0,0,31,33], scale = 3)
+    #    arcade.draw(center_x: float, center_y: float, width: float, height: float, angle: float = 0, alpha: float = 1, transparent: bool = True, repeat_count_x=1, repeat_count_y=1)
