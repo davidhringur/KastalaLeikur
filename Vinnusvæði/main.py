@@ -3,8 +3,11 @@ import arcade
 #Hér koma okkar skrár
 import Player
 from Levels import *
+from MainMenu import *
 
 def main():
+    window = MainMenu(1200, 600, "Main Menu")
+    arcade.run()
     window = Level_1(1200, 600, "Highburn Fortress")
     window.setup()
     arcade.run()
