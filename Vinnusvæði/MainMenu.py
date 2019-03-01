@@ -35,3 +35,6 @@ class MainMenu(arcade.Window):
 
         arcade.draw_texture_rectangle(self.SCREEN_WIDTH // 2, self.SCREEN_HEIGHT // 2,
                                   self.SCREEN_WIDTH, self.SCREEN_HEIGHT, arcade.load_texture("Images/ModelPack/MakingMap1.png"))
+
+
+        arcade.draw(center_x: float, center_y: float, width: float, height: float, angle: float = 0, alpha: float = 1, transparent: bool = True, repeat_count_x=1, repeat_count_y=1)
