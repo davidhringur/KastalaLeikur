@@ -20,6 +20,14 @@ class MainMenu(arcade.Window):
         #Viljum að músin hverfi þegar hún er staðsett yfir glugganum
         self.set_mouse_visible(False)
 
+        title = 'Choose a player'
+        options = ['p1', 'p2', 'p3', 'p4']
+        option, index = pick.pick(options, title)
+        print(option)
+
+        self.LEFT_RIGHT_UP_DOWN_key_is_down = [0,0,0,0]
+
+
 
     def on_draw(self):
     #Köllum á þetta í hvert sinn sem glugginn er opnaður
