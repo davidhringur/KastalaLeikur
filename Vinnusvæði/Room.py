@@ -1,16 +1,8 @@
 
 import arcade
 import os
-
-SCREEN_WIDTH = 1200
-SCREEN_HEIGHT = 600
-SPRITE_SIZE = int(1200/30) #ATH 30 Verður að ganga upp í 1200 svo þetta passar!
-SPRITE_NATIVE_SIZE = 32
-SPRITE_SCALING = SPRITE_SIZE/SPRITE_NATIVE_SIZE
-
-SCREEN_TITLE = "Level 1"
-
-MOVEMENT_SPEED = 5
+import random
+from Enemy import *
 
 
 class Room:
@@ -19,22 +11,32 @@ class Room:
 
         # Aðrir listar fyrir t.d. gimsteina eru í levels file
         self.wall_list = None
+        self.enemy_list = None
+        self.coin_list = None
 
         # Bakgrunnsmynd
         self.background = None
 
 
-def setup_room_1():
+def setup_room_1(width, height):
 # Mögulega munum við færa room1 inn í aðra möppu ef þetta verður mikið
+    SCREEN_WIDTH = width
+    SCREEN_HEIGHT = height
+    SPRITE_SIZE = int(1200/30) #ATH 30 Verður að ganga upp í 1200 svo þetta passar!
+    SPRITE_NATIVE_SIZE = 32
+    SPRITE_SCALING = SPRITE_SIZE/SPRITE_NATIVE_SIZE
+
     room = Room()
     # Sprite listi
     room.wall_list = arcade.SpriteList()
+    room.enemy_list = arcade.SpriteList()
+    room.coin_list = arcade.SpriteList()
 
     # Búum til efri og neðri línu af útlínum borðsins
     for y in (0, SCREEN_HEIGHT - SPRITE_SIZE):
         # Loopum fyrir boxin til að fara til hliðar
         for x in range(0, SCREEN_WIDTH, SPRITE_SIZE):
-            wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=34)
+            wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=32)
             wall.left = x
             wall.bottom = y
             room.wall_list.append(wall)
@@ -46,7 +48,7 @@ def setup_room_1():
             # Viljum skilja eftir autt pláss svo hægt sé að
             # "labba" yfir í næsta borð
             if (y != SPRITE_SIZE * 4 and y != SPRITE_SIZE * 5) or x == 0:
-                wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=34)
+                wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=32)
                 wall.left = x
                 wall.bottom = y
                 room.wall_list.append(wall)
@@ -59,5 +61,23 @@ def setup_room_1():
 
     # Bakgrunnsmynd
     room.background = arcade.load_texture("Images/ModelPack/MakingMap1.png")
+
+    #Búum til óvini
+    room.Enemy1 = Enemy("Images/Enemy/Dungeon_Character.png", image_x=17, image_y=17, image_width=12, image_height=13, scale=8) #óvinur sem eltir player1
+    room.Enemy1.center_x, room.Enemy1.center_y = 250, 150
+    room.enemy_list.append(room.Enemy1)
+
+    # Búum til gimsteinana
+    for i in range(15):
+
+        # Setjum inn myndina við gimsteinana
+        coin = arcade.Sprite("Images/gem.png", 0.07)
+
+        # Staðsetjum gimsteinana
+        coin.center_x = 52 + random.randrange(SCREEN_WIDTH - 74)
+        coin.center_y = 52 + random.randrange(SCREEN_HEIGHT - 74)
+
+        # Bætum við gimsteinum við listann
+        room.coin_list.append(coin)
 
     return room

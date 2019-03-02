@@ -32,6 +32,8 @@ class Enemy(arcade.Sprite):
         self.update_Sword_animation_frame_counter = 5
         self.sword_gate = 0
 
+        self.hp = 100
+
     def SwordSwing(self):
         if self.update_Sword_animation_frame_counter == 5:            #update sverðið breytist á hverjum 5ta frame og byrja strax!
             if self.change_x > 0 or self.face_direction == "right":
@@ -61,6 +63,7 @@ class Enemy(arcade.Sprite):
         if self.update_Sword_animation_counter == 3:
             self.update_Sword_animation_counter = 0
 
+
     def Attack(self, player):
         distX = player.center_x - self.center_x
         distY = player.center_y - self.center_y
@@ -73,6 +76,16 @@ class Enemy(arcade.Sprite):
         except:
             pass
 
+#Vondi kall
+        self.walk_right_textures = arcade.load_textures("Images/Character/p3.png",[[4,63,25,32],[36,63,25,32],[67,63,25,32]], scale = 3)
+        self.stand_right_textures = arcade.load_textures("Images/Character/p3.png",[[4,63,25,32],[36,63,25,32],[67,63,25,32]], scale = 3)
+        self.walk_left_textures = arcade.load_textures("Images/Character/p3.png",[[4,32,25,32],[36,32,25,32],[67,32,25,32]], scale = 3)
+        self.stand_left_textures = arcade.load_textures("Images/Character/p3.png",[[4,32,25,32],[36,32,25,32],[67,32,25,32]], scale = 3)
+        self.walk_up_textures = arcade.load_textures("Images/Character/p3.png",[[4,96,25,32],[36,96,25,32],[67,96,25,32]], scale = 3)
+        self.stand_up_textures = arcade.load_textures("Images/Character/p3.png",[[4,96,25,32],[36,96,25,32],[67,96,25,32]], scale = 3)
+        self.walk_down_textures = arcade.load_textures("Images/Character/p3.png",[[4,0,25,32],[36,0,25,32],[67,0,25,32]], scale = 3)
+        self.stand_down_textures = arcade.load_textures("Images/Character/p3.png",[[4,0,25,32],[36,0,25,32],[67,0,25,32]], scale = 3)
+'''
     def update(self):
 
         # Move the Player
@@ -91,3 +104,4 @@ class Enemy(arcade.Sprite):
 
         if self.center_y > SCREEN_HEIGHT - 0:
             self.center_y = SCREEN_HEIGHT -0
+'''
