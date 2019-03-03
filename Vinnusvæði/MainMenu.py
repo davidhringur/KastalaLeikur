@@ -42,11 +42,11 @@ class MainMenu(arcade.Window):
 
         #Leikmaður 1
         arcade.draw_texture_rectangle(self.SCREEN_WIDTH // 4, self.SCREEN_HEIGHT // 5,
-                              self.SCREEN_WIDTH//13, self.SCREEN_HEIGHT//10, arcade.load_texture("Images/Character/P1_2.png"))
+                              self.SCREEN_WIDTH//13, self.SCREEN_HEIGHT//10, arcade.load_texture("Images/Character/p1_2.png"))
 
         #Leikmaður 2
         arcade.draw_texture_rectangle(self.SCREEN_WIDTH // 1.3333, self.SCREEN_HEIGHT // 5,
-                              self.SCREEN_WIDTH//13, self.SCREEN_HEIGHT//10, arcade.load_texture("Images/Character/P2_2.png"))
+                              self.SCREEN_WIDTH//13, self.SCREEN_HEIGHT//10, arcade.load_texture("Images/Character/p2_2.png"))
 
         #Highburn
         arcade.draw_texture_rectangle(self.SCREEN_WIDTH // 2, self.SCREEN_HEIGHT // 1.2,
