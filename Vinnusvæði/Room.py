@@ -4,6 +4,7 @@ import os
 import random
 from Enemy import *
 from Fire import *
+from Pillar import *
 
 
 class Room:
@@ -67,12 +68,9 @@ def setup_room_1(width, height):
 
     #Búum til óvini
     room.Enemy1 = Enemy("Images/Enemy/Dungeon_Character.png", image_x=17, image_y=17, image_width=12, image_height=13, scale=8) #óvinur sem eltir player1
-    room.Enemy1.center_x, room.Enemy1.center_y = 250, 150
+    room.Enemy1.center_x, room.Enemy1.center_y = 1050, 450
     room.enemy_list.append(room.Enemy1)
 
-    room.fire = Fire("Images/ModelPack/DungeonStarter.png", 4, image_x=50, image_y=177, image_width=12, image_height=15)
-    room.fire.center_x, room.fire.center_y = 200, 200
-    room.prop_list.append(room.fire)
 
     # Búum til gimsteinana
     for i in range(15):
@@ -114,10 +112,10 @@ def setup_room_2(width, height):
 
     # Búum til efri og neðri línu af útlínum borðsins
 
-    Shift = SCREEN_WIDTH- SPRITE_SIZE
+    Shift = SCREEN_WIDTH - int(1.5*SPRITE_SIZE)
     for y in (0, SCREEN_HEIGHT - SPRITE_SIZE):
         # Loopum fyrir boxin til að fara til hliðar
-        for x in range(0 + Shift,SCREEN_WIDTH+ Shift, SPRITE_SIZE):
+        for x in range(0 + Shift, SCREEN_WIDTH + Shift, SPRITE_SIZE):
             if (x != SPRITE_SIZE * 13 + Shift and x != SPRITE_SIZE * 14 + Shift and x != SPRITE_SIZE * 15 + Shift) or y == 0:
                 wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=32)
                 wall.left = x
@@ -147,10 +145,11 @@ def setup_room_2(width, height):
 
     #Búum til óvini
     room.Enemy2 = Enemy("Images/Enemy/Dungeon_Character.png", image_x=17, image_y=17, image_width=12, image_height=13, scale=8) #óvinur sem eltir player1
-    room.Enemy2.center_x, room.Enemy2.center_y = 250, 150
+    room.Enemy2.center_x, room.Enemy2.center_y = Shift + 1050, 450
     room.enemy_list.append(room.Enemy2)
 
     room.fire = Fire("Images/ModelPack/DungeonStarter.png", 4, image_x=50, image_y=177, image_width=12, image_height=15)
     room.fire.center_x, room.fire.center_y = Shift + SCREEN_WIDTH/2, SCREEN_HEIGHT/2
     room.prop_list.append(room.fire)
+
     return room

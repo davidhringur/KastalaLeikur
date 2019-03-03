@@ -2,7 +2,7 @@ import arcade
 import Player
 import Room
 import os
-from pick import pick
+#from pick import pick
 
 class MainMenu(arcade.Window):
 

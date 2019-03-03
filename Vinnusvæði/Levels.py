@@ -65,8 +65,10 @@ class Levels(arcade.Window):
 
 
 
-         # Create a physics engine for this room
-        self.physics_engine = PhysicsEngineHighburn(self.Player1, self.rooms[0].wall_list)
+        #Búa til physics engine fyrir þetta herbergi
+        self.physics_engine = []
+        self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[0].wall_list))
+        #self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[0].enemy_list))
 
     def move_everything(self, x, y):
         self.player_list.move(x, y)
@@ -119,7 +121,7 @@ class Levels(arcade.Window):
             pass
         self.draw_time = timeit.default_timer() - draw_start_time
 
-    move_gate = 0
+    move_gate = 0 #Notað til að færa allt þegar skipt er um borð
     def update(self, delta_time):
         start_time = timeit.default_timer()
 
@@ -131,19 +133,18 @@ class Levels(arcade.Window):
 
             self.rooms[i].coin_list.update()
             self.rooms[i].prop_list.update()
-            self.Player1.hit_enemy(self.rooms[i].enemy_list)
+            if self.Player1.Sword.sword_gate == 1:
+                self.Player1.Sword.hit_enemy(self.rooms[i].enemy_list)
 
-        if self.Player1.sword_gate == 1:
-            self.Player1.SwordSwing()
-
-        #Uppfæra kallinn að labba á hverjum 5-ta frame(fallið búið til að ofan)
-        self.Player1.update_animation(5)
+        if self.Player1.Sword.sword_gate == 1:
+            self.Player1.Sword.SwordSwing(self.Player1.center_x, self.Player1.center_y, self.Player1.change_x, self.Player1.change_y, self.Player1.face_direction)
 
         # Gera lista með öllum sprite-um sem rekast í/ skarast við player
         coins_hit_list = arcade.check_for_collision_with_list(self.Player1, self.rooms[0].coin_list)
-        coins_hit_list.extend(arcade.check_for_collision_with_list(self.Player1.SwordSprite, self.rooms[0].coin_list))
+        coins_hit_list.extend(arcade.check_for_collision_with_list(self.Player1.Sword.SwordSprite, self.rooms[0].coin_list))
 
-        self.physics_engine.update()
+        for engine in self.physics_engine:
+            engine.update()
 
         # Loopum í gegnum sprite sem skarast á við og eyðum þeim og bætum við teljara
         for coin in coins_hit_list:
@@ -153,7 +154,7 @@ class Levels(arcade.Window):
         # Vistum tímann sem þetta tekur
         self.processing_time = timeit.default_timer() - start_time
 
-        #Færa alla hluti til þess að fara á næsta borð
+    #Færa alla hluti til þess að fara á næsta borð
         if self.Player1.right > self.SCREEN_WIDTH or self.Player1.center_x < 0 or self.Player1.top > self.SCREEN_HEIGHT or self.Player1.center_y < 0:
             self.move_gate = [self.Player1.center_x < 0, self.Player1.right > self.SCREEN_WIDTH, self.Player1.top > self.SCREEN_HEIGHT, self.Player1.center_y < 0]
 
@@ -167,6 +168,8 @@ class Levels(arcade.Window):
                 if self.Level_idx == 1:
                     room2 = Room.setup_room_2(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
                     self.rooms.append(room2)
+                    self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[1].wall_list))
+                    self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[1].prop_list))
                     self.Level_idx += 1
 
             elif self.move_gate[2]:
@@ -202,13 +205,13 @@ class Levels(arcade.Window):
             self.Player1.change_y += -self.Player1.MOVEMENT_SPEED
             self.LEFT_RIGHT_UP_DOWN_key_is_down[3] = 1
         if key == arcade.key.SPACE:
-            self.Player1.sword_gate = 1
+            self.Player1.Sword.sword_gate = 1
             if self.Player1.face_direction == "up" or self.Player1.face_direction == "left": #setja sverð undir kallinn fyrir þessar áttir
                 self.Player1.kill()
-                self.player_list.append(self.Player1.SwordSprite)
+                self.player_list.append(self.Player1.Sword.SwordSprite)
                 self.player_list.append(self.Player1)
             else:
-                self.player_list.append(self.Player1.SwordSprite)
+                self.player_list.append(self.Player1.Sword.SwordSprite)
 
     def on_key_release(self, key, modifiers):
         # Kallað er á þetta í hvert sinn sem notandi hættir að ýta á takka
@@ -225,5 +228,5 @@ class Levels(arcade.Window):
             self.Player1.change_y += self.Player1.MOVEMENT_SPEED
             self.LEFT_RIGHT_UP_DOWN_key_is_down[3] = 0
         elif key == arcade.key.SPACE:
-            self.Player1.sword_gate = 0
-            self.Player1.SwordSprite.kill()
+            self.Player1.Sword.sword_gate = 0
+            self.Player1.Sword.SwordSprite.kill()

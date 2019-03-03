@@ -12,7 +12,7 @@ class PhysicsEngineHighburn:
         self.walls = walls
 
     def update(self):
-        # Check for wall hit
+        #Athuga hvort veggur rekst á spilara
         hit_list = \
             check_for_collision_with_list(self.player_sprite,
                                           self.walls)
@@ -55,7 +55,6 @@ class PhysicsEngineHighburn:
             if corner_test == 4:
                 self.player_sprite.center_y -= 2
                 self.player_sprite.center_x += 2
-                # Check for wall hit
                 hit_list = check_for_collision_with_list(self.player_sprite, self.walls)
                 self.player_sprite.center_y += 2
                 self.player_sprite.center_x -= 2
