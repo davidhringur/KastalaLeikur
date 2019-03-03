@@ -37,7 +37,7 @@ class MainMenu(arcade.Window):
         arcade.start_render()
 
         arcade.draw_texture_rectangle(self.SCREEN_WIDTH // 2, self.SCREEN_HEIGHT // 2,
-                                 self.SCREEN_WIDTH, self.SCREEN_HEIGHT, arcade.load_texture("Images/Main/Kastali2.PNG"))
+                                 self.SCREEN_WIDTH, self.SCREEN_HEIGHT, arcade.load_texture("Images/Main/kastali5.jpg"))
 
 
         #Leikmaður 1
