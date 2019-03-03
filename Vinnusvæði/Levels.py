@@ -6,7 +6,7 @@ import random
 import timeit
 import Room
 
-class Level_1(arcade.Window):
+class Levels(arcade.Window):
 
     def __init__(self, width, height, title):
 
@@ -22,6 +22,9 @@ class Level_1(arcade.Window):
         # Viljum að músin hverfi þegar hún er staðsett yfir glugganum
         self.set_mouse_visible(False)
 
+        #Level insex sem við erum á
+        self.Level_idx = 1
+
         # Búum til playerinn
         self.Player1 = None
 
@@ -35,6 +38,7 @@ class Level_1(arcade.Window):
         #setja fps svo hann keyri betur
         self.set_update_rate(1 / 80)
 
+        #Fylki sem segir okkur havða takki er niðri
         self.LEFT_RIGHT_UP_DOWN_key_is_down = [0,0,0,0]
 
     def setup(self):
@@ -51,8 +55,10 @@ class Level_1(arcade.Window):
         self.player_list.append(self.Player1)
 
         self.rooms = []
-        room = Room.setup_room_1(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
-        self.rooms.append(room)
+        room1 = Room.setup_room_1(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+        self.rooms.append(room1)
+
+
 
         self.move_lenght = self.SCREEN_WIDTH - 40
         self.move_height = self.SCREEN_HEIGHT - 40
@@ -64,9 +70,14 @@ class Level_1(arcade.Window):
 
     def move_everything(self, x, y):
         self.player_list.move(x, y)
-        self.rooms[0].enemy_list.move(x, y)
-        self.rooms[0].wall_list.move(x, y)
-        self.rooms[0].coin_list.move(x, y)
+        for i in range(self.Level_idx):
+            self.rooms[i].enemy_list.move(x, y)
+            self.rooms[i].wall_list.move(x, y)
+            self.rooms[i].coin_list.move(x, y)
+            self.rooms[i].prop_list.move(x, y)
+
+            #self.rooms[].wall_list.move(x, y)
+
 
         for player in self.player_list:
             player.change_x -= player.change_x
@@ -82,10 +93,15 @@ class Level_1(arcade.Window):
         arcade.draw_texture_rectangle(self.SCREEN_WIDTH // 2, self.SCREEN_HEIGHT // 2,
                                       self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.rooms[0].background)
 
-        self.rooms[0].coin_list.draw()
+
         self.player_list.draw()
-        self.rooms[0].enemy_list.draw()
-        self.rooms[0].wall_list.draw()
+        for i in range(self.Level_idx):
+            self.rooms[i].coin_list.draw()
+            self.rooms[i].enemy_list.draw()
+            self.rooms[i].wall_list.draw()
+            self.rooms[i].prop_list.draw()
+
+        #self.rooms[1].wall_list.draw()
         # Sýna timera
         output = f"Processing time: {self.processing_time:.3f}"
         arcade.draw_text(output, 20, self.SCREEN_HEIGHT - 20, arcade.color.BLACK, 16)
@@ -108,15 +124,17 @@ class Level_1(arcade.Window):
         start_time = timeit.default_timer()
 
         self.Player1.update()
-        self.rooms[0].enemy_list.update()
-        for enemy in self.rooms[0].enemy_list:
-            enemy.Attack(self.Player1)
+        for i in range(self.Level_idx):
+            self.rooms[i].enemy_list.update()
+            for enemy in self.rooms[i].enemy_list:
+                enemy.Attack(self.Player1)
 
-        self.rooms[0].coin_list.update()
-
+            self.rooms[i].coin_list.update()
+            self.rooms[i].prop_list.update()
+            self.Player1.hit_enemy(self.rooms[i].enemy_list)
 
         if self.Player1.sword_gate == 1:
-            self.Player1.SwordSwing(self.rooms[0].enemy_list)
+            self.Player1.SwordSwing()
 
         #Uppfæra kallinn að labba á hverjum 5-ta frame(fallið búið til að ofan)
         self.Player1.update_animation(5)
@@ -146,6 +164,11 @@ class Level_1(arcade.Window):
             elif self.move_gate[1]:
                 self.move_everything(-20,0)
                 self.move_lenght -= 20
+                if self.Level_idx == 1:
+                    room2 = Room.setup_room_2(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+                    self.rooms.append(room2)
+                    self.Level_idx += 1
+
             elif self.move_gate[2]:
                 self.move_everything(0,-20)
                 self.move_height -= 20
