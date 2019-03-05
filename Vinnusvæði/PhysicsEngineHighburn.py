@@ -20,44 +20,44 @@ class PhysicsEngineHighburn:
         if len(hit_list) > 0:
             corner_test = 0
             #Athuga hvort það er rekist á uppi
-            self.player_sprite.center_y -= 2
-            hit_list = check_for_collision_with_list(self.player_sprite, self.walls) #Það er fært kallinn 2 pixla niður og ef hann rekst ekki á í þetta skipti
-            self.player_sprite.center_y += 2                            #þá vitum við að hann sé niðri (kallinn er box og við viljum vitha hvaða hlið klesir á)
+            self.player_sprite.center_y -= 1
+            hit_list = check_for_collision_with_list(self.player_sprite, self.walls) #Það er fært kallinn 1 pixla niður og ef hann rekst ekki á í þetta skipti
+            self.player_sprite.center_y += 1                            #þá vitum við að hann sé niðri (kallinn er box og við viljum vitha hvaða hlið klesir á)
             if len(hit_list) > 0:
                 self.player_sprite.center_y -= self.player_sprite.change_y
                 corner_test +=1
 
             #Athuga hvort það er rekist á niðri
-            self.player_sprite.center_y += 2
+            self.player_sprite.center_y += 1
             hit_list = check_for_collision_with_list(self.player_sprite, self.walls)
-            self.player_sprite.center_y -= 2
+            self.player_sprite.center_y -= 1
             if len(hit_list) > 0:
                 self.player_sprite.center_y += self.player_sprite.change_y
                 corner_test +=1
 
             #Athuga hvort það er rekist á hægri
-            self.player_sprite.center_x += 2
+            self.player_sprite.center_x += 1
             hit_list = check_for_collision_with_list(self.player_sprite, self.walls)
-            self.player_sprite.center_x -= 2
+            self.player_sprite.center_x -= 1
             if len(hit_list) > 0:
                 self.player_sprite.center_x -= self.player_sprite.change_x
                 corner_test +=1
 
             #Athuga hvort það er rekist á vinstri
-            self.player_sprite.center_x -= 2
+            self.player_sprite.center_x -= 1
             hit_list = check_for_collision_with_list(self.player_sprite, self.walls)
-            self.player_sprite.center_x += 2
+            self.player_sprite.center_x += 1
             if len(hit_list) > 0:
                 self.player_sprite.center_x -= self.player_sprite.change_x
                 corner_test +=1
 
             #Ef corner_test er 4 þá var prófað allar áttir og kallinn rakst sammt á svo hann er í horni.
             if corner_test == 4:
-                self.player_sprite.center_y -= 2
-                self.player_sprite.center_x += 2
+                self.player_sprite.center_y -= 1
+                self.player_sprite.center_x += 1
                 hit_list = check_for_collision_with_list(self.player_sprite, self.walls)
-                self.player_sprite.center_y += 2
-                self.player_sprite.center_x -= 2
+                self.player_sprite.center_y += 1
+                self.player_sprite.center_x -= 1
                 if len(hit_list) > 0:
                     self.player_sprite.center_x += self.player_sprite.change_x  #Það vill svo til að sama hvað horni við erum í
                     self.player_sprite.center_y -= self.player_sprite.change_y  #þá förum við út úr því með þessum breytingum.
