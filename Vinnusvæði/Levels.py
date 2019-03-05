@@ -45,7 +45,7 @@ class Levels(arcade.Window):
 
     def setup(self):
         # Setjum upp playerinn
-        self.Player1 = Player(self.MainMenuOptions,"Images/Kall.png", 0.2)
+        self.Player1 = Player(self.MainMenuOptions,"Images/Character/p1_2.png", scale=2)
         #self.Player1.PlayerSetup()
         self.Player1.center_x, self.Player1.center_y = 150, 150
         self.Player1._set_collision_radius = 50
