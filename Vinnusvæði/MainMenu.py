@@ -2,6 +2,7 @@ import arcade
 import Player
 import Room
 import os
+from Levels import Levels
 #from pick import pick
 
 class MainMenu(arcade.Window):
@@ -125,4 +126,5 @@ class MainMenu(arcade.Window):
         elif key == arcade.key.DOWN:
             pass
         elif key == arcade.key.ENTER:
-            arcade.window_commands.close_window()
+            window = Levels(1200, 600, "Highburn Fortress", self.options)
+            window.setup()
