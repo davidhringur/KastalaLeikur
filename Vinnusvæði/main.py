@@ -6,9 +6,9 @@ from Levels import *
 from MainMenu import *
 
 def main():
-    window = MainMenu(1200, 600, "Main Menu")
+    mainMenu = MainMenu(1200, 600, "Main Menu")
     arcade.run()
-    window = Levels(1200, 600, "Highburn Fortress")
+    window = Levels(1200, 600, "Highburn Fortress", mainMenu.options)
     window.setup()
     arcade.run()
 

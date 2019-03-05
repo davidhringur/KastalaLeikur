@@ -44,7 +44,7 @@ setattr(arcade.Sprite, "update_animation_frame_counter", 0)
 
 class Player(arcade.Sprite):
 
-    def __init__(self,
+    def __init__(self,MenuOptions,
                  filename: str=None,
                  scale: float=1,
                  image_x: float=0, image_y: float=0,
@@ -57,24 +57,20 @@ class Player(arcade.Sprite):
                  repeat_count_x=repeat_count_x, repeat_count_y=repeat_count_y,
                  center_x=center_x, center_y=center_y)
 
-#Leikmaður 1
-        self.walk_right_textures = arcade.load_textures("Images/Character/p1.png",[[4,63,25,32],[36,63,25,32],[67,63,25,32]], scale = 3)
-        self.stand_right_textures = arcade.load_textures("Images/Character/p1.png",[[4,63,25,32],[36,63,25,32],[67,63,25,32]], scale = 3)
-        self.walk_left_textures = arcade.load_textures("Images/Character/p1.png",[[4,32,25,32],[36,32,25,32],[67,32,25,32]], scale = 3)
-        self.stand_left_textures = arcade.load_textures("Images/Character/p1.png",[[4,32,25,32],[36,32,25,32],[67,32,25,32]], scale = 3)
-        self.walk_up_textures = arcade.load_textures("Images/Character/p1.png",[[4,96,25,32],[36,96,25,32],[67,96,25,32]], scale = 3)
-        self.stand_up_textures = arcade.load_textures("Images/Character/p1.png",[[4,96,25,32],[36,96,25,32],[67,96,25,32]], scale = 3)
-        self.walk_down_textures = arcade.load_textures("Images/Character/p1.png",[[4,0,25,32],[36,0,25,32],[67,0,25,32]], scale = 3)
-        self.stand_down_textures = arcade.load_textures("Images/Character/p1.png",[[4,0,25,32],[36,0,25,32],[67,0,25,32]], scale = 3)
-#Leikmaður 2
-        self.walk_right_textures = arcade.load_textures("Images/Character/p2.png",[[4,63,25,32],[36,63,25,32],[67,63,25,32]], scale = 3)
-        self.stand_right_textures = arcade.load_textures("Images/Character/p2.png",[[4,63,25,32],[36,63,25,32],[67,63,25,32]], scale = 3)
-        self.walk_left_textures = arcade.load_textures("Images/Character/p2.png",[[4,32,25,32],[36,32,25,32],[67,32,25,32]], scale = 3)
-        self.stand_left_textures = arcade.load_textures("Images/Character/p2.png",[[4,32,25,32],[36,32,25,32],[67,32,25,32]], scale = 3)
-        self.walk_up_textures = arcade.load_textures("Images/Character/p2.png",[[4,96,25,32],[36,96,25,32],[67,96,25,32]], scale = 3)
-        self.stand_up_textures = arcade.load_textures("Images/Character/p2.png",[[4,96,25,32],[36,96,25,32],[67,96,25,32]], scale = 3)
-        self.walk_down_textures = arcade.load_textures("Images/Character/p2.png",[[4,0,25,32],[36,0,25,32],[67,0,25,32]], scale = 3)
-        self.stand_down_textures = arcade.load_textures("Images/Character/p2.png",[[4,0,25,32],[36,0,25,32],[67,0,25,32]], scale = 3)
+
+
+        #Leikmaður 1
+        if MenuOptions == [[1,0]]:
+            self.walk_right_textures = arcade.load_textures("Images/Character/p1.png",[[4,63,25,32],[36,63,25,32],[67,63,25,32]], scale = 3)
+            self.walk_left_textures = arcade.load_textures("Images/Character/p1.png",[[4,32,25,32],[36,32,25,32],[67,32,25,32]], scale = 3)
+            self.walk_up_textures = arcade.load_textures("Images/Character/p1.png",[[4,96,25,32],[36,96,25,32],[67,96,25,32]], scale = 3)
+            self.walk_down_textures = arcade.load_textures("Images/Character/p1.png",[[4,0,25,32],[36,0,25,32],[67,0,25,32]], scale = 3)
+        #Leikmaður 2
+        elif MenuOptions == [[0,1]]:
+            self.walk_right_textures = arcade.load_textures("Images/Character/p2.png",[[4,63,25,32],[36,63,25,32],[67,63,25,32]], scale = 3)
+            self.walk_left_textures = arcade.load_textures("Images/Character/p2.png",[[4,32,25,32],[36,32,25,32],[67,32,25,32]], scale = 3)
+            self.walk_up_textures = arcade.load_textures("Images/Character/p2.png",[[4,96,25,32],[36,96,25,32],[67,96,25,32]], scale = 3)
+            self.walk_down_textures = arcade.load_textures("Images/Character/p2.png",[[4,0,25,32],[36,0,25,32],[67,0,25,32]], scale = 3)
 
         self.Sword = Sword()
 
