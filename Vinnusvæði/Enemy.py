@@ -21,6 +21,7 @@ class Enemy(arcade.Sprite):
         self.MOVEMENT_SPEED = 2
         self.hp = 100
 
+#Fall sem ræðst á player
     def Attack(self, player):
         distX = player.center_x - self.center_x
         distY = player.center_y - self.center_y
@@ -33,7 +34,7 @@ class Enemy(arcade.Sprite):
         except:
             pass
 
-#Vondi kall
+#Vondi kall á eftir að skipta út
         #self.walk_right_textures = arcade.load_textures("Images/Character/p3.png",[[4,63,25,32],[36,63,25,32],[67,63,25,32]], scale = 3)
         #self.stand_right_textures = arcade.load_textures("Images/Character/p3.png",[[4,63,25,32],[36,63,25,32],[67,63,25,32]], scale = 3)
         #self.walk_left_textures = arcade.load_textures("Images/Character/p3.png",[[4,32,25,32],[36,32,25,32],[67,32,25,32]], scale = 3)
