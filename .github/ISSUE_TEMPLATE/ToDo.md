@@ -11,8 +11,8 @@ assignees: ''
 Davíð:
 - Level 2
 Jessý:
-- Hljóð
-- Finna dreka
+- Hljóð 
+- Finna dreka x
 - Commenta (fara yfir)
 Lovísa:
 - Setja inn aðra leikmenn
