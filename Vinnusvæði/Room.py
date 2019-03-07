@@ -161,10 +161,10 @@ def setup_room_2(width, height):
     for i in range(4):
         p = Pillar(filename="Images/ModelPack/DungeonStarter.png", pillar_look=i, scale=0.5, image_width=90, image_height=120)
         room.pillars.append(p)
-        #room.prop_list.append(Pillar(room.fire, i))
-    room.pillars[0].center_x, room.pillars[0].center_y =  Shift + 80, 510
+        room.prop_list.append(p)
+    room.pillars[0].center_x, room.pillars[0].center_y =  Shift + 77, 510
     room.pillars[1].center_x, room.pillars[1].center_y =  Shift + 1120, 510
-    room.pillars[2].center_x, room.pillars[2].center_y =  Shift + 80, 100
+    room.pillars[2].center_x, room.pillars[2].center_y =  Shift + 77, 100
     room.pillars[3].center_x, room.pillars[3].center_y =  Shift + 1120, 100
 
     return room

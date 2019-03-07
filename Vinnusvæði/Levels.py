@@ -47,7 +47,7 @@ class Levels(arcade.Window):
         # Setjum upp playerinn
         self.Player1 = Player(self.MainMenuOptions,"Images/Character/p1_2.png", scale=2)
         #self.Player1.PlayerSetup()
-        self.Player1.center_x, self.Player1.center_y = 150, 152
+        self.Player1.center_x, self.Player1.center_y = 153, 152
         self.Player1._set_collision_radius = 50
 
 
@@ -79,7 +79,7 @@ class Levels(arcade.Window):
             self.rooms[i].wall_list.move(x, y)
             self.rooms[i].coin_list.move(x, y)
             self.rooms[i].prop_list.move(x, y)
-            self.rooms[i].pillars.move(x, y)
+            #self.rooms[i].pillars.move(x, y)
 
         for player in self.player_list:
             player.change_x -= player.change_x
@@ -95,8 +95,6 @@ class Levels(arcade.Window):
         arcade.draw_texture_rectangle(self.SCREEN_WIDTH // 2, self.SCREEN_HEIGHT // 2,
                                       self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.rooms[0].background)
 
-
-        self.player_list.draw()
         for i in range(self.Level_idx):
             self.rooms[i].coin_list.draw()
             self.rooms[i].enemy_list.draw()
@@ -105,6 +103,7 @@ class Levels(arcade.Window):
             self.rooms[i].pillars.draw()
             self.rooms[i].fire.draw()
 
+        self.player_list.draw()
         #self.rooms[1].wall_list.draw()
         # Sýna timera
         output = f"Processing time: {self.processing_time:.3f}"
@@ -159,7 +158,7 @@ class Levels(arcade.Window):
         #Uppfæra eld á borði 2
         if self.Level_idx == 2:
             for pillar in self.rooms[1].pillars:
-                pillar.update(self.Player1.Sword.SwordSprite, self.rooms[1].fire)
+                pillar.updateFire(self.Player1.Sword.SwordSprite, self.rooms[1].fire)
 
     #Færa alla hluti til þess að fara á næsta borð
         if self.Player1.right > self.SCREEN_WIDTH or self.Player1.center_x < 0 or self.Player1.top > self.SCREEN_HEIGHT or self.Player1.center_y < 0:

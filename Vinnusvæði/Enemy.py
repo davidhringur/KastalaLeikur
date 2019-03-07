@@ -26,6 +26,12 @@ class Enemy(arcade.Sprite):
         distX = player.center_x - self.center_x
         distY = player.center_y - self.center_y
         #færa sig í átt að spilara (Bara lóðrétt og lárétt)
+        #if arcade.check_for_collision(self, player):
+        #    if distX >= 0 and distY >= 0:
+        #        portionX = distX/(distX+distY)
+        #        player.center_x += int(2*self.MOVEMENT_SPEED*portionX)
+        #        player.center_y += int(2*self.MOVEMENT_SPEED*(1-portionX))
+
         try:
             if abs(distX) > abs(distY):
                 self.center_x += distX/abs(distX) * self.MOVEMENT_SPEED

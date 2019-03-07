@@ -24,7 +24,7 @@ class Pillar(arcade.Sprite):
         self._texture = self.pillar_textures[pillar_look]
         self.stop = 0
 
-    def update(self, sword_sprite, fire_activate):
+    def updateFire(self, sword_sprite, fire_activate):
         if arcade.check_for_collision(self, sword_sprite) and self.stop == 0:
             self._texture = self.pillar_broken_textures[self.pillar_look]
             fire_activate.lever_count += 1
