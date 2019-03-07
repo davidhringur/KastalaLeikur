@@ -7,8 +7,17 @@ assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+**6. mars 2019**
+Davíð:
+- Level 2
+Jessý:
+- Hljóð 
+- Finna dreka x
+- Commenta (fara yfir)
+Lovísa:
+- Setja inn aðra leikmenn
+- Pæla í eld í MainMenu
+
 
 **Describe the solution you'd like**
 A clear and concise description of what you want to happen.
