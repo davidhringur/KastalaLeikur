@@ -79,9 +79,7 @@ class Levels(arcade.Window):
             self.rooms[i].wall_list.move(x, y)
             self.rooms[i].coin_list.move(x, y)
             self.rooms[i].prop_list.move(x, y)
-
-        self.rooms[1].pillars.move(x, y)
-
+            self.rooms[i].pillars.move(x, y)
 
         for player in self.player_list:
             player.change_x -= player.change_x
@@ -104,9 +102,8 @@ class Levels(arcade.Window):
             self.rooms[i].enemy_list.draw()
             self.rooms[i].wall_list.draw()
             self.rooms[i].prop_list.draw()
-        if self.Level_idx == 2:
-            self.rooms[1].pillars.draw()
-            self.rooms[1].fire.draw()
+            self.rooms[i].pillars.draw()
+            self.rooms[i].fire.draw()
 
         #self.rooms[1].wall_list.draw()
         # Sýna timera
@@ -158,10 +155,11 @@ class Levels(arcade.Window):
 
         # Vistum tímann sem þetta tekur
         self.processing_time = timeit.default_timer() - start_time
+
+        #Uppfæra eld á borði 2
         if self.Level_idx == 2:
             for pillar in self.rooms[1].pillars:
-                pillar.update(self.Player1.Sword.SwordSprite)
-        #self.rooms[1].pillars.update(self.Player1.Sword.sword_sprite)
+                pillar.update(self.Player1.Sword.SwordSprite, self.rooms[1].fire)
 
     #Færa alla hluti til þess að fara á næsta borð
         if self.Player1.right > self.SCREEN_WIDTH or self.Player1.center_x < 0 or self.Player1.top > self.SCREEN_HEIGHT or self.Player1.center_y < 0:
@@ -179,9 +177,9 @@ class Levels(arcade.Window):
                     self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[1].wall_list))
                     self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[1].prop_list))
                     self.rooms[1].pillars.draw()
-                    self.rooms[1].fire.draw()
+                    #self.rooms[1].fire.draw()
                     self.Level_idx += 1
-                self.move_everything(-20,0) ; print(self.Level_idx)
+                self.move_everything(-20,0)
                 self.move_lenght -= 20
 
             elif self.move_gate[2]:

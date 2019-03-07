@@ -17,6 +17,7 @@ class Room:
         self.coin_list = None
         self.prop_list = None
         self.pillars = None
+        self.fire = None
 
         # Bakgrunnsmynd
         self.background = None
@@ -36,6 +37,8 @@ def setup_room_1(width, height):
     room.enemy_list = arcade.SpriteList()
     room.coin_list = arcade.SpriteList()
     room.prop_list = arcade.SpriteList()
+    room.pillars = arcade.SpriteList()
+    room.fire = arcade.SpriteList()
 
     # Búum til efri og neðri línu af útlínum borðsins
     for y in (0, SCREEN_HEIGHT - SPRITE_SIZE):
@@ -156,7 +159,12 @@ def setup_room_2(width, height):
     room.prop_list.append(room.fire)
 
     for i in range(4):
-        room.pillars.append(Pillar(room.fire, i))
-    room.pillars[0].center_x, room.pillars[0].center_y =  Shift + 200, 450
+        p = Pillar(filename="Images/ModelPack/DungeonStarter.png", pillar_look=i, scale=0.5, image_width=90, image_height=120)
+        room.pillars.append(p)
+        #room.prop_list.append(Pillar(room.fire, i))
+    room.pillars[0].center_x, room.pillars[0].center_y =  Shift + 80, 510
+    room.pillars[1].center_x, room.pillars[1].center_y =  Shift + 1120, 510
+    room.pillars[2].center_x, room.pillars[2].center_y =  Shift + 80, 100
+    room.pillars[3].center_x, room.pillars[3].center_y =  Shift + 1120, 100
 
     return room

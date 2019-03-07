@@ -2,7 +2,7 @@ import arcade
 
 class Pillar(arcade.Sprite):
 
-    def __init__(self, fire_activate, pillar_look = 0,
+    def __init__(self, pillar_look = 0,
                  filename: str=None,
                  scale: float=1,
                  image_x: float=0, image_y: float=0,
@@ -16,15 +16,16 @@ class Pillar(arcade.Sprite):
                  center_x=center_x, center_y=center_y)
 
         self.pillar_look = pillar_look
-
         self.pillar_textures = arcade.load_textures("Images/ModelPack/Dungeon_Tileset.png",
             [[254,6,20,33],[302,6,20,33],[350,6,20,33],[398,6,20,33]])
         self.pillar_broken_textures = arcade.load_textures("Images/ModelPack/Dungeon_Tileset.png",
             [[254,55,20,33],[302,55,20,33],[350,55,20,33],[398,55,20,33]])
 
         self._texture = self.pillar_textures[pillar_look]
+        self.stop = 0
 
-    def update(self, sword_sprite):
-        if arcade.check_for_collision(self, sword_sprite):
-            self._texture = self.pillar_broken_textures[pillar_look]
+    def update(self, sword_sprite, fire_activate):
+        if arcade.check_for_collision(self, sword_sprite) and self.stop == 0:
+            self._texture = self.pillar_broken_textures[self.pillar_look]
             fire_activate.lever_count += 1
+            self.stop = 1
