@@ -47,7 +47,7 @@ class Levels(arcade.Window):
         # Setjum upp playerinn
         self.Player1 = Player(self.MainMenuOptions,"Images/Character/p1_2.png", scale=2)
         #self.Player1.PlayerSetup()
-        self.Player1.center_x, self.Player1.center_y = 153, 152
+        self.Player1.center_x, self.Player1.center_y = 150, 152
         self.Player1._set_collision_radius = 50
 
 
@@ -58,7 +58,7 @@ class Levels(arcade.Window):
 
         self.rooms = []
         room1 = Room.setup_room_1(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
-        self.rooms.append(room1)
+        self.rooms.append(room1) #room2 er bætt við þegar leikmaður fer á næsta borð
 
 
 
@@ -80,7 +80,7 @@ class Levels(arcade.Window):
             self.rooms[i].coin_list.move(x, y)
             self.rooms[i].prop_list.move(x, y)
 
-            #self.rooms[].wall_list.move(x, y)
+        self.rooms[1].pillars.move(x, y)
 
 
         for player in self.player_list:
@@ -104,6 +104,9 @@ class Levels(arcade.Window):
             self.rooms[i].enemy_list.draw()
             self.rooms[i].wall_list.draw()
             self.rooms[i].prop_list.draw()
+        if self.Level_idx == 2:
+            self.rooms[1].pillars.draw()
+            self.rooms[1].fire.draw()
 
         #self.rooms[1].wall_list.draw()
         # Sýna timera
@@ -155,6 +158,10 @@ class Levels(arcade.Window):
 
         # Vistum tímann sem þetta tekur
         self.processing_time = timeit.default_timer() - start_time
+        if self.Level_idx == 2:
+            for pillar in self.rooms[1].pillars:
+                pillar.update(self.Player1.Sword.SwordSprite)
+        #self.rooms[1].pillars.update(self.Player1.Sword.sword_sprite)
 
     #Færa alla hluti til þess að fara á næsta borð
         if self.Player1.right > self.SCREEN_WIDTH or self.Player1.center_x < 0 or self.Player1.top > self.SCREEN_HEIGHT or self.Player1.center_y < 0:
@@ -165,14 +172,17 @@ class Levels(arcade.Window):
                 self.move_everything(20,0)
                 self.move_lenght -= 20
             elif self.move_gate[1]:
-                self.move_everything(-20,0)
-                self.move_lenght -= 20
+
                 if self.Level_idx == 1:
                     room2 = Room.setup_room_2(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
                     self.rooms.append(room2)
                     self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[1].wall_list))
                     self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[1].prop_list))
+                    self.rooms[1].pillars.draw()
+                    self.rooms[1].fire.draw()
                     self.Level_idx += 1
+                self.move_everything(-20,0) ; print(self.Level_idx)
+                self.move_lenght -= 20
 
             elif self.move_gate[2]:
                 self.move_everything(0,-20)

@@ -16,6 +16,7 @@ class Room:
         self.enemy_list = None
         self.coin_list = None
         self.prop_list = None
+        self.pillars = None
 
         # Bakgrunnsmynd
         self.background = None
@@ -79,8 +80,8 @@ def setup_room_1(width, height):
         coin = arcade.Sprite("Images/Gem/gems_preview.png", 0.3)
 
         # Staðsetjum gimsteinana
-        coin.center_x = 52 + random.randrange(SCREEN_WIDTH - 74)
-        coin.center_y = 52 + random.randrange(SCREEN_HEIGHT - 74)
+        coin.center_x = 100 + random.randrange(SCREEN_WIDTH - 200)
+        coin.center_y = 100 + random.randrange(SCREEN_HEIGHT - 200)
 
         # Bætum við gimsteinum við listann
         room.coin_list.append(coin)
@@ -109,10 +110,12 @@ def setup_room_2(width, height):
     room.enemy_list = arcade.SpriteList()
     room.coin_list = arcade.SpriteList()
     room.prop_list = arcade.SpriteList()
+    room.pillars = arcade.SpriteList()
+
 
     # Búum til efri og neðri línu af útlínum borðsins
 
-    Shift = SCREEN_WIDTH - int(1.5*SPRITE_SIZE)
+    Shift = SCREEN_WIDTH - SPRITE_SIZE
     for y in (0, SCREEN_HEIGHT - SPRITE_SIZE):
         # Loopum fyrir boxin til að fara til hliðar
         for x in range(0 + Shift, SCREEN_WIDTH + Shift, SPRITE_SIZE):
@@ -151,5 +154,9 @@ def setup_room_2(width, height):
     room.fire = Fire("Images/ModelPack/DungeonStarter.png", 4, image_x=50, image_y=177, image_width=12, image_height=15)
     room.fire.center_x, room.fire.center_y = Shift + SCREEN_WIDTH/2, SCREEN_HEIGHT/2
     room.prop_list.append(room.fire)
+
+    for i in range(4):
+        room.pillars.append(Pillar(room.fire, i))
+    room.pillars[0].center_x, room.pillars[0].center_y =  Shift + 200, 450
 
     return room

@@ -2,7 +2,7 @@ import arcade
 
 class Pillar(arcade.Sprite):
 
-    def __init__(self, fire_activate, sword_sprite, pillar_look = 0,
+    def __init__(self, fire_activate, pillar_look = 0,
                  filename: str=None,
                  scale: float=1,
                  image_x: float=0, image_y: float=0,
@@ -24,7 +24,7 @@ class Pillar(arcade.Sprite):
 
         self._texture = self.pillar_textures[pillar_look]
 
-    def update(self):
-        if arcade.check_for_collision(sword_sprite, self):
+    def update(self, sword_sprite):
+        if arcade.check_for_collision(self, sword_sprite):
             self._texture = self.pillar_broken_textures[pillar_look]
             fire_activate.lever_count += 1
