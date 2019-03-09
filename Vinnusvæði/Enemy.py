@@ -21,22 +21,73 @@ class Enemy(arcade.Sprite):
         self.MOVEMENT_SPEED = 2
         self.hp = 100
 
-#Fall sem ræðst á player
+        self.hit_frames = 10
+        self.hit_frames_counter, self.hit_gate = self.hit_frames, [0,0,0,0] #Hit_gate: left, right, up, down
+
+    #Fall sem ræðst á player
     def Attack(self, player):
         distX = player.center_x - self.center_x
         distY = player.center_y - self.center_y
+        sign = lambda x: (1, -1)[x < 0]
+        safezoneAdj = 50
         #færa sig í átt að spilara (Bara lóðrétt og lárétt)
-        #if arcade.check_for_collision(self, player):
-        #    if distX >= 0 and distY >= 0:
-        #        portionX = distX/(distX+distY)
-        #        player.center_x += int(2*self.MOVEMENT_SPEED*portionX)
-        #        player.center_y += int(2*self.MOVEMENT_SPEED*(1-portionX))
-
         try:
-            if abs(distX) > abs(distY):
-                self.center_x += distX/abs(distX) * self.MOVEMENT_SPEED
+            if not arcade.check_for_collision(self, player) and self.hit_gate == [0,0,0,0]:
+                if abs(distX) > abs(distY):
+                    self.change_x = sign(distX) * self.MOVEMENT_SPEED
+                    self.change_y = 0
+                else:
+                    self.change_x = 0
+                    self.change_y = sign(distY) * self.MOVEMENT_SPEED
+            elif self.change_x < 0 or self.hit_gate == [1,0,0,0]:  #ýtir leikmanni til vinstri ef óvinur klessir á hann
+                self.hit_gate = [1,0,0,0]
+                if self.hit_frames_counter > 0:
+                    self.hit_frames_counter -= 1
+                    if player.bottom > safezoneAdj and player.top < SCREEN_HEIGHT-safezoneAdj and player.left > safezoneAdj and player.right < SCREEN_WIDTH-safezoneAdj:
+                        player.center_x -= 10
+                else:
+                    self.hit_gate = [0,0,0,0]
+                    self.hit_frames_counter = self.hit_frames
+            elif self.change_x > 0 or self.hit_gate == [0,1,0,0]:   #ýtir leikmanni til hægri ef óvinur klessir á hann
+                self.hit_gate = [0,1,0,0]
+                if self.hit_frames_counter > 0:
+                    self.hit_frames_counter -= 1
+                    if player.bottom > safezoneAdj and player.top < SCREEN_HEIGHT-safezoneAdj and player.left > safezoneAdj and player.right < SCREEN_WIDTH-safezoneAdj:
+                        player.center_x -= -10
+                else:
+                    self.hit_gate = [0,0,0,0]
+                    self.hit_frames_counter = self.hit_frames
+            elif self.change_y > 0 or self.hit_gate == [0,0,1,0]:   #ýtir leikmanni upp ef óvinur klessir á hann
+                self.hit_gate = [0,0,1,0]
+                if self.hit_frames_counter > 0:
+                    self.hit_frames_counter -= 1
+                    if player.bottom > safezoneAdj and player.top < SCREEN_HEIGHT-safezoneAdj and player.left > safezoneAdj and player.right < SCREEN_WIDTH-safezoneAdj:
+                        player.center_y -= -10
+                else:
+                    self.hit_gate = [0,0,0,0]
+                    self.hit_frames_counter = self.hit_frames
+            elif self.change_y < 0 or self.hit_gate == [0,0,0,1]:   #ýtir leikmanni niður ef óvinur klessir á hann
+                self.hit_gate = [0,0,0,1]
+                if self.hit_frames_counter > 0:
+                    self.hit_frames_counter -= 1
+                    if player.bottom > safezoneAdj and player.top < SCREEN_HEIGHT-safezoneAdj and player.left > safezoneAdj and player.right < SCREEN_WIDTH-safezoneAdj:
+                        player.center_y -= 10
+                else:
+                    self.hit_gate = [0,0,0,0]
+                    self.hit_frames_counter = self.hit_frames
             else:
-                self.center_y += distY/abs(distY) * self.MOVEMENT_SPEED
+                self.change_y = 0
+                self.change_x = 0
+                self.center_x -= sign(self.change_x)*4
+                self.center_y -= sign(self.change_y)*4
+                if player.bottom > safezoneAdj and player.top < SCREEN_HEIGHT-safezoneAdj and player.left > safezoneAdj and player.right < SCREEN_WIDTH-safezoneAdj:
+                    player.center_x -= sign(player.change_x)*4
+                    player.center_y -= sign(player.change_y)*4
+
+            if self.hit_gate != [0,0,0,0]:   #Lætur óvin stoppa meðan leykmaður ýtist frá
+                self.change_y = 0
+                self.change_x = 0
+
         except:
             pass
 

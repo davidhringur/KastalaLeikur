@@ -70,6 +70,8 @@ class Levels(arcade.Window):
         #Búa til physics engine fyrir þetta herbergi
         self.physics_engine = []
         self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[0].wall_list))
+        #for enemy in self.rooms[0].enemy_list:
+        #    self.physics_engine.append(PhysicsEngineHighburn(enemy, self.Player1,))
         #self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[0].enemy_list))
 
     def move_everything(self, x, y):
