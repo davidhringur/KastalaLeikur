@@ -46,9 +46,9 @@ class Levels(arcade.Window):
     def setup(self):
         # Setjum upp playerinn
         self.Player1 = Player(self.MainMenuOptions,"Images/Character/p1_2.png", scale=2)
-        #self.Player1.PlayerSetup()
         self.Player1.center_x, self.Player1.center_y = 153, 152
         self.Player1._set_collision_radius = 50
+        self.Player1.points = ((-30.0, -32.0), (30.0, -32.0), (30.0, 0), (-30.0, 0))
 
 
         # Sprite-listi
@@ -70,8 +70,8 @@ class Levels(arcade.Window):
         #Búa til physics engine fyrir þetta herbergi
         self.physics_engine = []
         self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[0].wall_list))
-        #for enemy in self.rooms[0].enemy_list:
-        #    self.physics_engine.append(PhysicsEngineHighburn(enemy, self.Player1,))
+        for enemy in self.rooms[0].enemy_list:
+            self.physics_engine.append(PhysicsEngineHighburn(enemy, self.rooms[0].wall_list))
         #self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[0].enemy_list))
 
     def move_everything(self, x, y):
@@ -137,7 +137,9 @@ class Levels(arcade.Window):
             self.rooms[i].coin_list.update()
             self.rooms[i].prop_list.update()
             if self.Player1.Sword.sword_gate == 1:
-                self.Player1.Sword.hit_enemy(self.rooms[i].enemy_list)
+                self.Player1.Sword.hit_enemy(self.rooms[i].enemy_list, self.Player1.face_direction, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+            self.Player1.Sword.hit_recoil(self.rooms[i].enemy_list, self.Player1.Sword.sword_gate, self.Player1.face_direction, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+
 
         if self.Player1.Sword.sword_gate == 1:
             self.Player1.Sword.SwordSwing(self.Player1.center_x, self.Player1.center_y, self.Player1.change_x, self.Player1.change_y, self.Player1.face_direction)
@@ -177,8 +179,9 @@ class Levels(arcade.Window):
                     self.rooms.append(room2)
                     self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[1].wall_list))
                     self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[1].prop_list))
-                    self.rooms[1].pillars.draw()
-                    #self.rooms[1].fire.draw()
+                    for enemy in self.rooms[1].enemy_list:
+                       self.physics_engine.append(PhysicsEngineHighburn(enemy, self.rooms[1].prop_list))
+                       self.physics_engine.append(PhysicsEngineHighburn(enemy, self.rooms[1].wall_list))
                     self.Level_idx += 1
                 self.move_everything(-20,0)
                 self.move_lenght -= 20

@@ -75,11 +75,16 @@ class Player(arcade.Sprite):
         self.Sword = Sword()
 
         self.MOVEMENT_SPEED = 6
+        self.hp = 100
 
     def update(self):
         #Færa spilara
         self.center_x += self.change_x
         self.center_y += self.change_y
+
+        #drepa leikmann ef líf er undir 0
+        if self.hp < 0:
+            self.kill()
 
         #Uppfæra kallinn að labba á hverjum 5-ta frame(fallið búið til að ofan)
         self.update_animation(5)
