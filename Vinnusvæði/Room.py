@@ -75,6 +75,18 @@ def setup_room_1(width, height):
     room.Enemy1.center_x, room.Enemy1.center_y = 1050, 450
     room.enemy_list.append(room.Enemy1)
 
+    room.Enemy2 = Enemy("Images/Enemy/Dungeon_Character.png", image_x=17, image_y=17, image_width=12, image_height=13, scale=5) #óvinur sem eltir player1
+    room.Enemy2.center_x, room.Enemy2.center_y = 750, 450
+    room.enemy_list.append(room.Enemy2)
+
+    room.Enemy3 = Enemy("Images/Enemy/Dungeon_Character.png", image_x=17, image_y=17, image_width=12, image_height=13, scale=6) #óvinur sem eltir player1
+    room.Enemy3.center_x, room.Enemy3.center_y = 450, 450
+    room.enemy_list.append(room.Enemy3)
+
+    room.Enemy4 = Enemy("Images/Enemy/Dungeon_Character.png", image_x=17, image_y=17, image_width=12, image_height=13, scale=8) #óvinur sem eltir player1
+    room.Enemy4.center_x, room.Enemy4.center_y = 250, 450
+    room.enemy_list.append(room.Enemy4)
+
 
     # Búum til gimsteinana
     for i in range(15):
@@ -150,7 +162,7 @@ def setup_room_2(width, height):
     room.background = arcade.load_texture("Images/ModelPack/MakingMap1.png")
 
     #Búum til óvini
-    room.Enemy2 = Enemy("Images/Enemy/Dungeon_Character.png", image_x=17, image_y=17, image_width=12, image_height=13, scale=8) #óvinur sem eltir player1
+    room.Enemy2 = Enemy("Images/Enemy/Dungeon_Character.png", image_x=17, image_y=17, image_width=12, image_height=13, scale=4) #óvinur sem eltir player1
     room.Enemy2.center_x, room.Enemy2.center_y = Shift + 1050, 450
     room.enemy_list.append(room.Enemy2)
 

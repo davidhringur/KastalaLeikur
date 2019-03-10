@@ -206,41 +206,43 @@ class Levels(arcade.Window):
 
     def on_key_press(self, key, modifiers):
         # Kallað er á þetta í hvert sinn sem notandi ýtir á takka
-        if key == arcade.key.LEFT:
-            self.Player1.change_x += -self.Player1.MOVEMENT_SPEED
-            self.LEFT_RIGHT_UP_DOWN_key_is_down[0] = 1
-        elif key == arcade.key.RIGHT:
-            self.Player1.change_x += self.Player1.MOVEMENT_SPEED
-            self.LEFT_RIGHT_UP_DOWN_key_is_down[1] = 1
-        elif key == arcade.key.UP:
-            self.Player1.change_y += self.Player1.MOVEMENT_SPEED
-            self.LEFT_RIGHT_UP_DOWN_key_is_down[2] = 1
-        elif key == arcade.key.DOWN:
-            self.Player1.change_y += -self.Player1.MOVEMENT_SPEED
-            self.LEFT_RIGHT_UP_DOWN_key_is_down[3] = 1
-        if key == arcade.key.SPACE:
-            self.Player1.Sword.sword_gate = 1
-            if self.Player1.face_direction == "up" or self.Player1.face_direction == "left": #setja sverð undir kallinn fyrir þessar áttir
-                self.Player1.kill()
-                self.player_list.append(self.Player1.Sword.SwordSprite)
-                self.player_list.append(self.Player1)
-            else:
-                self.player_list.append(self.Player1.Sword.SwordSprite)
+        if self.Player1.hp >= 0:
+            if key == arcade.key.LEFT:
+                self.Player1.change_x += -self.Player1.MOVEMENT_SPEED
+                self.LEFT_RIGHT_UP_DOWN_key_is_down[0] = 1
+            elif key == arcade.key.RIGHT:
+                self.Player1.change_x += self.Player1.MOVEMENT_SPEED
+                self.LEFT_RIGHT_UP_DOWN_key_is_down[1] = 1
+            elif key == arcade.key.UP:
+                self.Player1.change_y += self.Player1.MOVEMENT_SPEED
+                self.LEFT_RIGHT_UP_DOWN_key_is_down[2] = 1
+            elif key == arcade.key.DOWN:
+                self.Player1.change_y += -self.Player1.MOVEMENT_SPEED
+                self.LEFT_RIGHT_UP_DOWN_key_is_down[3] = 1
+            if key == arcade.key.SPACE:
+                self.Player1.Sword.sword_gate = 1
+                if self.Player1.face_direction == "up" or self.Player1.face_direction == "left": #setja sverð undir kallinn fyrir þessar áttir
+                    self.Player1.kill()
+                    self.player_list.append(self.Player1.Sword.SwordSprite)
+                    self.player_list.append(self.Player1)
+                else:
+                    self.player_list.append(self.Player1.Sword.SwordSprite)
 
     def on_key_release(self, key, modifiers):
         # Kallað er á þetta í hvert sinn sem notandi hættir að ýta á takka
-        if key == arcade.key.LEFT:
-            self.Player1.change_x += self.Player1.MOVEMENT_SPEED
-            self.LEFT_RIGHT_UP_DOWN_key_is_down[0] = 0
-        elif key == arcade.key.RIGHT:
-            self.Player1.change_x += -self.Player1.MOVEMENT_SPEED
-            self.LEFT_RIGHT_UP_DOWN_key_is_down[1] = 0
-        elif key == arcade.key.UP:
-            self.Player1.change_y += -self.Player1.MOVEMENT_SPEED
-            self.LEFT_RIGHT_UP_DOWN_key_is_down[2] = 0
-        elif key == arcade.key.DOWN:
-            self.Player1.change_y += self.Player1.MOVEMENT_SPEED
-            self.LEFT_RIGHT_UP_DOWN_key_is_down[3] = 0
-        elif key == arcade.key.SPACE:
-            self.Player1.Sword.sword_gate = 0
-            self.Player1.Sword.SwordSprite.kill()
+        if self.Player1.hp >= 0:
+            if key == arcade.key.LEFT:
+                self.Player1.change_x += self.Player1.MOVEMENT_SPEED
+                self.LEFT_RIGHT_UP_DOWN_key_is_down[0] = 0
+            elif key == arcade.key.RIGHT:
+                self.Player1.change_x += -self.Player1.MOVEMENT_SPEED
+                self.LEFT_RIGHT_UP_DOWN_key_is_down[1] = 0
+            elif key == arcade.key.UP:
+                self.Player1.change_y += -self.Player1.MOVEMENT_SPEED
+                self.LEFT_RIGHT_UP_DOWN_key_is_down[2] = 0
+            elif key == arcade.key.DOWN:
+                self.Player1.change_y += self.Player1.MOVEMENT_SPEED
+                self.LEFT_RIGHT_UP_DOWN_key_is_down[3] = 0
+            elif key == arcade.key.SPACE:
+                self.Player1.Sword.sword_gate = 0
+                self.Player1.Sword.SwordSprite.kill()
