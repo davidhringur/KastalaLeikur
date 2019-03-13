@@ -46,7 +46,7 @@ class Bow:
         self.update_Bow_animation_frame_counter += 1
         self.update_Bow_animation_counter += 1
 
-        if self.update_Bow_animation_counter == 3:
+        if self.update_Bow_animation_counter == 12:
             self.update_Bow_animation_counter = 0
 
     def hit_enemy(self, enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT):

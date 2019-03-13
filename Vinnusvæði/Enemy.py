@@ -101,13 +101,9 @@ class Enemy(arcade.Sprite):
             self.change_x = 0
 #Vondi kall á eftir að skipta út
         #self.walk_right_textures = arcade.load_textures("Images/Character/p3.png",[[4,63,25,32],[36,63,25,32],[67,63,25,32]], scale = 3)
-        #self.stand_right_textures = arcade.load_textures("Images/Character/p3.png",[[4,63,25,32],[36,63,25,32],[67,63,25,32]], scale = 3)
         #self.walk_left_textures = arcade.load_textures("Images/Character/p3.png",[[4,32,25,32],[36,32,25,32],[67,32,25,32]], scale = 3)
-        #self.stand_left_textures = arcade.load_textures("Images/Character/p3.png",[[4,32,25,32],[36,32,25,32],[67,32,25,32]], scale = 3)
         #self.walk_up_textures = arcade.load_textures("Images/Character/p3.png",[[4,96,25,32],[36,96,25,32],[67,96,25,32]], scale = 3)
-        #self.stand_up_textures = arcade.load_textures("Images/Character/p3.png",[[4,96,25,32],[36,96,25,32],[67,96,25,32]], scale = 3)
         #self.walk_down_textures = arcade.load_textures("Images/Character/p3.png",[[4,0,25,32],[36,0,25,32],[67,0,25,32]], scale = 3)
-        #self.stand_down_textures = arcade.load_textures("Images/Character/p3.png",[[4,0,25,32],[36,0,25,32],[67,0,25,32]], scale = 3)
 '''
     def update(self):
 

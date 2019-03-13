@@ -43,6 +43,8 @@ class Levels(arcade.Window):
         #Fylki sem segir okkur havða takki er niðri
         self.LEFT_RIGHT_UP_DOWN_key_is_down = [0,0,0,0]
 
+
+
     def setup(self):
         # Setjum upp playerinn
         self.Player1 = Player(self.MainMenuOptions,"Images/Character/p1_2.png", scale=2)
@@ -141,8 +143,14 @@ class Levels(arcade.Window):
             self.Player1.Sword.hit_recoil(self.rooms[i].enemy_list, self.Player1.Sword.sword_gate, self.Player1.face_direction, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
 
 
-        if self.Player1.Sword.sword_gate == 1:
+        if self.Player1.Sword.sword_gate == 1 and self.Player1.Sword.update_Sword_animation_counter<4:
+            print(self.Player1.Sword.update_Sword_animation_counter)
             self.Player1.Sword.SwordSwing(self.Player1.center_x, self.Player1.center_y, self.Player1.change_x, self.Player1.change_y, self.Player1.face_direction)
+        elif self.Player1.Sword.update_Sword_animation_counter == 4:
+            self.Player1.Sword.SwordSprite.kill()
+            self.Player1.Sword.sword_gate = 0
+            self.Player1.Sword.update_Sword_animation_counter = 0
+
 
         # Gera lista með öllum sprite-um sem rekast í/ skarast við player
         coins_hit_list = arcade.check_for_collision_with_list(self.Player1, self.rooms[0].coin_list)
@@ -244,5 +252,6 @@ class Levels(arcade.Window):
                 self.Player1.change_y += self.Player1.MOVEMENT_SPEED
                 self.LEFT_RIGHT_UP_DOWN_key_is_down[3] = 0
             elif key == arcade.key.SPACE:
-                self.Player1.Sword.sword_gate = 0
-                self.Player1.Sword.SwordSprite.kill()
+                pass
+                #self.Player1.Sword.sword_gate_que = 1
+                #self.Player1.Sword.SwordSprite.kill()

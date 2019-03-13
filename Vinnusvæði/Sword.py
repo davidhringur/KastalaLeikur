@@ -12,8 +12,9 @@ class Sword:
         self.SwordSprite.width, self.SwordSprite.height = 75, 60
         self.SwordSprite._texture = self.sword_DownRight[0]
         self.update_Sword_animation_counter = 0
-        self.update_Sword_animation_frame_counter = 5
+        self.update_Sword_animation_frame_counter = 0
         self.sword_gate = 0
+        #self.sword_gate_que = 0
 
         #Notað í hit_enemy
         self.hit_frames = 10
@@ -21,7 +22,7 @@ class Sword:
         self.enemys = []
 
     def SwordSwing(self,center_x, center_y, change_x, change_y, face_direction):
-        if self.update_Sword_animation_frame_counter == 5:            #update sverðið breytist á hverjum 5ta frame og byrja strax!
+        if self.update_Sword_animation_frame_counter == 5:            #update sverðið breytist á hverjum 5ta frame
             if change_x > 0 or face_direction == "right":
                 self.SwordSprite._texture = self.sword_DownRight[self.update_Sword_animation_counter]
             elif change_x < 0 or face_direction == "left":
@@ -30,6 +31,8 @@ class Sword:
                 self.SwordSprite._texture = self.sword_UpRight[self.update_Sword_animation_counter]
             elif change_y < 0 or face_direction == "down":
                 self.SwordSprite._texture = self.sword_DownLeft[self.update_Sword_animation_counter]
+            self.update_Sword_animation_counter += 1
+
 
             self.update_Sword_animation_counter == 0
             self.update_Sword_animation_frame_counter = 0
@@ -44,10 +47,9 @@ class Sword:
             self.SwordSprite.center_x, self.SwordSprite.center_y = center_x - 4, center_y - 23
 
         self.update_Sword_animation_frame_counter += 1
-        self.update_Sword_animation_counter += 1
 
-        if self.update_Sword_animation_counter == 3:
-            self.update_Sword_animation_counter = 0
+        #if self.update_Sword_animation_counter == 4:
+        #    self.update_Sword_animation_counter = 0
 
     def hit_enemy(self, enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT):
         hit_list = arcade.check_for_collision_with_list(self.SwordSprite, enemy_sprite_list)
