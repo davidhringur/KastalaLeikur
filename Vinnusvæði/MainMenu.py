@@ -129,4 +129,5 @@ class MainMenu(arcade.Window):
             #Levels(1200, 600, "Highburn Fortress", self.options).switch_to()
             window = Levels(1200, 600, "Highburn Fortress", self.options)
             window.setup()
-            #arcade.window_commands.set_window(window)
+            arcade.window_commands.set_window(self)
+            arcade.window_commands.close_window()

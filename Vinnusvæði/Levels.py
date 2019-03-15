@@ -5,6 +5,7 @@ import os
 import random
 import timeit
 import Room
+from HUD import HP_meter
 
 class Levels(arcade.Window):
 
@@ -43,6 +44,9 @@ class Levels(arcade.Window):
         #Fylki sem segir okkur havða takki er niðri
         self.LEFT_RIGHT_UP_DOWN_key_is_down = [0,0,0,0]
 
+        # Líf leikmanns í síðasta frame
+        self.lastHP = None
+
 
 
     def setup(self):
@@ -62,7 +66,7 @@ class Levels(arcade.Window):
         room1 = Room.setup_room_1(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
         self.rooms.append(room1) #room2 er bætt við þegar leikmaður fer á næsta borð
 
-
+        self.HP_meter = HP_meter()
 
         self.move_lenght = self.SCREEN_WIDTH - 40
         self.move_height = self.SCREEN_HEIGHT - 40
@@ -108,7 +112,10 @@ class Levels(arcade.Window):
             self.rooms[i].fire.draw()
 
         self.player_list.draw()
-        #self.rooms[1].wall_list.draw()
+
+        # Setjum líf inn
+        self.HP_meter.bars.draw()
+
         # Sýna timera
         output = f"Processing time: {self.processing_time:.3f}"
         arcade.draw_text(output, 20, self.SCREEN_HEIGHT - 20, arcade.color.BLACK, 16)
@@ -130,6 +137,7 @@ class Levels(arcade.Window):
     def update(self, delta_time):
         start_time = timeit.default_timer()
 
+        self.lastHP = self.Player1.hp
         self.Player1.update()
         for i in range(self.Level_idx):
             self.rooms[i].enemy_list.update()
@@ -160,6 +168,10 @@ class Levels(arcade.Window):
         for coin in coins_hit_list:
             coin.kill()
             self.coun_counter += 1
+
+        # Uppfærum líf
+        if self.lastHP > self.Player1.hp:
+            self.HP_meter.update(self.Player1)
 
         # Vistum tímann sem þetta tekur
         self.processing_time = timeit.default_timer() - start_time

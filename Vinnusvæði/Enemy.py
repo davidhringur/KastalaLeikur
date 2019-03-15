@@ -23,6 +23,7 @@ class Enemy(arcade.Sprite):
 
         self.hit_frames = 10
         self.hit_frames_counter, self.hit_gate = self.hit_frames, [0,0,0,0] #Hit_gate: left, right, up, down
+        
 
     #Fall sem ræðst á player
     def Attack(self, player):
@@ -30,6 +31,7 @@ class Enemy(arcade.Sprite):
         distY = player.center_y - self.center_y
         sign = lambda x: (1, -1)[x < 0]
         safezoneAdj = 55
+        damage = 5
         #færa sig í átt að spilara (Bara lóðrétt og lárétt)
         if player.hp >= 0:
             try:
@@ -49,7 +51,7 @@ class Enemy(arcade.Sprite):
                     else:
                         self.hit_gate = [0,0,0,0]
                         self.hit_frames_counter = self.hit_frames
-                        player.hp -= 20
+                        player.hp -= damage
                 elif self.change_x > 0 or self.hit_gate == [0,1,0,0]:   #ýtir leikmanni til hægri ef óvinur klessir á hann
                     self.hit_gate = [0,1,0,0]
                     if self.hit_frames_counter > 0:
@@ -59,7 +61,7 @@ class Enemy(arcade.Sprite):
                     else:
                         self.hit_gate = [0,0,0,0]
                         self.hit_frames_counter = self.hit_frames
-                        player.hp -= 20
+                        player.hp -= damage
                 elif self.change_y > 0 or self.hit_gate == [0,0,1,0]:   #ýtir leikmanni upp ef óvinur klessir á hann
                     self.hit_gate = [0,0,1,0]
                     if self.hit_frames_counter > 0:
@@ -69,7 +71,7 @@ class Enemy(arcade.Sprite):
                     else:
                         self.hit_gate = [0,0,0,0]
                         self.hit_frames_counter = self.hit_frames
-                        player.hp -= 20
+                        player.hp -= damage
                 elif self.change_y < 0 or self.hit_gate == [0,0,0,1]:   #ýtir leikmanni niður ef óvinur klessir á hann
                     self.hit_gate = [0,0,0,1]
                     if self.hit_frames_counter > 0:
@@ -79,9 +81,9 @@ class Enemy(arcade.Sprite):
                     else:
                         self.hit_gate = [0,0,0,0]
                         self.hit_frames_counter = self.hit_frames
-                        player.hp -= 20
+                        player.hp -= damage
                 else:
-                    player.hp -= 20
+                    player.hp -= damage
                     self.change_y = 0
                     self.change_x = 0
                     self.center_x -= sign(self.change_x)*4
