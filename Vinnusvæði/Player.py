@@ -1,5 +1,6 @@
 import arcade
 from Sword import Sword
+from Bow import Bow
 
 def update_animation(self, frame):
     self.update_animation_frame_counter += 1
@@ -73,6 +74,7 @@ class Player(arcade.Sprite):
             self.walk_down_textures = arcade.load_textures("Images/Character/p2.png",[[4,0,25,32],[36,0,25,32],[67,0,25,32]], scale = 3)
 
         self.Sword = Sword()
+        self.Bow = Bow()
 
         self.MOVEMENT_SPEED = 6
         self.hp = 100

@@ -21,35 +21,45 @@ class Sword:
         self.hit_frames_counter, self.hit_gate = self.hit_frames, [0,0,0,0] #Hit_gate: left, right, up, down
         self.enemys = []
 
-    def SwordSwing(self,center_x, center_y, change_x, change_y, face_direction):
-        if self.update_Sword_animation_frame_counter == 5:            #update sverðið breytist á hverjum 5ta frame
-            if change_x > 0 or face_direction == "right":
-                self.SwordSprite._texture = self.sword_DownRight[self.update_Sword_animation_counter]
-            elif change_x < 0 or face_direction == "left":
-                self.SwordSprite._texture = self.sword_UpLeft[self.update_Sword_animation_counter]
-            elif change_y > 0 or face_direction == "up":
-                self.SwordSprite._texture = self.sword_UpRight[self.update_Sword_animation_counter]
-            elif change_y < 0 or face_direction == "down":
-                self.SwordSprite._texture = self.sword_DownLeft[self.update_Sword_animation_counter]
-            self.update_Sword_animation_counter += 1
+    def SwordSwing(self, Player1, player_list):
+        if self.sword_gate and self.update_Sword_animation_counter<4:
+            if Player1.face_direction == "up" or Player1.face_direction == "left": #setja sverð undir kallinn fyrir þessar áttir
+                Player1.kill()
+                player_list.append(Player1.Sword.SwordSprite)
+                player_list.append(Player1)
+            else:
+                player_list.append(Player1.Sword.SwordSprite)
+
+            if self.update_Sword_animation_frame_counter == 5:            #update sverðið breytist á hverjum 5ta frame
+                if Player1.change_x > 0 or Player1.face_direction == "right":
+                    self.SwordSprite._texture = self.sword_DownRight[self.update_Sword_animation_counter]
+                elif Player1.change_x < 0 or Player1.face_direction == "left":
+                    self.SwordSprite._texture = self.sword_UpLeft[self.update_Sword_animation_counter]
+                elif Player1.change_y > 0 or Player1.face_direction == "up":
+                    self.SwordSprite._texture = self.sword_UpRight[self.update_Sword_animation_counter]
+                elif Player1.change_y < 0 or Player1.face_direction == "down":
+                    self.SwordSprite._texture = self.sword_DownLeft[self.update_Sword_animation_counter]
+                self.update_Sword_animation_counter += 1
 
 
-            self.update_Sword_animation_counter == 0
-            self.update_Sword_animation_frame_counter = 0
+                self.update_Sword_animation_counter == 0
+                self.update_Sword_animation_frame_counter = 0
 
-        if change_x > 0 or face_direction == "right": #uppfæra hvar sverðið er
-            self.SwordSprite.center_x, self.SwordSprite.center_y = center_x + 20, center_y - 20
-        elif change_x < 0 or face_direction == "left":
-            self.SwordSprite.center_x, self.SwordSprite.center_y = center_x - 10, center_y
-        elif change_y > 0 or face_direction == "up":
-            self.SwordSprite.center_x, self.SwordSprite.center_y = center_x, center_y
-        elif change_y < 0 or face_direction == "down":
-            self.SwordSprite.center_x, self.SwordSprite.center_y = center_x - 4, center_y - 23
+            if Player1.change_x > 0 or Player1.face_direction == "right": #uppfæra hvar sverðið er
+                self.SwordSprite.center_x, self.SwordSprite.center_y = Player1.center_x + 20, Player1.center_y - 20
+            elif Player1.change_x < 0 or Player1.face_direction == "left":
+                self.SwordSprite.center_x, self.SwordSprite.center_y = Player1.center_x - 10, Player1.center_y
+            elif Player1.change_y > 0 or Player1.face_direction == "up":
+                self.SwordSprite.center_x, self.SwordSprite.center_y = Player1.center_x, Player1.center_y
+            elif Player1.change_y < 0 or Player1.face_direction == "down":
+                self.SwordSprite.center_x, self.SwordSprite.center_y = Player1.center_x - 4, Player1.center_y - 23
 
-        self.update_Sword_animation_frame_counter += 1
+            self.update_Sword_animation_frame_counter += 1
 
-        #if self.update_Sword_animation_counter == 4:
-        #    self.update_Sword_animation_counter = 0
+        elif self.update_Sword_animation_counter == 4:
+            self.SwordSprite.kill()
+            self.sword_gate = 0
+            self.update_Sword_animation_counter = 0
 
     def hit_enemy(self, enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT):
         hit_list = arcade.check_for_collision_with_list(self.SwordSprite, enemy_sprite_list)

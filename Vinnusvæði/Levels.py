@@ -142,20 +142,17 @@ class Levels(arcade.Window):
                 self.Player1.Sword.hit_enemy(self.rooms[i].enemy_list, self.Player1.face_direction, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
             self.Player1.Sword.hit_recoil(self.rooms[i].enemy_list, self.Player1.Sword.sword_gate, self.Player1.face_direction, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
 
+        # Sveifla sverði
+        self.Player1.Sword.SwordSwing(self.Player1, self.player_list)
 
-        if self.Player1.Sword.sword_gate == 1 and self.Player1.Sword.update_Sword_animation_counter<4:
-            print(self.Player1.Sword.update_Sword_animation_counter)
-            self.Player1.Sword.SwordSwing(self.Player1.center_x, self.Player1.center_y, self.Player1.change_x, self.Player1.change_y, self.Player1.face_direction)
-        elif self.Player1.Sword.update_Sword_animation_counter == 4:
-            self.Player1.Sword.SwordSprite.kill()
-            self.Player1.Sword.sword_gate = 0
-            self.Player1.Sword.update_Sword_animation_counter = 0
-
+        # Skjóta boga
+        self.Player1.Bow.BowShoot(self.Player1, self.player_list)
 
         # Gera lista með öllum sprite-um sem rekast í/ skarast við player
         coins_hit_list = arcade.check_for_collision_with_list(self.Player1, self.rooms[0].coin_list)
         coins_hit_list.extend(arcade.check_for_collision_with_list(self.Player1.Sword.SwordSprite, self.rooms[0].coin_list))
 
+        # Láta leikmann rekast á veggi o.s.f..
         for engine in self.physics_engine:
             engine.update()
 
@@ -229,12 +226,9 @@ class Levels(arcade.Window):
                 self.LEFT_RIGHT_UP_DOWN_key_is_down[3] = 1
             if key == arcade.key.SPACE:
                 self.Player1.Sword.sword_gate = 1
-                if self.Player1.face_direction == "up" or self.Player1.face_direction == "left": #setja sverð undir kallinn fyrir þessar áttir
-                    self.Player1.kill()
-                    self.player_list.append(self.Player1.Sword.SwordSprite)
-                    self.player_list.append(self.Player1)
-                else:
-                    self.player_list.append(self.Player1.Sword.SwordSprite)
+            if key == arcade.key.Z:
+                self.Player1.Bow.Bow_gate = 1
+
 
     def on_key_release(self, key, modifiers):
         # Kallað er á þetta í hvert sinn sem notandi hættir að ýta á takka

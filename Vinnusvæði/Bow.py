@@ -2,15 +2,15 @@ import arcade
 
 class Bow:
     def __init__(self):
-        self.Bow_DownRight = arcade.load_textures("Images/Weapon/Bow_DownRight.png",[[94,35,25,20],[158,34,25,20],[221,29,25,20],[285,29,25,20]], scale = 12)
-        self.Bow_UpLeft = arcade.load_textures("Images/Weapon/Bow_UpLeft.png",[[73,12,26,32],[138,12,26,32],[202,12,26,32],[266,12,26,32]], scale = 12)
-        self.Bow_UpRight = arcade.load_textures("Images/Weapon/Bow_UpRight.png",[[83,11,35,26],[148,11,35,26],[213,11,35,26],[278,11,35,26]], scale = 14)
-        self.Bow_DownLeft = arcade.load_textures("Images/Weapon/Bow_DownLeft.png",[[74,34,33,23],[137,34,33,23],[201,34,33,23],[266,34,33,23]], scale = 12)
+        self.Bow_Right = arcade.load_textures("Images/Weapon/greatbow.png",[[54,297,47,56],[167,297,47,56],[296,297,44,56],[416,297,47,56],[540,297,47,56],[672,297,47,56],[801,297,47,56],[928,297,47,56],[1058,297,47,56],[1183,297,47,56],[1316,297,47,56],[1439,297,47,56],[1568,297,47,56]], scale = 12)
+        #self.Bow_UpLeft = arcade.load_textures("Images/Weapon/Bow_UpLeft.png",[[73,12,26,32],[138,12,26,32],[202,12,26,32],[266,12,26,32]], scale = 12)
+        #self.Bow_UpRight = arcade.load_textures("Images/Weapon/Bow_UpRight.png",[[83,11,35,26],[148,11,35,26],[213,11,35,26],[278,11,35,26]], scale = 14)
+        #self.Bow_DownLeft = arcade.load_textures("Images/Weapon/Bow_DownLeft.png",[[74,34,33,23],[137,34,33,23],[201,34,33,23],[266,34,33,23]], scale = 12)
 
         #Notað í BowShoot
         self.BowSprite = arcade.Sprite()
         self.BowSprite.width, self.BowSprite.height = 75, 60
-        self.BowSprite._texture = self.Bow_DownRight[0]
+        self.BowSprite._texture = self.Bow_Right[0]
         self.update_Bow_animation_counter = 0
         self.update_Bow_animation_frame_counter = 5
         self.Bow_gate = 0
@@ -20,33 +20,44 @@ class Bow:
         self.hit_frames_counter, self.hit_gate = self.hit_frames, [0,0,0,0] #Hit_gate: left, right, up, down
         self.enemys = []
 
-    def BowShoot(self,center_x, center_y, change_x, change_y, face_direction):
-        if self.update_Bow_animation_frame_counter == 5:            #update sverðið breytist á hverjum 5ta frame og byrja strax!
-            if change_x > 0 or face_direction == "right":
-                self.BowSprite._texture = self.Bow_DownRight[self.update_Bow_animation_counter]
-            elif change_x < 0 or face_direction == "left":
-                self.BowSprite._texture = self.Bow_UpLeft[self.update_Bow_animation_counter]
-            elif change_y > 0 or face_direction == "up":
-                self.BowSprite._texture = self.Bow_UpRight[self.update_Bow_animation_counter]
-            elif change_y < 0 or face_direction == "down":
-                self.BowSprite._texture = self.Bow_DownLeft[self.update_Bow_animation_counter]
+    def BowShoot(self, Player1, player_list):
+        if self.Bow_gate and self.update_Bow_animation_counter<13:
+            if Player1.face_direction == "up" or Player1.face_direction == "left": #setja sverð undir kallinn fyrir þessar áttir
+                Player1.kill()
+                player_list.append(Player1.Bow.BowSprite)
+                player_list.append(Player1)
+            else:
+                player_list.append(Player1.Bow.BowSprite)
 
-            self.update_Bow_animation_counter == 0
-            self.update_Bow_animation_frame_counter = 0
+            if self.update_Bow_animation_frame_counter == 5:            #update sverðið breytist á hverjum 5ta frame
+                if Player1.change_x > 0 or Player1.face_direction == "right":
+                    self.BowSprite._texture = self.Bow_Right[self.update_Bow_animation_counter]
+            #    elif Player1.change_x < 0 or Player1.face_direction == "left":
+            #        self.BowSprite._texture = self.Bow_UpLeft[self.update_Bow_animation_counter]
+            #    elif Player1.change_y > 0 or Player1.face_direction == "up":
+            #        self.BowSprite._texture = self.Bow_UpRight[self.update_Bow_animation_counter]
+            #    elif Player1.change_y < 0 or Player1.face_direction == "down":
+            #        self.BowSprite._texture = self.Bow_DownLeft[self.update_Bow_animation_counter]
+                self.update_Bow_animation_counter += 1
 
-        if change_x > 0 or face_direction == "right": #uppfæra hvar sverðið er
-            self.BowSprite.center_x, self.BowSprite.center_y = center_x + 20, center_y - 20
-        elif change_x < 0 or face_direction == "left":
-            self.BowSprite.center_x, self.BowSprite.center_y = center_x - 10, center_y
-        elif change_y > 0 or face_direction == "up":
-            self.BowSprite.center_x, self.BowSprite.center_y = center_x, center_y
-        elif change_y < 0 or face_direction == "down":
-            self.BowSprite.center_x, self.BowSprite.center_y = center_x - 4, center_y - 23
 
-        self.update_Bow_animation_frame_counter += 1
-        self.update_Bow_animation_counter += 1
+                self.update_Bow_animation_counter == 0
+                self.update_Bow_animation_frame_counter = 0
 
-        if self.update_Bow_animation_counter == 12:
+            if Player1.change_x > 0 or Player1.face_direction == "right": #uppfæra hvar sverðið er
+                self.BowSprite.center_x, self.BowSprite.center_y = Player1.center_x, Player1.center_y -15
+            #elif Player1.change_x < 0 or Player1.face_direction == "left":
+            #    self.BowSprite.center_x, self.BowSprite.center_y = Player1.center_x - 10, Player1.center_y
+            #elif Player1.change_y > 0 or Player1.face_direction == "up":
+            #    self.BowSprite.center_x, self.BowSprite.center_y = Player1.center_x, Player1.center_y
+            #elif Player1.change_y < 0 or Player1.face_direction == "down":
+            #    self.BowSprite.center_x, self.BowSprite.center_y = Player1.center_x - 4, Player1.center_y - 23
+
+            self.update_Bow_animation_frame_counter += 1
+
+        elif self.update_Bow_animation_counter == 13:
+            self.BowSprite.kill()
+            self.Bow_gate = 0
             self.update_Bow_animation_counter = 0
 
     def hit_enemy(self, enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT):
