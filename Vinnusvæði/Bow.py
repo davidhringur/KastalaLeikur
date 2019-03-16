@@ -21,7 +21,11 @@ class Bow:
         self.enemys = []
 
     def BowShoot(self, Player1, player_list):
-        if self.Bow_gate and self.update_Bow_animation_counter<13:
+        if self.update_Bow_animation_counter == 13:
+            self.BowSprite.kill()
+            self.Bow_gate = 0
+            self.update_Bow_animation_counter = -1
+        elif self.Bow_gate and self.update_Bow_animation_counter<13:
             if Player1.face_direction == "up" or Player1.face_direction == "left": #setja sverð undir kallinn fyrir þessar áttir
                 Player1.kill()
                 player_list.append(Player1.Bow.BowSprite)
@@ -41,7 +45,7 @@ class Bow:
                 self.update_Bow_animation_counter += 1
 
 
-                self.update_Bow_animation_counter == 0
+                #self.update_Bow_animation_counter == 0
                 self.update_Bow_animation_frame_counter = 0
 
             if Player1.change_x > 0 or Player1.face_direction == "right": #uppfæra hvar sverðið er
@@ -55,10 +59,7 @@ class Bow:
 
             self.update_Bow_animation_frame_counter += 1
 
-        elif self.update_Bow_animation_counter == 13:
-            self.BowSprite.kill()
-            self.Bow_gate = 0
-            self.update_Bow_animation_counter = 0
+
 
     def hit_enemy(self, enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT):
         hit_list = arcade.check_for_collision_with_list(self.BowSprite, enemy_sprite_list)

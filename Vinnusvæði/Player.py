@@ -22,7 +22,7 @@ def update_animation(self, frame):
             self.face_direction = "down"
 
         if self.update_animation_counter == 2:
-            self.update_animation_counter = 0
+            self.update_animation_counter = -1
 
     if  self.change_x == 0 and self.change_y == 0:
         if self.face_direction == "right":

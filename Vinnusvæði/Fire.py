@@ -17,7 +17,7 @@ class Fire(arcade.Sprite):
 
         self.lever_count = 0
         self.fire_textures = arcade.load_textures("Images/ModelPack/DungeonStarter.png",
-            [[50,177,12,15],[82,161,12,13],[82,177,12,13],[82,193,12,13],[82,209,12,13]])
+            [[50,177,12,13],[82,161,12,13],[82,177,12,13],[82,193,12,13],[82,209,12,13]])
 
         self.update_animation_frame_counter = 0
         self.update_animation_counter = 1

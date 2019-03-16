@@ -21,8 +21,9 @@ class Sword:
         self.hit_frames_counter, self.hit_gate = self.hit_frames, [0,0,0,0] #Hit_gate: left, right, up, down
         self.enemys = []
 
-    def SwordSwing(self, Player1, player_list):
+    def SwordSwing(self, Player1, player_list, frame):
         if self.sword_gate and self.update_Sword_animation_counter<4:
+
             if Player1.face_direction == "up" or Player1.face_direction == "left": #setja sverð undir kallinn fyrir þessar áttir
                 Player1.kill()
                 player_list.append(Player1.Sword.SwordSprite)
@@ -30,7 +31,8 @@ class Sword:
             else:
                 player_list.append(Player1.Sword.SwordSprite)
 
-            if self.update_Sword_animation_frame_counter == 5:            #update sverðið breytist á hverjum 5ta frame
+            if self.update_Sword_animation_frame_counter == frame or self.update_Sword_animation_counter == 0:            #update sverðið breytist á hverjum 5ta frame
+
                 if Player1.change_x > 0 or Player1.face_direction == "right":
                     self.SwordSprite._texture = self.sword_DownRight[self.update_Sword_animation_counter]
                 elif Player1.change_x < 0 or Player1.face_direction == "left":
@@ -39,10 +41,11 @@ class Sword:
                     self.SwordSprite._texture = self.sword_UpRight[self.update_Sword_animation_counter]
                 elif Player1.change_y < 0 or Player1.face_direction == "down":
                     self.SwordSprite._texture = self.sword_DownLeft[self.update_Sword_animation_counter]
+
+
                 self.update_Sword_animation_counter += 1
 
-
-                self.update_Sword_animation_counter == 0
+                #self.update_Sword_animation_counter == 0
                 self.update_Sword_animation_frame_counter = 0
 
             if Player1.change_x > 0 or Player1.face_direction == "right": #uppfæra hvar sverðið er
@@ -64,7 +67,7 @@ class Sword:
     def hit_enemy(self, enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT):
         hit_list = arcade.check_for_collision_with_list(self.SwordSprite, enemy_sprite_list)
         enemys = []
-        if hit_list:
+        if hit_list and self.sword_gate == 1:
 
             for enemy in hit_list:
                 enemys.append(enemy)

@@ -151,7 +151,7 @@ class Levels(arcade.Window):
             self.Player1.Sword.hit_recoil(self.rooms[i].enemy_list, self.Player1.Sword.sword_gate, self.Player1.face_direction, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
 
         # Sveifla sverði
-        self.Player1.Sword.SwordSwing(self.Player1, self.player_list)
+        self.Player1.Sword.SwordSwing(self.Player1, self.player_list, 5)
 
         # Skjóta boga
         self.Player1.Bow.BowShoot(self.Player1, self.player_list)

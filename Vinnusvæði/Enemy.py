@@ -4,7 +4,6 @@ SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 600
 
 class Enemy(arcade.Sprite):
-
     def __init__(self,
                  filename: str=None,
                  scale: float=1,
@@ -23,7 +22,15 @@ class Enemy(arcade.Sprite):
 
         self.hit_frames = 10
         self.hit_frames_counter, self.hit_gate = self.hit_frames, [0,0,0,0] #Hit_gate: left, right, up, down
-        
+        self.walk_right_textures = arcade.load_textures("Images/Enemy/p3.png",[[3,65,24,31],[35,65,24,31],[67,65,24,31]], scale = 1)
+        self.walk_left_textures = arcade.load_textures("Images/Enemy/p3.png",[[5,33,24,31],[37,33,24,31],[69,33,24,31]], scale = 1)
+        self.walk_up_textures = arcade.load_textures("Images/Enemy/p3.png",[[1,97,31,31],[33,97,31,31],[65,97,31,31]], scale = 1)
+        self.walk_down_textures = arcade.load_textures("Images/Enemy/p3.png",[[1,1,31,31],[33,1,31,32],[65,1,31,31]], scale = 1)
+        self.update_animation_counter = 0
+        self.update_animation_frame_counter = 0
+
+
+
 
     #Fall sem ræðst á player
     def Attack(self, player):
@@ -42,6 +49,7 @@ class Enemy(arcade.Sprite):
                     else:
                         self.change_x = 0
                         self.change_y = sign(distY) * self.MOVEMENT_SPEED
+
                 elif self.change_x < 0 or self.hit_gate == [1,0,0,0]:  #ýtir leikmanni til vinstri ef óvinur klessir á hann
                     self.hit_gate = [1,0,0,0]
                     if self.hit_frames_counter > 0:
@@ -101,28 +109,44 @@ class Enemy(arcade.Sprite):
         else:
             self.change_y = 0
             self.change_x = 0
-#Vondi kall á eftir að skipta út
-        #self.walk_right_textures = arcade.load_textures("Images/Character/p3.png",[[4,63,25,32],[36,63,25,32],[67,63,25,32]], scale = 3)
-        #self.walk_left_textures = arcade.load_textures("Images/Character/p3.png",[[4,32,25,32],[36,32,25,32],[67,32,25,32]], scale = 3)
-        #self.walk_up_textures = arcade.load_textures("Images/Character/p3.png",[[4,96,25,32],[36,96,25,32],[67,96,25,32]], scale = 3)
-        #self.walk_down_textures = arcade.load_textures("Images/Character/p3.png",[[4,0,25,32],[36,0,25,32],[67,0,25,32]], scale = 3)
-'''
-    def update(self):
 
-        # Move the Player
+    def update_animation(self, frame):
+
+        self.update_animation_frame_counter += 1
+        if frame == self.update_animation_frame_counter:
+            self.update_animation_frame_counter = 0
+            self.update_animation_counter += 1
+
+            if  self.change_x > 0:
+                self._texture = self.walk_right_textures[self.update_animation_counter]
+                self.face_direction = "right"
+            elif  self.change_x < 0:
+                self._texture = self.walk_left_textures[self.update_animation_counter]
+                self.face_direction = "left"
+            elif  self.change_y > 0:
+                self._texture = self.walk_up_textures[self.update_animation_counter]
+                self.face_direction = "up"
+            elif  self.change_y < 0:
+                self._texture = self.walk_down_textures[self.update_animation_counter]
+                self.face_direction = "down"
+
+            if self.update_animation_counter == 2:
+                self.update_animation_counter = -1
+
+
+        if  self.change_x == 0 and self.change_y == 0:
+            if self.face_direction == "right":
+                self._texture = self.walk_right_textures[0]
+            if self.face_direction == "left":
+                self._texture = self.walk_left_textures[0]
+            if self.face_direction == "up":
+                self._texture = self.walk_up_textures[0]
+            if self.face_direction == "down":
+                self._texture = self.walk_down_textures[0]
+
+    def update(self):
+        #Færa óvin
         self.center_x += self.change_x
         self.center_y += self.change_y
 
-        # See if the Player hit the edge of the screen. If so, change direction
-        if self.center_x < 0:
-            self.center_x = 0
-
-        if self.center_x > SCREEN_WIDTH - 0:
-            self.center_x = SCREEN_WIDTH - 0
-
-        if self.center_y < 0:
-            self.center_y = 0
-
-        if self.center_y > SCREEN_HEIGHT - 0:
-            self.center_y = SCREEN_HEIGHT -0
-'''
+        self.update_animation(10)
