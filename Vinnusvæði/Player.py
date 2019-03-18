@@ -66,12 +66,15 @@ class Player(arcade.Sprite):
             self.walk_left_textures = arcade.load_textures("Images/Character/p1.png",[[4,32,25,32],[36,32,25,32],[67,32,25,32]], scale = 3)
             self.walk_up_textures = arcade.load_textures("Images/Character/p1.png",[[4,96,25,32],[36,96,25,32],[67,96,25,32]], scale = 3)
             self.walk_down_textures = arcade.load_textures("Images/Character/p1.png",[[4,0,25,32],[36,0,25,32],[67,0,25,32]], scale = 3)
+            self.take_damage_Left_right_up_down = arcade.load_textures("Images/Character/p11.png",[[4,32,25,32],[4,63,25,32],[4,96,25,32],[4,0,25,32]], scale = 3)
         #Leikmaður 2
         elif MenuOptions == [[0,1]]:
             self.walk_right_textures = arcade.load_textures("Images/Character/p2.png",[[4,63,25,32],[36,63,25,32],[67,63,25,32]], scale = 3)
             self.walk_left_textures = arcade.load_textures("Images/Character/p2.png",[[4,32,25,32],[36,32,25,32],[67,32,25,32]], scale = 3)
             self.walk_up_textures = arcade.load_textures("Images/Character/p2.png",[[4,96,25,32],[36,96,25,32],[67,96,25,32]], scale = 3)
             self.walk_down_textures = arcade.load_textures("Images/Character/p2.png",[[4,0,25,32],[36,0,25,32],[67,0,25,32]], scale = 3)
+            self.take_damage_Left_right_up_down = arcade.load_textures("Images/Character/p22.png",[[4,32,25,32],[4,63,25,32],[4,96,25,32],[4,0,25,32]], scale = 3)
+        #Leikmaður 2
 
         self.Sword = Sword()
         self.Bow = Bow()
