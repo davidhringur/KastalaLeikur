@@ -89,6 +89,7 @@ class Sword:
                     self.hit_gate = [1,0,0,0]
                     if self.hit_frames_counter > 0:
                         self.hit_frames_counter -= 1
+                        enemy._texture = enemy.take_damage_Left_right_up_down[0]
                         if enemy.bottom > safezoneAdj and enemy.top < SCREEN_HEIGHT-safezoneAdj and enemy.left > safezoneAdj and enemy.right < SCREEN_WIDTH-safezoneAdj:
                             enemy.center_x -= 10
                     else:
@@ -99,6 +100,7 @@ class Sword:
                     self.hit_gate = [0,1,0,0]
                     if self.hit_frames_counter > 0:
                         self.hit_frames_counter -= 1
+                        enemy._texture = enemy.take_damage_Left_right_up_down[1]
                         if enemy.bottom > safezoneAdj and enemy.top < SCREEN_HEIGHT-safezoneAdj and enemy.left > safezoneAdj and enemy.right < SCREEN_WIDTH-safezoneAdj:
                             enemy.center_x -= -10
                             enemy.change_x = 0
@@ -110,6 +112,7 @@ class Sword:
                     self.hit_gate = [0,0,1,0]
                     if self.hit_frames_counter > 0:
                         self.hit_frames_counter -= 1
+                        enemy._texture = enemy.take_damage_Left_right_up_down[2]
                         if enemy.bottom > safezoneAdj and enemy.top < SCREEN_HEIGHT-safezoneAdj and enemy.left > safezoneAdj and enemy.right < SCREEN_WIDTH-safezoneAdj:
                             enemy.center_y -= -10
                     else:
@@ -120,6 +123,7 @@ class Sword:
                     self.hit_gate = [0,0,0,1]
                     if self.hit_frames_counter > 0:
                         self.hit_frames_counter -= 1
+                        enemy._texture = enemy.take_damage_Left_right_up_down[3]
                         if enemy.bottom > safezoneAdj and enemy.top < SCREEN_HEIGHT-safezoneAdj and enemy.left > safezoneAdj and enemy.right < SCREEN_WIDTH-safezoneAdj:
                             enemy.center_y -= 10
                     else:

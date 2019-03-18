@@ -26,6 +26,8 @@ class Enemy(arcade.Sprite):
         self.walk_left_textures = arcade.load_textures("Images/Enemy/p3.png",[[5,33,24,31],[37,33,24,31],[69,33,24,31]], scale = 1)
         self.walk_up_textures = arcade.load_textures("Images/Enemy/p3.png",[[1,97,31,31],[33,97,31,31],[65,97,31,31]], scale = 1)
         self.walk_down_textures = arcade.load_textures("Images/Enemy/p3.png",[[1,1,31,31],[33,1,31,32],[65,1,31,31]], scale = 1)
+        self.take_damage_Left_right_up_down = arcade.load_textures("Images/Enemy/p33.png",[[3,65,24,31],[5,33,24,31],[1,97,31,31],[1,1,31,31]], scale = 1)
+
         self.update_animation_counter = 0
         self.update_animation_frame_counter = 0
 
@@ -54,6 +56,7 @@ class Enemy(arcade.Sprite):
                     self.hit_gate = [1,0,0,0]
                     if self.hit_frames_counter > 0:
                         self.hit_frames_counter -= 1
+                        player._texture = player.take_damage_Left_right_up_down[1]
                         if player.bottom > safezoneAdj and player.top < SCREEN_HEIGHT-safezoneAdj and player.left > safezoneAdj and player.right < SCREEN_WIDTH-safezoneAdj:
                             player.center_x -= 10 + player.change_x
                     else:
@@ -64,6 +67,7 @@ class Enemy(arcade.Sprite):
                     self.hit_gate = [0,1,0,0]
                     if self.hit_frames_counter > 0:
                         self.hit_frames_counter -= 1
+                        player._texture = player.take_damage_Left_right_up_down[0]
                         if player.bottom > safezoneAdj and player.top < SCREEN_HEIGHT-safezoneAdj and player.left > safezoneAdj and player.right < SCREEN_WIDTH-safezoneAdj:
                             player.center_x -= -10 + player.change_x
                     else:
@@ -74,6 +78,7 @@ class Enemy(arcade.Sprite):
                     self.hit_gate = [0,0,1,0]
                     if self.hit_frames_counter > 0:
                         self.hit_frames_counter -= 1
+                        player._texture = player.take_damage_Left_right_up_down[3]
                         if player.bottom > safezoneAdj and player.top < SCREEN_HEIGHT-safezoneAdj and player.left > safezoneAdj and player.right < SCREEN_WIDTH-safezoneAdj:
                             player.center_y -= -10 + player.change_y
                     else:
@@ -84,6 +89,7 @@ class Enemy(arcade.Sprite):
                     self.hit_gate = [0,0,0,1]
                     if self.hit_frames_counter > 0:
                         self.hit_frames_counter -= 1
+                        player._texture = player.take_damage_Left_right_up_down[2]
                         if player.bottom > safezoneAdj and player.top < SCREEN_HEIGHT-safezoneAdj and player.left > safezoneAdj and player.right < SCREEN_WIDTH-safezoneAdj:
                             player.center_y -= 10 + player.change_y
                     else:
