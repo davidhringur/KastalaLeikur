@@ -7,7 +7,7 @@ class Bow:
         #self.Bow_UpRight = arcade.load_textures("Images/Weapon/Bow_UpRight.png",[[83,11,35,26],[148,11,35,26],[213,11,35,26],[278,11,35,26]], scale = 14)
         #self.Bow_DownLeft = arcade.load_textures("Images/Weapon/Bow_DownLeft.png",[[74,34,33,23],[137,34,33,23],[201,34,33,23],[266,34,33,23]], scale = 12)
 
-        self.Arrow = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", 3, image_x=150, image_y=229, image_width=36, image_height=18)
+        self.Arrow = arcade.Sprite("Images/Weapon/WEAPON_arrow.png", 3, image_x=150, image_y=229, image_width=36, image_height=18)
 
         #Notað í BowShoot
         self.BowSprite = arcade.Sprite()
@@ -66,10 +66,14 @@ class Bow:
 
             self.update_Bow_animation_frame_counter += 1
 
-    def Arrow_go(self):
+    def Arrow_go(self, face_direction):
         if self.update_Bow_animation_counter == 10 or self.Arrow_gate:
+            self.Arrow_gate = 1
+            self.update_Arrow_animation_frame_counter += 1
 
-        pass
+
+        else:
+            self.Arrow.center_x, self.Arrow.center_y = self.BowSprite.center_x, self.BowSprite.center_y
 
     def hit_enemy(self, enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT):
         hit_list = arcade.check_for_collision_with_list(self.BowSprite, enemy_sprite_list)
