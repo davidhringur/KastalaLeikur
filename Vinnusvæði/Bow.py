@@ -31,7 +31,7 @@ class Bow:
         if self.update_Bow_animation_counter == 13:
             self.BowSprite.kill()
             self.Bow_gate = 0
-            self.update_Bow_animation_counter = -1
+            self.update_Bow_animation_counter = 0
         elif self.Bow_gate and self.update_Bow_animation_counter<13:
             if Player1.face_direction == "up" or Player1.face_direction == "left": #setja sverð undir kallinn fyrir þessar áttir
                 Player1.kill()
@@ -40,7 +40,7 @@ class Bow:
             else:
                 player_list.append(Player1.Bow.BowSprite)
 
-            if self.update_Bow_animation_frame_counter == 5:            #update sverðið breytist á hverjum 5ta frame
+            if self.update_Bow_animation_frame_counter == 5 or self.update_Bow_animation_counter == 0:  #update sverðið breytist á hverjum 5ta frame
                 if Player1.change_x > 0 or Player1.face_direction == "right":
                     self.BowSprite._texture = self.Bow_Right[self.update_Bow_animation_counter]
             #    elif Player1.change_x < 0 or Player1.face_direction == "left":
