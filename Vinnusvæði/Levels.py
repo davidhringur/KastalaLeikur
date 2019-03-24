@@ -148,7 +148,10 @@ class Levels(arcade.Window):
             self.rooms[i].prop_list.update()
             if self.Player1.Sword.sword_gate == 1:
                 self.Player1.Sword.hit_enemy(self.rooms[i].enemy_list, self.Player1.face_direction, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
-            self.Player1.Sword.hit_recoil(self.rooms[i].enemy_list, self.Player1.Sword.sword_gate, self.Player1.face_direction, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+
+            if self.Player1.Bow.Bow_gate == 1:
+                self.Player1.Bow.hit_enemy(self.rooms[i].enemy_list, self.Player1.face_direction, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+
 
         # Sveifla sverði
         self.Player1.Sword.SwordSwing(self.Player1, self.player_list, 5)

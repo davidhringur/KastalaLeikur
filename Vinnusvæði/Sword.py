@@ -76,8 +76,10 @@ class Sword:
                 if enemy.hp <= 0:
                     enemy.kill()
 
-    def hit_recoil(self, enemy_sprite_list, sword_gate, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT):
-        if sword_gate:
+        self.hit_recoil(enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT)
+
+    def hit_recoil(self, enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT):
+        if self.sword_gate:
             hit_list = arcade.check_for_collision_with_list(self.SwordSprite, enemy_sprite_list)
             if hit_list:
                 self.enemys = hit_list

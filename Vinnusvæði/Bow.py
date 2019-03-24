@@ -7,7 +7,7 @@ class Bow:
         #self.Bow_UpRight = arcade.load_textures("Images/Weapon/Bow_UpRight.png",[[83,11,35,26],[148,11,35,26],[213,11,35,26],[278,11,35,26]], scale = 14)
         #self.Bow_DownLeft = arcade.load_textures("Images/Weapon/Bow_DownLeft.png",[[74,34,33,23],[137,34,33,23],[201,34,33,23],[266,34,33,23]], scale = 12)
 
-        self.Arrow = arcade.Sprite("Images/Weapon/WEAPON_arrow.png", 3, image_x=150, image_y=229, image_width=36, image_height=18)
+        self.Arrow = arcade.Sprite("Images/Weapon/WEAPON_arrow.png", 2, image_x=150, image_y=229, image_width=36, image_height=18)
 
         #Notað í BowShoot
         self.BowSprite = arcade.Sprite()
@@ -44,7 +44,7 @@ class Bow:
                 if Player1.change_x > 0 or Player1.face_direction == "right":
                     self.BowSprite._texture = self.Bow_Right[self.update_Bow_animation_counter]
             #    elif Player1.change_x < 0 or Player1.face_direction == "left":
-            #        self.BowSprite._texture = self.Bow_UpLeft[self.update_Bow_animation_counter]
+            #        sArrow_go(elf.BowSprite._texture = self.Bow_UpLeft[self.update_Bow_animation_counter]
             #    elif Player1.change_y > 0 or Player1.face_direction == "up":
             #        self.BowSprite._texture = self.Bow_UpRight[self.update_Bow_animation_counter]
             #    elif Player1.change_y < 0 or Player1.face_direction == "down":
@@ -66,17 +66,35 @@ class Bow:
 
             self.update_Bow_animation_frame_counter += 1
 
-    def Arrow_go(self, face_direction):
+#            self.Arrow_go(Player1.face_direction)
+
+    #def Arrow_go(self, face_direction):
         if self.update_Bow_animation_counter == 10 or self.Arrow_gate:
-            self.Arrow_gate = 1
+            if self.update_Arrow_animation_frame_counter == 0:
+                player_list.append(self.Arrow)
+                self.Arrow_gate = 1
+                if Player1.face_direction == "right":
+                    self.Arrow.change_x = 20
+                elif Player1.face_direction == "left":
+                    self.Arrow.change_x = -20
+                elif Player1.face_direction == "up":
+                    self.Arrow.change_y = 20
+                elif Player1.face_direction == "down":
+                    self.Arrow.change_y = -20
+
             self.update_Arrow_animation_frame_counter += 1
 
-
+            self.Arrow.update()
+            if self.update_Arrow_animation_frame_counter == 55:
+                self.Arrow_gate = 0
+                self.Arrow.change_x, self.Arrow.change_y = 0, 0
         else:
             self.Arrow.center_x, self.Arrow.center_y = self.BowSprite.center_x, self.BowSprite.center_y
+            self.Arrow.kill()
+            self.update_Arrow_animation_frame_counter = 0
 
     def hit_enemy(self, enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT):
-        hit_list = arcade.check_for_collision_with_list(self.BowSprite, enemy_sprite_list)
+        hit_list = arcade.check_for_collision_with_list(self.Arrow, enemy_sprite_list)
         enemys = []
         if hit_list:
 
@@ -87,10 +105,14 @@ class Bow:
                 if enemy.hp <= 0:
                     enemy.kill()
 
-    def hit_recoil(self, enemy_sprite_list, Bow_gate, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT):
-        if Bow_gate:
-            hit_list = arcade.check_for_collision_with_list(self.BowSprite, enemy_sprite_list)
+        self.hit_recoil(enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT)
+
+    def hit_recoil(self, enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT):
+        if self.Bow_gate:
+            hit_list = arcade.check_for_collision_with_list(self.Arrow, enemy_sprite_list)
             if hit_list:
+                self.Arrow.kill()
+                self.Arrow_gate = 0
                 self.enemys = hit_list
 
         safezoneAdj = 50
@@ -100,6 +122,7 @@ class Bow:
                     self.hit_gate = [1,0,0,0]
                     if self.hit_frames_counter > 0:
                         self.hit_frames_counter -= 1
+                        enemy._texture = enemy.take_damage_Left_right_up_down[0]
                         if enemy.bottom > safezoneAdj and enemy.top < SCREEN_HEIGHT-safezoneAdj and enemy.left > safezoneAdj and enemy.right < SCREEN_WIDTH-safezoneAdj:
                             enemy.center_x -= 10
                     else:
@@ -110,6 +133,7 @@ class Bow:
                     self.hit_gate = [0,1,0,0]
                     if self.hit_frames_counter > 0:
                         self.hit_frames_counter -= 1
+                        enemy._texture = enemy.take_damage_Left_right_up_down[1]
                         if enemy.bottom > safezoneAdj and enemy.top < SCREEN_HEIGHT-safezoneAdj and enemy.left > safezoneAdj and enemy.right < SCREEN_WIDTH-safezoneAdj:
                             enemy.center_x -= -10
                             enemy.change_x = 0
@@ -121,6 +145,7 @@ class Bow:
                     self.hit_gate = [0,0,1,0]
                     if self.hit_frames_counter > 0:
                         self.hit_frames_counter -= 1
+                        enemy._texture = enemy.take_damage_Left_right_up_down[2]
                         if enemy.bottom > safezoneAdj and enemy.top < SCREEN_HEIGHT-safezoneAdj and enemy.left > safezoneAdj and enemy.right < SCREEN_WIDTH-safezoneAdj:
                             enemy.center_y -= -10
                     else:
@@ -131,6 +156,7 @@ class Bow:
                     self.hit_gate = [0,0,0,1]
                     if self.hit_frames_counter > 0:
                         self.hit_frames_counter -= 1
+                        enemy._texture = enemy.take_damage_Left_right_up_down[3]
                         if enemy.bottom > safezoneAdj and enemy.top < SCREEN_HEIGHT-safezoneAdj and enemy.left > safezoneAdj and enemy.right < SCREEN_WIDTH-safezoneAdj:
                             enemy.center_y -= 10
                     else:
