@@ -98,6 +98,15 @@ class MainMenu(arcade.Window):
             self.p4.draw()
             i = 0
 
+        print(self.options)
+
+        #arcade.draw_texture_rectangle(self.SCREEN_WIDTH // 4, self.SCREEN_HEIGHT // 5,
+        #                      self.SCREEN_WIDTH//13, self.SCREEN_HEIGHT//10, arcade.load_texture("Images/Character/p1_2.png"))
+
+        #Leikmaður 2
+        #arcade.draw_texture_rectangle(self.SCREEN_WIDTH // 1.3333, self.SCREEN_HEIGHT // 5,
+        #                      self.SCREEN_WIDTH//13, self.SCREEN_HEIGHT//10, arcade.load_texture("Images/Character/p2_2.png"))
+
         #Highburn
         arcade.draw_texture_rectangle(self.SCREEN_WIDTH // 2, self.SCREEN_HEIGHT // 1.2,
                               self.SCREEN_WIDTH//3, self.SCREEN_HEIGHT//10, arcade.load_texture("Images/Main/Highburn.png"))
@@ -129,8 +138,7 @@ class MainMenu(arcade.Window):
     def update(self, delta_time):
         for i, list in enumerate(self.options):
             for j in (0,1,2,3):
-                self.options[0][j] = 0
-                print(i,j)
+                self.options[i][j] = 0
         self.options[self.current_option_y][self.current_option_x] = 1
 
 
