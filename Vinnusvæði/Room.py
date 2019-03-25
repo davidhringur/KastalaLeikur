@@ -18,6 +18,7 @@ class Room:
         self.prop_list = None
         self.pillars = None
         self.fire = None
+        self.door = None
 
         # Bakgrunnsmynd
         self.background = None
@@ -39,6 +40,7 @@ def setup_room_1(width, height):
     room.prop_list = arcade.SpriteList()
     room.pillars = arcade.SpriteList()
     room.fire = arcade.SpriteList()
+    room.door = arcade.SpriteList()
 
     # Búum til efri og neðri línu af útlínum borðsins
     for y in (0, SCREEN_HEIGHT - SPRITE_SIZE):
@@ -60,6 +62,12 @@ def setup_room_1(width, height):
                 wall.left = x
                 wall.bottom = y
                 room.wall_list.append(wall)
+            else:
+                wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=32)
+                wall.left = x
+                wall.bottom = y
+                room.door.append(wall)
+
 
     # Setjum mynd á sprite-ið fyrir boxin/kassana
     #wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=34)
@@ -126,6 +134,7 @@ def setup_room_2(width, height):
     room.coin_list = arcade.SpriteList()
     room.prop_list = arcade.SpriteList()
     room.pillars = arcade.SpriteList()
+    room.door = arcade.SpriteList()
 
 
     # Búum til efri og neðri línu af útlínum borðsins
@@ -139,6 +148,12 @@ def setup_room_2(width, height):
                 wall.left = x
                 wall.bottom = y
                 room.wall_list.append(wall)
+            else:
+                wall = arcade.Sprite("Images/ModelPack/Dungeon_Tileset.png", SPRITE_SCALING, image_x=0, image_y=47, image_width=32, image_height=32)
+                wall.left = x
+                wall.bottom = y
+                room.door.append(wall)
+
 
     # Búum til vinstri línuna af borðinu
     x = (Shift + SCREEN_WIDTH - SPRITE_SIZE)

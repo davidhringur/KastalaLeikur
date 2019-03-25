@@ -143,7 +143,7 @@ class MainMenu(arcade.Window):
             if self.current_option_x >0:
                 self.current_option_x -= 1
         elif key == arcade.key.RIGHT:
-            if self.current_option_x < len(self.options[self.current_option_y]):
+            if self.current_option_x < len(self.options[self.current_option_y])-1:
                 self.current_option_x += 1
         elif key == arcade.key.UP:
             pass

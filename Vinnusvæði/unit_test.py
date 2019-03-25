@@ -3,11 +3,11 @@ import main
 import MainMenu
 import Levels
 
-class TestStringMethods(unittest.TestCase):
+class TestGame(unittest.TestCase):
 
     def setUp(self):
         self.mainMenu = MainMenu.MainMenu(1200, 600, "Main Menu")
-        self.window = Levels.Levels(1200, 600, "Highburn Fortress",[[1, 0]])
+        self.window = Levels.Levels(1200, 600, "Highburn Fortress",[[1, 0, 0, 0]])
         self.window.setup()
 
     def test_mainMenu(self):
