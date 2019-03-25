@@ -229,7 +229,7 @@ class Levels(arcade.Window):
                 self.Player1.change_y -= self.LEFT_RIGHT_UP_DOWN_key_is_down[3]*self.Player1.MOVEMENT_SPEED
 
         #Open doors for next Levels
-        if self.coun_counter == 5 and self.door_move_count[0] < self.door_move_dist:
+        if self.coun_counter == 15 and self.door_move_count[0] < self.door_move_dist:
             self.door_move_count[0] += 1
             self.rooms[0].door.move(1, 0)
         elif self.door_move_count[0] == self.door_move_dist:
