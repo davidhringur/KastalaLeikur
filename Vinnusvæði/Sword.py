@@ -48,14 +48,6 @@ class Sword:
                 #self.update_Sword_animation_counter == 0
                 self.update_Sword_animation_frame_counter = 0
 
-            if Player1.change_x > 0 or Player1.face_direction == "right": #uppfæra hvar sverðið er
-                self.SwordSprite.center_x, self.SwordSprite.center_y = Player1.center_x + 20, Player1.center_y - 20
-            elif Player1.change_x < 0 or Player1.face_direction == "left":
-                self.SwordSprite.center_x, self.SwordSprite.center_y = Player1.center_x - 10, Player1.center_y
-            elif Player1.change_y > 0 or Player1.face_direction == "up":
-                self.SwordSprite.center_x, self.SwordSprite.center_y = Player1.center_x, Player1.center_y
-            elif Player1.change_y < 0 or Player1.face_direction == "down":
-                self.SwordSprite.center_x, self.SwordSprite.center_y = Player1.center_x - 4, Player1.center_y - 23
 
             self.update_Sword_animation_frame_counter += 1
 
@@ -63,6 +55,16 @@ class Sword:
             self.SwordSprite.kill()
             self.sword_gate = 0
             self.update_Sword_animation_counter = 0
+
+        if Player1.change_x > 0 or Player1.face_direction == "right": #uppfæra hvar sverðið er
+            self.SwordSprite.center_x, self.SwordSprite.center_y = Player1.center_x + 20, Player1.center_y - 20
+        elif Player1.change_x < 0 or Player1.face_direction == "left":
+            self.SwordSprite.center_x, self.SwordSprite.center_y = Player1.center_x - 10, Player1.center_y
+        elif Player1.change_y > 0 or Player1.face_direction == "up":
+            self.SwordSprite.center_x, self.SwordSprite.center_y = Player1.center_x, Player1.center_y
+        elif Player1.change_y < 0 or Player1.face_direction == "down":
+            self.SwordSprite.center_x, self.SwordSprite.center_y = Player1.center_x - 4, Player1.center_y - 23
+
 
     def hit_enemy(self, enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT):
         hit_list = arcade.check_for_collision_with_list(self.SwordSprite, enemy_sprite_list)

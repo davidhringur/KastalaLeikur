@@ -153,7 +153,7 @@ class Levels(arcade.Window):
             if self.Player1.Sword.sword_gate == 1:
                 self.Player1.Sword.hit_enemy(self.rooms[i].enemy_list, self.Player1.face_direction, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
 
-            if self.Player1.Bow.Bow_gate == 1:
+            if self.Player1.Bow.Bow_gate == 1 and self.Player1.Bow.Arrow_gate == 1:
                 self.Player1.Bow.hit_enemy(self.rooms[i].enemy_list, self.Player1.face_direction, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
 
 
@@ -212,6 +212,16 @@ class Levels(arcade.Window):
                 self.move_lenght -= 20
 
             elif self.move_gate[2]:
+                if self.Level_idx == 2:
+                    room3 = Room.setup_room_3(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+                    self.rooms.append(room3)
+                    self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[2].wall_list))
+                    self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[2].prop_list))
+                    self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[2].door))
+                    for enemy in self.rooms[2].enemy_list:
+                       self.physics_engine.append(PhysicsEngineHighburn(enemy, self.rooms[2].prop_list))
+                       self.physics_engine.append(PhysicsEngineHighburn(enemy, self.rooms[2].wall_list))
+                    self.Level_idx += 1
                 self.move_everything(0,-20)
                 self.move_height -= 20
             elif self.move_gate[3]:
