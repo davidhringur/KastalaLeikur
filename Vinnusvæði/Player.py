@@ -4,25 +4,22 @@ from Bow import Bow
 
 def update_animation(self, frame):
     self.update_animation_frame_counter += 1
-    if frame == self.update_animation_frame_counter:
+    if 0 == self.update_animation_frame_counter % frame:
         self.update_animation_counter += 1
-        self.update_animation_frame_counter = 0
 
         if  self.change_x > 0:
-            self._texture = self.walk_right_textures[self.update_animation_counter]
+            self._texture = self.walk_right_textures[self.update_animation_counter % 3]
             self.face_direction = "right"
         elif  self.change_x < 0:
-            self._texture = self.walk_left_textures[self.update_animation_counter]
+            self._texture = self.walk_left_textures[self.update_animation_counter % 3]
             self.face_direction = "left"
         elif  self.change_y > 0:
-            self._texture = self.walk_up_textures[self.update_animation_counter]
+            self._texture = self.walk_up_textures[self.update_animation_counter % 3]
             self.face_direction = "up"
         elif  self.change_y < 0:
-            self._texture = self.walk_down_textures[self.update_animation_counter]
+            self._texture = self.walk_down_textures[self.update_animation_counter % 3]
             self.face_direction = "down"
 
-        if self.update_animation_counter == 2:
-            self.update_animation_counter = -1
 
     if  self.change_x == 0 and self.change_y == 0:
         if self.face_direction == "right":

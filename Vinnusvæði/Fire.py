@@ -26,14 +26,10 @@ class Fire(arcade.Sprite):
     def update_animation(self, frame):
         if self.lever_count == 4:
             self.update_animation_frame_counter += 1
-            if frame == self.update_animation_frame_counter:
+            if 0 == self.update_animation_frame_counter % frame:
                 self.update_animation_counter += 1
-                self.update_animation_frame_counter = 0
+                self._texture = self.fire_textures[self.update_animation_counter % 3 + 1]
 
-                self._texture = self.fire_textures[self.update_animation_counter]
-
-                if self.update_animation_counter == 4:
-                    self.update_animation_counter = 1
 
     def update(self):
         self.update_animation(6)

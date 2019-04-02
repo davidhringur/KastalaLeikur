@@ -97,17 +97,18 @@ def setup_room_1(width, height):
 
 
     # Búum til gimsteinana
-    for i in range(15):
+    for i in range(int(SCREEN_WIDTH/6), SCREEN_WIDTH, int(SCREEN_WIDTH/6)):
+        for j in range(int(SCREEN_HEIGHT/4), SCREEN_HEIGHT , int(SCREEN_HEIGHT/4)):
 
-        # Setjum inn myndina við gimsteinana
-        coin = arcade.Sprite("Images/Gem/gems_preview.png", 0.3)
+            # Setjum inn myndina við gimsteinana
+            coin = arcade.Sprite("Images/Gem/gems_preview.png", 0.3)
 
-        # Staðsetjum gimsteinana
-        coin.center_x = 100 + random.randrange(SCREEN_WIDTH - 200)
-        coin.center_y = 100 + random.randrange(SCREEN_HEIGHT - 200)
+            # Staðsetjum gimsteinana
+            coin.center_x = i
+            coin.center_y = j
 
-        # Bætum við gimsteinum við listann
-        room.coin_list.append(coin)
+            # Bætum við gimsteinum við listann
+            room.coin_list.append(coin)
 
     return room
 

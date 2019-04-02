@@ -70,8 +70,11 @@ class Bow:
 
     #def Arrow_go(self, face_direction):
         if self.update_Bow_animation_counter == 10 or self.Arrow_gate:
+            self.Arrow.update()
             if self.update_Arrow_animation_frame_counter == 0:
+                self.Arrow.center_x, self.Arrow.center_y = self.BowSprite.center_x, self.BowSprite.center_y
                 player_list.append(self.Arrow)
+
                 self.Arrow_gate = 1
                 if Player1.face_direction == "right":
                     self.Arrow.change_x = 20
@@ -84,7 +87,7 @@ class Bow:
 
             self.update_Arrow_animation_frame_counter += 1
 
-            self.Arrow.update()
+
             if self.update_Arrow_animation_frame_counter == 55:
                 self.Arrow_gate = 0
                 self.Arrow.change_x, self.Arrow.change_y = 0, 0
@@ -96,19 +99,17 @@ class Bow:
     def hit_enemy(self, enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT):
         hit_list = arcade.check_for_collision_with_list(self.Arrow, enemy_sprite_list)
         enemys = []
-        if hit_list:
-
+        if hit_list and self.Arrow_gate == 1:
             for enemy in hit_list:
                 enemys.append(enemy)
-                enemy.hp -= 10
-                enemy._set_color=(124, 10, 2)
+                enemy.hp -= 25
                 if enemy.hp <= 0:
                     enemy.kill()
 
         self.hit_recoil(enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT)
 
     def hit_recoil(self, enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT):
-        if self.Bow_gate:
+        if self.Bow_gate and self.Arrow_gate == 1:
             hit_list = arcade.check_for_collision_with_list(self.Arrow, enemy_sprite_list)
             if hit_list:
                 self.Arrow.kill()
@@ -116,52 +117,53 @@ class Bow:
                 self.enemys = hit_list
 
         safezoneAdj = 50
-        try:
-            for enemy in self.enemys:
-                if face_direction == "left" or self.hit_gate == [1,0,0,0]:  #ýtir óvin til vinstri
-                    self.hit_gate = [1,0,0,0]
-                    if self.hit_frames_counter > 0:
-                        self.hit_frames_counter -= 1
-                        enemy._texture = enemy.take_damage_Left_right_up_down[0]
-                        if enemy.bottom > safezoneAdj and enemy.top < SCREEN_HEIGHT-safezoneAdj and enemy.left > safezoneAdj and enemy.right < SCREEN_WIDTH-safezoneAdj:
-                            enemy.center_x -= 10
-                    else:
-                        self.hit_gate = [0,0,0,0]
-                        self.hit_frames_counter = self.hit_frames
-                        self.enemys = arcade.check_for_collision_with_list(self.BowSprite, enemy_sprite_list)
-                elif face_direction == "right" or self.hit_gate == [0,1,0,0]:   #ýtir óvin til hægri
-                    self.hit_gate = [0,1,0,0]
-                    if self.hit_frames_counter > 0:
-                        self.hit_frames_counter -= 1
-                        enemy._texture = enemy.take_damage_Left_right_up_down[1]
-                        if enemy.bottom > safezoneAdj and enemy.top < SCREEN_HEIGHT-safezoneAdj and enemy.left > safezoneAdj and enemy.right < SCREEN_WIDTH-safezoneAdj:
-                            enemy.center_x -= -10
-                            enemy.change_x = 0
-                    else:
-                        self.hit_gate = [0,0,0,0]
-                        self.hit_frames_counter = self.hit_frames
-                        self.enemys = arcade.check_for_collision_with_list(self.BowSprite, enemy_sprite_list)
-                elif face_direction == "up" or self.hit_gate == [0,0,1,0]:   #ýtir óvin upp
-                    self.hit_gate = [0,0,1,0]
-                    if self.hit_frames_counter > 0:
-                        self.hit_frames_counter -= 1
-                        enemy._texture = enemy.take_damage_Left_right_up_down[2]
-                        if enemy.bottom > safezoneAdj and enemy.top < SCREEN_HEIGHT-safezoneAdj and enemy.left > safezoneAdj and enemy.right < SCREEN_WIDTH-safezoneAdj:
-                            enemy.center_y -= -10
-                    else:
-                        self.hit_gate = [0,0,0,0]
-                        self.hit_frames_counter = self.hit_frames
-                        self.enemys = arcade.check_for_collision_with_list(self.BowSprite, enemy_sprite_list)
-                elif face_direction == "down" or self.hit_gate == [0,0,0,1]:   #ýtir óvin niður
-                    self.hit_gate = [0,0,0,1]
-                    if self.hit_frames_counter > 0:
-                        self.hit_frames_counter -= 1
-                        enemy._texture = enemy.take_damage_Left_right_up_down[3]
-                        if enemy.bottom > safezoneAdj and enemy.top < SCREEN_HEIGHT-safezoneAdj and enemy.left > safezoneAdj and enemy.right < SCREEN_WIDTH-safezoneAdj:
-                            enemy.center_y -= 10
-                    else:
-                        self.hit_gate = [0,0,0,0]
-                        self.hit_frames_counter = self.hit_frames
-                        self.enemys = arcade.check_for_collision_with_list(self.BowSprite, enemy_sprite_list)
-        except:
-            pass
+
+        for enemy in self.enemys:
+            if face_direction == "left" or self.hit_gate == [1,0,0,0]:  #ýtir óvin til vinstri
+                self.hit_gate = [1,0,0,0]
+                if self.hit_frames_counter > 0:
+                    self.hit_frames_counter -= 1
+
+                    enemy._texture = enemy.take_damage_Left_right_up_down[0]
+                    if enemy.bottom > safezoneAdj and enemy.top < SCREEN_HEIGHT-safezoneAdj and enemy.left > safezoneAdj and enemy.right < SCREEN_WIDTH-safezoneAdj:
+                        enemy.center_x -= 10
+                else:
+                    self.hit_gate = [0,0,0,0]
+                    self.hit_frames_counter = self.hit_frames
+                    self.enemys = arcade.check_for_collision_with_list(self.BowSprite, enemy_sprite_list)
+            elif face_direction == "right" or self.hit_gate == [0,1,0,0]:   #ýtir óvin til hægri
+                self.hit_gate = [0,1,0,0]
+                if self.hit_frames_counter > 0:
+                    self.hit_frames_counter -= 1
+                    enemy._texture = enemy.take_damage_Left_right_up_down[1]
+                    if enemy.bottom > safezoneAdj and enemy.top < SCREEN_HEIGHT-safezoneAdj and enemy.left > safezoneAdj and enemy.right < SCREEN_WIDTH-safezoneAdj:
+                        enemy.center_x -= -10
+                        enemy.change_x = 0
+                else:
+                    self.hit_gate = [0,0,0,0]
+                    self.hit_frames_counter = self.hit_frames
+                    self.enemys = arcade.SpriteList()
+            elif face_direction == "up" or self.hit_gate == [0,0,1,0]:   #ýtir óvin upp
+                self.hit_gate = [0,0,1,0]
+                if self.hit_frames_counter > 0:
+                    self.hit_frames_counter -= 1
+                    enemy._texture = enemy.take_damage_Left_right_up_down[2]
+                    if enemy.bottom > safezoneAdj and enemy.top < SCREEN_HEIGHT-safezoneAdj and enemy.left > safezoneAdj and enemy.right < SCREEN_WIDTH-safezoneAdj:
+                        enemy.center_y -= -10
+                else:
+                    self.hit_gate = [0,0,0,0]
+                    self.hit_frames_counter = self.hit_frames
+                    self.enemys = arcade.check_for_collision_with_list(self.BowSprite, enemy_sprite_list)
+            elif face_direction == "down" or self.hit_gate == [0,0,0,1]:   #ýtir óvin niður
+                self.hit_gate = [0,0,0,1]
+                if self.hit_frames_counter > 0:
+                    self.hit_frames_counter -= 1
+                    enemy._texture = enemy.take_damage_Left_right_up_down[3]
+                    if enemy.bottom > safezoneAdj and enemy.top < SCREEN_HEIGHT-safezoneAdj and enemy.left > safezoneAdj and enemy.right < SCREEN_WIDTH-safezoneAdj:
+                        enemy.center_y -= 10
+                else:
+                    self.hit_gate = [0,0,0,0]
+                    self.hit_frames_counter = self.hit_frames
+                    self.enemys = arcade.check_for_collision_with_list(self.BowSprite, enemy_sprite_list)
+        #except:
+        #    pass

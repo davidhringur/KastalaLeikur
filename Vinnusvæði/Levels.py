@@ -52,7 +52,7 @@ class Levels(arcade.Window):
     def setup(self):
         # Setjum upp playerinn
         self.Player1 = Player(self.MainMenuOptions,"Images/Character/p1_2.png", scale=2)
-        self.Player1.center_x, self.Player1.center_y = 153, 152
+        self.Player1.center_x, self.Player1.center_y = 100, 100
         self.Player1._set_collision_radius = 50
         self.Player1.points = ((-30.0, -32.0), (30.0, -32.0), (30.0, 0), (-30.0, 0))
 
@@ -153,7 +153,7 @@ class Levels(arcade.Window):
             if self.Player1.Sword.sword_gate == 1:
                 self.Player1.Sword.hit_enemy(self.rooms[i].enemy_list, self.Player1.face_direction, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
 
-            if self.Player1.Bow.Bow_gate == 1 and self.Player1.Bow.Arrow_gate == 1:
+            if self.Player1.Bow.Bow_gate == 1 or self.Player1.Bow.hit_gate != [0,0,0,0]:
                 self.Player1.Bow.hit_enemy(self.rooms[i].enemy_list, self.Player1.face_direction, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
 
 
@@ -186,7 +186,7 @@ class Levels(arcade.Window):
         #Uppfæra eld á borði 2
         if self.Level_idx == 2:
             for pillar in self.rooms[1].pillars:
-                pillar.updateFire(self.Player1.Sword.SwordSprite, self.rooms[1].fire)
+                pillar.updateFire(self.Player1.Sword, self.rooms[1].fire)
 
     #Færa alla hluti til þess að fara á næsta borð
         if self.Player1.right > self.SCREEN_WIDTH or self.Player1.center_x < 0 or self.Player1.top > self.SCREEN_HEIGHT or self.Player1.center_y < 0:
