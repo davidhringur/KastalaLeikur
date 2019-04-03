@@ -3,5 +3,5 @@ pick==19.0.3
 pip3 install PyObjC
 
 
-window = Levels(1200, 600, "Highburn Fortress", [[1,0]])
+window = Levels(1200, 600, "Highburn Fortress", [[1,0,0,0]])
   window.setup()

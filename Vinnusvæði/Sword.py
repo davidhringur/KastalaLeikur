@@ -30,6 +30,8 @@ class Sword:
                 Player1.kill()
                 player_list.append(Player1.Sword.SwordSprite)
                 player_list.append(Player1)
+                if self.update_Sword_animation_counter == 0:
+                    arcade.play_sound(self.SwordSound)
             else:
                 player_list.append(Player1.Sword.SwordSprite)
                 if self.update_Sword_animation_counter == 0:
