@@ -1,4 +1,5 @@
 import arcade
+from Bow import Bow
 
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 600
@@ -31,90 +32,97 @@ class Enemy(arcade.Sprite):
         self.update_animation_counter = 0
         self.update_animation_frame_counter = 0
 
+        self.enemyIsArcher = 0
+        self.isTop = 0
+        self.Bow = Bow()
+        self.place_x, self.place_y = int(), int()
 
 
 
     #Fall sem ræðst á player
-    def Attack(self, player):
-        distX = player.center_x - self.center_x
-        distY = player.center_y - self.center_y
-        sign = lambda x: (1, -1)[x < 0]
-        safezoneAdj = 55
-        damage = 5
-        #færa sig í átt að spilara (Bara lóðrétt og lárétt)
-        if player.hp >= 0:
-            try:
-                if not arcade.check_for_collision(self, player) and self.hit_gate == [0,0,0,0]:
-                    if abs(distX) > abs(distY):
-                        self.change_x = sign(distX) * self.MOVEMENT_SPEED
+    def Attack(self, player, player_list):
+        if not self.enemyIsArcher:
+            distX = player.center_x - self.center_x
+            distY = player.center_y - self.center_y
+            sign = lambda x: (1, -1)[x < 0]
+            safezoneAdj = 55
+            damage = 5
+            #færa sig í átt að spilara (Bara lóðrétt og lárétt)
+            if player.hp >= 0:
+                try:
+                    if not arcade.check_for_collision(self, player) and self.hit_gate == [0,0,0,0]:
+                        if abs(distX) > abs(distY):
+                            self.change_x = sign(distX) * self.MOVEMENT_SPEED
+                            self.change_y = 0
+                        else:
+                            self.change_x = 0
+                            self.change_y = sign(distY) * self.MOVEMENT_SPEED
+
+                    elif self.change_x < 0 or self.hit_gate == [1,0,0,0]:  #ýtir leikmanni til vinstri ef óvinur klessir á hann
+                        self.hit_gate = [1,0,0,0]
+                        if self.hit_frames_counter > 0:
+                            self.hit_frames_counter -= 1
+                            player._texture = player.take_damage_Left_right_up_down[1]
+                            if player.bottom > safezoneAdj and player.top < SCREEN_HEIGHT-safezoneAdj and player.left > safezoneAdj and player.right < SCREEN_WIDTH-safezoneAdj:
+                                player.center_x -= 10 + player.change_x
+                        else:
+                            self.hit_gate = [0,0,0,0]
+                            self.hit_frames_counter = self.hit_frames
+                            player.hp -= damage
+                    elif self.change_x > 0 or self.hit_gate == [0,1,0,0]:   #ýtir leikmanni til hægri ef óvinur klessir á hann
+                        self.hit_gate = [0,1,0,0]
+                        if self.hit_frames_counter > 0:
+                            self.hit_frames_counter -= 1
+                            player._texture = player.take_damage_Left_right_up_down[0]
+                            if player.bottom > safezoneAdj and player.top < SCREEN_HEIGHT-safezoneAdj and player.left > safezoneAdj and player.right < SCREEN_WIDTH-safezoneAdj:
+                                player.center_x -= -10 + player.change_x
+                        else:
+                            self.hit_gate = [0,0,0,0]
+                            self.hit_frames_counter = self.hit_frames
+                            player.hp -= damage
+                    elif self.change_y > 0 or self.hit_gate == [0,0,1,0]:   #ýtir leikmanni upp ef óvinur klessir á hann
+                        self.hit_gate = [0,0,1,0]
+                        if self.hit_frames_counter > 0:
+                            self.hit_frames_counter -= 1
+                            player._texture = player.take_damage_Left_right_up_down[3]
+                            if player.bottom > safezoneAdj and player.top < SCREEN_HEIGHT-safezoneAdj and player.left > safezoneAdj and player.right < SCREEN_WIDTH-safezoneAdj:
+                                player.center_y -= -10 + player.change_y
+                        else:
+                            self.hit_gate = [0,0,0,0]
+                            self.hit_frames_counter = self.hit_frames
+                            player.hp -= damage
+                    elif self.change_y < 0 or self.hit_gate == [0,0,0,1]:   #ýtir leikmanni niður ef óvinur klessir á hann
+                        self.hit_gate = [0,0,0,1]
+                        if self.hit_frames_counter > 0:
+                            self.hit_frames_counter -= 1
+                            player._texture = player.take_damage_Left_right_up_down[2]
+                            if player.bottom > safezoneAdj and player.top < SCREEN_HEIGHT-safezoneAdj and player.left > safezoneAdj and player.right < SCREEN_WIDTH-safezoneAdj:
+                                player.center_y -= 10 + player.change_y
+                        else:
+                            self.hit_gate = [0,0,0,0]
+                            self.hit_frames_counter = self.hit_frames
+                            player.hp -= damage
+                    else:
+                        player.hp -= damage
                         self.change_y = 0
-                    else:
                         self.change_x = 0
-                        self.change_y = sign(distY) * self.MOVEMENT_SPEED
+                        self.center_x -= sign(self.change_x)*4
+                        self.center_y -= sign(self.change_y)*4
+                        if player.bottom > safezoneAdj and player.top < SCREEN_HEIGHT-safezoneAdj and player.left > safezoneAdj and player.right < SCREEN_WIDTH-safezoneAdj:
+                            player.center_x -= sign(player.change_x)*4
+                            player.center_y -= sign(player.change_y)*4
 
-                elif self.change_x < 0 or self.hit_gate == [1,0,0,0]:  #ýtir leikmanni til vinstri ef óvinur klessir á hann
-                    self.hit_gate = [1,0,0,0]
-                    if self.hit_frames_counter > 0:
-                        self.hit_frames_counter -= 1
-                        player._texture = player.take_damage_Left_right_up_down[1]
-                        if player.bottom > safezoneAdj and player.top < SCREEN_HEIGHT-safezoneAdj and player.left > safezoneAdj and player.right < SCREEN_WIDTH-safezoneAdj:
-                            player.center_x -= 10 + player.change_x
-                    else:
-                        self.hit_gate = [0,0,0,0]
-                        self.hit_frames_counter = self.hit_frames
-                        player.hp -= damage
-                elif self.change_x > 0 or self.hit_gate == [0,1,0,0]:   #ýtir leikmanni til hægri ef óvinur klessir á hann
-                    self.hit_gate = [0,1,0,0]
-                    if self.hit_frames_counter > 0:
-                        self.hit_frames_counter -= 1
-                        player._texture = player.take_damage_Left_right_up_down[0]
-                        if player.bottom > safezoneAdj and player.top < SCREEN_HEIGHT-safezoneAdj and player.left > safezoneAdj and player.right < SCREEN_WIDTH-safezoneAdj:
-                            player.center_x -= -10 + player.change_x
-                    else:
-                        self.hit_gate = [0,0,0,0]
-                        self.hit_frames_counter = self.hit_frames
-                        player.hp -= damage
-                elif self.change_y > 0 or self.hit_gate == [0,0,1,0]:   #ýtir leikmanni upp ef óvinur klessir á hann
-                    self.hit_gate = [0,0,1,0]
-                    if self.hit_frames_counter > 0:
-                        self.hit_frames_counter -= 1
-                        player._texture = player.take_damage_Left_right_up_down[3]
-                        if player.bottom > safezoneAdj and player.top < SCREEN_HEIGHT-safezoneAdj and player.left > safezoneAdj and player.right < SCREEN_WIDTH-safezoneAdj:
-                            player.center_y -= -10 + player.change_y
-                    else:
-                        self.hit_gate = [0,0,0,0]
-                        self.hit_frames_counter = self.hit_frames
-                        player.hp -= damage
-                elif self.change_y < 0 or self.hit_gate == [0,0,0,1]:   #ýtir leikmanni niður ef óvinur klessir á hann
-                    self.hit_gate = [0,0,0,1]
-                    if self.hit_frames_counter > 0:
-                        self.hit_frames_counter -= 1
-                        player._texture = player.take_damage_Left_right_up_down[2]
-                        if player.bottom > safezoneAdj and player.top < SCREEN_HEIGHT-safezoneAdj and player.left > safezoneAdj and player.right < SCREEN_WIDTH-safezoneAdj:
-                            player.center_y -= 10 + player.change_y
-                    else:
-                        self.hit_gate = [0,0,0,0]
-                        self.hit_frames_counter = self.hit_frames
-                        player.hp -= damage
-                else:
-                    player.hp -= damage
-                    self.change_y = 0
-                    self.change_x = 0
-                    self.center_x -= sign(self.change_x)*4
-                    self.center_y -= sign(self.change_y)*4
-                    if player.bottom > safezoneAdj and player.top < SCREEN_HEIGHT-safezoneAdj and player.left > safezoneAdj and player.right < SCREEN_WIDTH-safezoneAdj:
-                        player.center_x -= sign(player.change_x)*4
-                        player.center_y -= sign(player.change_y)*4
+                    if self.hit_gate != [0,0,0,0]:   #Lætur óvin stoppa meðan leykmaður ýtist frá
+                        self.change_y = 0
+                        self.change_x = 0
 
-                if self.hit_gate != [0,0,0,0]:   #Lætur óvin stoppa meðan leykmaður ýtist frá
-                    self.change_y = 0
-                    self.change_x = 0
-
-            except:
-                pass
+                except:
+                    pass
+            else:
+                self.change_y = 0
+                self.change_x = 0
         else:
-            self.change_y = 0
-            self.change_x = 0
+            self.Archer(self.isTop, player, player_list)
 
     def update_animation(self, frame):
         self.update_animation_frame_counter += 1
@@ -144,6 +152,61 @@ class Enemy(arcade.Sprite):
                 self._texture = self.walk_up_textures[0]
             if self.face_direction == "down":
                 self._texture = self.walk_down_textures[0]
+
+    def Archer(self, isTop, player, player_list):
+        if player.hp >= 0:
+            distX = player.center_x - self.center_x
+            distY = player.center_y - self.center_y
+            sign = lambda x: (1, -1)[x < 0]
+
+            #try:
+            if not arcade.check_for_collision(self, player) and self.hit_gate == [0,0,0,0]:
+                colitions = arcade.check_for_collision(self.Bow.Arrow, player)
+                safezoneAdj = 55
+                damage = 10
+                if isTop:
+                    self.change_x = sign(distX) * self.MOVEMENT_SPEED
+                    self.change_y = 0
+                    if colitions:
+
+                        if self.hit_frames_counter > 0:
+                            self.hit_frames_counter -= 1
+                            player._texture = player.take_damage_Left_right_up_down[2]
+                            if player.bottom > safezoneAdj and player.top < SCREEN_HEIGHT-safezoneAdj and player.left > safezoneAdj and player.right < SCREEN_WIDTH-safezoneAdj:
+                                player.center_y -= 10 + player.change_y
+                        else:
+                            self.hit_frames_counter = self.hit_frames
+                            player.hp -= damage
+
+                    self.face_direction = "down"
+                    self.Bow.BowShoot(self, player_list)
+                    #self.change_x, self.change_y = self.place_x, self.place_y
+                    self.Bow.Bow_gate = 1
+
+
+                else:
+                    self.change_x = 0
+                    self.change_y = sign(distY) * self.MOVEMENT_SPEED
+
+                    if colitions:
+                        if self.hit_frames_counter > 0:
+                            self.hit_frames_counter -= 1
+                            player._texture = player.take_damage_Left_right_up_down[0]
+                            if player.bottom > safezoneAdj and player.top < SCREEN_HEIGHT-safezoneAdj and player.left > safezoneAdj and player.right < SCREEN_WIDTH-safezoneAdj:
+                                player.center_x -= -10 + player.change_x
+                        else:
+                            self.hit_frames_counter = self.hit_frames
+                            player.hp -= damage
+
+                    self.face_direction = "right"
+                    self.Bow.BowShoot(self, player_list)
+                    #self.change_x, self.change_y = self.place_x, self.place_y
+                    self.Bow.Bow_gate = 1
+
+
+
+                #except:
+                #    print("Error in Archer()")
 
     def update(self):
         #Færa óvin

@@ -77,6 +77,8 @@ class Sword:
                 enemy._set_color=(124, 10, 2)
                 if enemy.hp <= 0:
                     enemy.kill()
+                    enemy.Bow.BowSprite.kill()
+                    enemy.Bow.Arrow.kill()
 
         self.hit_recoil(enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT)
 

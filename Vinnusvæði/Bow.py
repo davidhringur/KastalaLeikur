@@ -34,9 +34,7 @@ class Bow:
             self.update_Bow_animation_counter = 0
         elif self.Bow_gate and self.update_Bow_animation_counter<13:
             if Player1.face_direction == "up" or Player1.face_direction == "left": #setja sverð undir kallinn fyrir þessar áttir
-                Player1.kill()
                 player_list.append(Player1.Bow.BowSprite)
-                player_list.append(Player1)
             else:
                 player_list.append(Player1.Bow.BowSprite)
 
@@ -105,6 +103,8 @@ class Bow:
                 enemy.hp -= 25
                 if enemy.hp <= 0:
                     enemy.kill()
+                    enemy.Bow.BowSprite.kill()
+                    enemy.Bow.Arrow.kill()
 
         self.hit_recoil(enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT)
 

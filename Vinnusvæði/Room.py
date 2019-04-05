@@ -257,4 +257,16 @@ def setup_room_3(width, height):
     # Bakgrunnsmynd
     room.background = arcade.load_texture("Images/ModelPack/MakingMap1.png")
 
+    #Búum til óvini
+    room.Enemy1 = Enemy("Images/Enemy/Dungeon_Character.png", image_x=17, image_y=17, image_width=12, image_height=13, scale=5) #óvinur sem eltir player1
+    room.Enemy1.center_x, room.Enemy1.center_y = 100, 450 + Shift
+    room.Enemy1.enemyIsArcher = 1
+    room.enemy_list.append(room.Enemy1)
+
+    #Búum til óvini
+    room.Enemy2 = Enemy("Images/Enemy/Dungeon_Character.png", image_x=17, image_y=17, image_width=12, image_height=13, scale=5) #óvinur sem eltir player1
+    room.Enemy2.center_x, room.Enemy2.center_y = 500, 2*Shift -50
+    room.Enemy2.enemyIsArcher, room.Enemy2.isTop = 1, 1
+    room.enemy_list.append(room.Enemy2)
+
     return room

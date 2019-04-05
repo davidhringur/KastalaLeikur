@@ -146,7 +146,7 @@ class Levels(arcade.Window):
         for i in range(self.Level_idx):
             self.rooms[i].enemy_list.update()
             for enemy in self.rooms[i].enemy_list:
-                enemy.Attack(self.Player1)
+                enemy.Attack(self.Player1, self.player_list)
 
             self.rooms[i].coin_list.update()
             self.rooms[i].prop_list.update()
