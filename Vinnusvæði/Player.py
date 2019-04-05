@@ -58,7 +58,7 @@ class Player(arcade.Sprite):
 
 #Leikmaður 1
         if MenuOptions == [[1,0,0,0]]:
-            self.walk_right_textures = arcade.load_textures("Images/Character/p1.png",[[4,63,25,32],[36,63,25,32],[67,63,25,32]], scale = 3)
+            self.walk_right_textures = arcade.load_textures("Images/Character/p1.png",[[4,65,25,32],[36,65,25,32],[67,65,25,32]], scale = 3)
             self.walk_left_textures = arcade.load_textures("Images/Character/p1.png",[[4,32,25,32],[36,32,25,32],[67,32,25,32]], scale = 3)
             self.walk_up_textures = arcade.load_textures("Images/Character/p1.png",[[4,96,25,32],[36,96,25,32],[67,96,25,32]], scale = 3)
             self.walk_down_textures = arcade.load_textures("Images/Character/p1.png",[[4,0,25,32],[36,0,25,32],[67,0,25,32]], scale = 3)

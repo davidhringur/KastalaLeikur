@@ -42,7 +42,8 @@ class MainMenu(arcade.Window):
         self.p4 = arcade.Sprite("Images/Character/p4_2.png", center_x=self.SCREEN_WIDTH // 1.25, center_y=self.SCREEN_HEIGHT // 5,
                               scale=SPRITE_SCALING)
 
-
+        self.FantasySound = arcade.load_sound("Music/Fantasy.mp3")
+        arcade.play_sound(self.FantasySound)
 
 
     i = 0

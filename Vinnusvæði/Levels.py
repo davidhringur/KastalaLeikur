@@ -47,6 +47,9 @@ class Levels(arcade.Window):
         # Líf leikmanns í síðasta frame
         self.lastHP = None
 
+        #Hljóðfile
+        self.FireSound = arcade.load_sound("Music/Fireball.wav")
+
 
 
     def setup(self):
@@ -239,7 +242,7 @@ class Levels(arcade.Window):
                 self.Player1.change_y -= self.LEFT_RIGHT_UP_DOWN_key_is_down[3]*self.Player1.MOVEMENT_SPEED
 
         #Open doors for next Levels
-        if self.coun_counter == 15 and self.door_move_count[0] < self.door_move_dist:
+        if self.coun_counter >= 15 and self.door_move_count[0] < self.door_move_dist:
             self.door_move_count[0] += 1
             self.rooms[0].door.move(1, 0)
         elif self.door_move_count[0] == self.door_move_dist:
@@ -248,6 +251,9 @@ class Levels(arcade.Window):
 
         if self.Level_idx == 2:
             if self.rooms[1].fire.lever_count == 4 and self.door_move_count[1] < self.door_move_dist:
+                if self.door_move_count[1] == 0:
+                    arcade.play_sound(self.FireSound)
+                print("hello eldur")
                 self.door_move_count[1] += 1
                 self.rooms[1].door.move(0, 1)
             elif self.door_move_count[1] == self.door_move_dist:
