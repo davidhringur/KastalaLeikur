@@ -202,6 +202,11 @@ class Enemy(arcade.Sprite):
                     self.Bow.BowShoot(self, player_list)
                     #self.change_x, self.change_y = self.place_x, self.place_y
                     self.Bow.Bow_gate = 1
+        else:
+            self.Bow.BowSprite.kill()
+            self.Bow.Arrow.kill()
+            self.change_x = 0
+            self.change_y = 0
 
 
 

@@ -95,8 +95,8 @@ class Levels(arcade.Window):
             self.rooms[i].door.move(x, y)
 
         for player in self.player_list:
-            player.change_x -= player.change_x
-            player.change_y -= player.change_y
+            player.center_x -= player.change_x
+            player.center_y -= player.change_y
 
     def on_draw(self):
         # Timer
@@ -140,7 +140,7 @@ class Levels(arcade.Window):
         self.draw_time = timeit.default_timer() - draw_start_time
 
     move_gate = 0 #Notað til að færa allt þegar skipt er um borð
-    door_move_count = [0, 0, 0]
+    door_move_count = [0, 0, 1]
     def update(self, delta_time):
         start_time = timeit.default_timer()
 
@@ -168,7 +168,6 @@ class Levels(arcade.Window):
 
         # Gera lista með öllum sprite-um sem rekast í/ skarast við player
         coins_hit_list = arcade.check_for_collision_with_list(self.Player1, self.rooms[0].coin_list)
-        coins_hit_list.extend(arcade.check_for_collision_with_list(self.Player1.Sword.SwordSprite, self.rooms[0].coin_list))
 
         # Láta leikmann rekast á veggi o.s.f..
         for engine in self.physics_engine:
@@ -197,6 +196,16 @@ class Levels(arcade.Window):
 
         if self.move_lenght > 0 and self.move_gate and self.move_height > 0:
             if self.move_gate[0]:
+                if self.Level_idx == 3:
+                    room4 = Room.setup_room_4(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+                    self.rooms.append(room4)
+                    self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[3].wall_list))
+                    self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[3].prop_list))
+                    self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[3].door))
+                    for enemy in self.rooms[3].enemy_list:
+                       self.physics_engine.append(PhysicsEngineHighburn(enemy, self.rooms[3].prop_list))
+                       self.physics_engine.append(PhysicsEngineHighburn(enemy, self.rooms[3].wall_list))
+                    self.Level_idx += 1
                 self.move_everything(20,0)
                 self.move_lenght -= 20
             elif self.move_gate[1]:
@@ -222,8 +231,9 @@ class Levels(arcade.Window):
                     self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[2].prop_list))
                     self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[2].door))
                     for enemy in self.rooms[2].enemy_list:
-                       self.physics_engine.append(PhysicsEngineHighburn(enemy, self.rooms[2].prop_list))
-                       self.physics_engine.append(PhysicsEngineHighburn(enemy, self.rooms[2].wall_list))
+                        if not enemy.enemyIsArcher:
+                            self.physics_engine.append(PhysicsEngineHighburn(enemy, self.rooms[2].prop_list))
+                            self.physics_engine.append(PhysicsEngineHighburn(enemy, self.rooms[2].wall_list))
                     self.Level_idx += 1
                 self.move_everything(0,-20)
                 self.move_height -= 20
@@ -235,11 +245,11 @@ class Levels(arcade.Window):
             self.move_gate = 0
             self.move_lenght = self.SCREEN_WIDTH - 40
             self.move_height = self.SCREEN_HEIGHT - 40
-            if self.LEFT_RIGHT_UP_DOWN_key_is_down:
-                self.Player1.change_x -= self.LEFT_RIGHT_UP_DOWN_key_is_down[0]*self.Player1.MOVEMENT_SPEED
-                self.Player1.change_x += self.LEFT_RIGHT_UP_DOWN_key_is_down[1]*self.Player1.MOVEMENT_SPEED
-                self.Player1.change_y += self.LEFT_RIGHT_UP_DOWN_key_is_down[2]*self.Player1.MOVEMENT_SPEED
-                self.Player1.change_y -= self.LEFT_RIGHT_UP_DOWN_key_is_down[3]*self.Player1.MOVEMENT_SPEED
+            #if self.LEFT_RIGHT_UP_DOWN_key_is_down:
+            #    self.Player1.change_x -= self.LEFT_RIGHT_UP_DOWN_key_is_down[0]*self.Player1.MOVEMENT_SPEED
+            #    self.Player1.change_x += self.LEFT_RIGHT_UP_DOWN_key_is_down[1]*self.Player1.MOVEMENT_SPEED
+            #    self.Player1.change_y += self.LEFT_RIGHT_UP_DOWN_key_is_down[2]*self.Player1.MOVEMENT_SPEED
+            #    self.Player1.change_y -= self.LEFT_RIGHT_UP_DOWN_key_is_down[3]*self.Player1.MOVEMENT_SPEED
 
         #Open doors for next Levels
         if self.coun_counter >= 15 and self.door_move_count[0] < self.door_move_dist:
@@ -249,16 +259,23 @@ class Levels(arcade.Window):
             self.door_move_count[0] += 1
             self.rooms[0].door = arcade.SpriteList()
 
-        if self.Level_idx == 2:
+        elif self.Level_idx == 2:
             if self.rooms[1].fire.lever_count == 4 and self.door_move_count[1] < self.door_move_dist:
                 if self.door_move_count[1] == 0:
                     arcade.play_sound(self.FireSound)
-                print("hello eldur")
                 self.door_move_count[1] += 1
                 self.rooms[1].door.move(0, 1)
             elif self.door_move_count[1] == self.door_move_dist:
                 self.door_move_count[1] += 1
                 self.rooms[1].door = arcade.SpriteList()
+
+        elif self.Level_idx == 3:
+            if not self.rooms[2].enemy_list and self.door_move_count[2] < self.door_move_dist:
+                self.door_move_count[2] += 1
+                self.rooms[2].door.move(-1, 0)
+            elif self.door_move_count[2] == self.door_move_dist:
+                self.door_move_count[2] += 1
+                self.rooms[2].door.move(self.door_move_dist, 800)
 
 
     def on_key_press(self, key, modifiers):

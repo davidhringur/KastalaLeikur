@@ -34,7 +34,7 @@ class Bow:
             self.Bow_gate = 0
             self.update_Bow_animation_counter = 0
         elif self.Bow_gate and self.update_Bow_animation_counter<13:
-            if self.update_Bow_animation_counter == 0:
+            if self.update_Bow_animation_counter == 7 and self.update_Bow_animation_frame_counter == 1:
                 arcade.play_sound(self.ArrowSound)
             if Player1.face_direction == "up" or Player1.face_direction == "left": #setja sverð undir kallinn fyrir þessar áttir
                 player_list.append(Player1.Bow.BowSprite)
