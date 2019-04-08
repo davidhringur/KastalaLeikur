@@ -106,8 +106,11 @@ class Bow:
                 enemy.hp -= 25
                 if enemy.hp <= 0:
                     enemy.kill()
-                    enemy.Bow.BowSprite.kill()
-                    enemy.Bow.Arrow.kill()
+                    try:
+                        enemy.Bow.BowSprite.kill()
+                        enemy.Bow.Arrow.kill()
+                    except:
+                        pass
 
         self.hit_recoil(enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT)
 
@@ -168,5 +171,13 @@ class Bow:
                     self.hit_gate = [0,0,0,0]
                     self.hit_frames_counter = self.hit_frames
                     self.enemys = arcade.check_for_collision_with_list(self.BowSprite, enemy_sprite_list)
-        #except:
-        #    pass
+
+            if enemy.__class__.__name__ == "Dragon":      # Lætur dreka meiða sig í sína átt því hann ýtist ekki aftur á bak
+                if enemy.face_direction == "left":
+                    enemy._texture = enemy.take_damage_Left_right_up_down[0]
+                elif enemy.face_direction == "right":
+                    enemy._texture = enemy.take_damage_Left_right_up_down[1]
+                elif enemy.face_direction == "up":
+                    enemy._texture = enemy.take_damage_Left_right_up_down[2]
+                elif enemy.face_direction == "down":
+                    enemy._texture = enemy.take_damage_Left_right_up_down[3]

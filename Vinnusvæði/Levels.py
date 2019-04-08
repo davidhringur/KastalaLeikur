@@ -83,7 +83,6 @@ class Levels(arcade.Window):
         self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[0].door))
         for enemy in self.rooms[0].enemy_list:
             self.physics_engine.append(PhysicsEngineHighburn(enemy, self.rooms[0].wall_list))
-        #self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[0].enemy_list))
 
     def move_everything(self, x, y):
         self.player_list.move(x, y)
@@ -181,6 +180,7 @@ class Levels(arcade.Window):
         # Uppfærum líf
         if self.lastHP > self.Player1.hp:
             self.HP_meter.update(self.Player1)
+        self.rooms[0].DragonHP.updateHP(self.rooms[0].dragon, self.rooms[0].prop_list)
 
         # Vistum tímann sem þetta tekur
         self.processing_time = timeit.default_timer() - start_time

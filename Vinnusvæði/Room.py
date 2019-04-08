@@ -5,6 +5,8 @@ import random
 from Enemy import *
 from Fire import *
 from Pillar import *
+from Boss import *
+from HUD import Dragon_HP_meter
 
 
 class Room:
@@ -79,9 +81,18 @@ def setup_room_1(width, height):
     room.background = arcade.load_texture("Images/ModelPack/MakingMap1.png")
 
     #Búum til óvini
-    room.Enemy1 = Enemy("Images/Enemy/Dungeon_Character.png", image_x=17, image_y=17, image_width=12, image_height=13, scale=6) #óvinur sem eltir player1
-    room.Enemy1.center_x, room.Enemy1.center_y = 1050, 450
-    room.enemy_list.append(room.Enemy1)
+    room.dragon = Dragon(room.wall_list, "Images/Enemy/Dungeon_Character.png", image_x=2, image_y=1, image_width=60, image_height=60, scale=3)
+    room.dragon.center_x, room.dragon.center_y, room.dragon.change_y = 450, 450, -room.dragon.MOVEMENT_SPEED
+    room.enemy_list.append(room.dragon)
+
+    room.DragonHP = Dragon_HP_meter("Images/Gem/blood_red_bar.png")
+    room.DragonHP.dragonHP = room.dragon.hp
+    room.DragonHP.center_x, room.DragonHP.center_y = 1000, 580
+    room.prop_list.append(room.DragonHP)
+
+    #room.Enemy1 = Enemy("Images/Enemy/Dungeon_Character.png", image_x=17, image_y=17, image_width=12, image_height=13, scale=6) #óvinur sem eltir player1
+    #room.Enemy1.center_x, room.Enemy1.center_y = 1050, 450
+    #room.enemy_list.append(room.Enemy1)
 
     #room.Enemy2 = Enemy("Images/Enemy/Dungeon_Character.png", image_x=17, image_y=17, image_width=12, image_height=13, scale=5) #óvinur sem eltir player1
     #room.Enemy2.center_x, room.Enemy2.center_y = 750, 450

@@ -19,3 +19,31 @@ class HP_meter:
         for l, bar in zip((0,20,40,60,80), self.bars):
             life_index = min(4,int((max(0,player1.hp-l))/5))
             bar._texture = self.tx[life_index]
+
+class Dragon_HP_meter(arcade.Sprite):
+    def __init__(self,
+                filename: str=None,
+                scale: float=1,
+                image_x: float=0, image_y: float=0,
+                image_width: float=0, image_height: float=0,
+                center_x: float=0, center_y: float=0,
+                repeat_count_x=1, repeat_count_y=1):
+        super(Dragon_HP_meter, self).__init__(filename=filename, scale=scale,
+                 image_x=image_x, image_y=image_y,
+                 image_width=image_width, image_height=image_height,
+                 repeat_count_x=repeat_count_x, repeat_count_y=repeat_count_y,
+                 center_x=center_x, center_y=center_y)
+        #self.bar = arcade.Sprite("Images/Gem/blood_red_bar.png")
+        self.dragonHP = None
+        self.x = self.width
+        self.change = self.width
+
+
+    def updateHP(self, dragon, list):
+        w = int(dragon.hp/self.dragonHP*self.x)
+        self.width=w
+        if self.width != self.change:
+            self.center_x -= int((self.width-self.change)/2)
+            self.kill()
+            list.append(self)
+        self.change=w
