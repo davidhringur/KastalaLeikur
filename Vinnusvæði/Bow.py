@@ -52,19 +52,11 @@ class Bow:
             if self.update_Bow_animation_frame_counter == 5 or self.update_Bow_animation_counter == 0:  #update sverðið breytist á hverjum 5ta frame
                 if Player1.change_x > 0 or Player1.face_direction == "right":
                     self.BowSprite._texture = self.Bow_Right[self.update_Bow_animation_counter]
-<<<<<<< HEAD
-                if Player1.change_x < 0 or Player1.face_direction  == "left":
+                elif Player1.change_x < 0 or Player1.face_direction  == "left":
                     self.BowSprite._texture = self.Bow_left[self.update_Bow_animation_counter]
-                if Player1.change_y > 0 or Player1.face_direction  == "up":
+                elif Player1.change_y > 0 or Player1.face_direction  == "up":
                     self.BowSprite._texture = self.Bow_Up[self.update_Bow_animation_counter]
-                if Player1.change_y < 0 or Player1.face_direction  == "down":
-=======
-                if Player1.change_x > 0 or Player1.face_direction  == "left":
-                    self.BowSprite._texture = self.Bow_left[self.update_Bow_animation_counter]
-                if Player1.change_y > 0 or Player1.face_direction  == "up":
-                    self.BowSprite._texture = self.Bow_Up[self.update_Bow_animation_counter]
-                if Player1.change_y > 0 or Player1.face_direction  == "down":
->>>>>>> 7bf722447e44754fe99303bcf1b0b7f695d07b82
+                elif Player1.change_y < 0 or Player1.face_direction  == "down":
                     self.BowSprite._texture = self.Bow_Down[self.update_Bow_animation_counter]
 
                 self.update_Bow_animation_counter += 1
@@ -75,19 +67,11 @@ class Bow:
 
             if Player1.change_x > 0 or Player1.face_direction == "right": #uppfæra hvar sverðið er
                 self.BowSprite.center_x, self.BowSprite.center_y = Player1.center_x, Player1.center_y -15
-<<<<<<< HEAD
-            if Player1.change_x < 0 or Player1.face_direction == "left": #uppfæra hvar sverðið er
+            elif Player1.change_x < 0 or Player1.face_direction == "left": #uppfæra hvar sverðið er
                 self.BowSprite.center_x, self.BowSprite.center_y = Player1.center_x-20, Player1.center_y -17
-            if Player1.change_y > 0 or Player1.face_direction == "up": #uppfæra hvar sverðið er
+            elif Player1.change_y > 0 or Player1.face_direction == "up": #uppfæra hvar sverðið er
                 self.BowSprite.center_x, self.BowSprite.center_y = Player1.center_x-15, Player1.center_y +5
-            if Player1.change_y < 0 or Player1.face_direction == "down": #uppfæra hvar sverðið er
-=======
-            if Player1.change_x > 0 or Player1.face_direction == "left": #uppfæra hvar sverðið er
-                self.BowSprite.center_x, self.BowSprite.center_y = Player1.center_x-20, Player1.center_y -17
-            if Player1.change_x > 0 or Player1.face_direction == "up": #uppfæra hvar sverðið er
-                self.BowSprite.center_x, self.BowSprite.center_y = Player1.center_x-15, Player1.center_y +5
-            if Player1.change_x > 0 or Player1.face_direction == "down": #uppfæra hvar sverðið er
->>>>>>> 7bf722447e44754fe99303bcf1b0b7f695d07b82
+            elif Player1.change_y < 0 or Player1.face_direction == "down": #uppfæra hvar sverðið er
                 self.BowSprite.center_x, self.BowSprite.center_y = Player1.center_x-20, Player1.center_y -17
 
             self.update_Bow_animation_frame_counter += 1
