@@ -2,10 +2,13 @@ import arcade
 
 class Bow:
     def __init__(self):
+        #Setja inn myndir af boganum
         self.Bow_Right = arcade.load_textures("Images/Weapon/greatbow.png",[[54,297,47,56],[167,297,47,56],[296,297,44,56],[416,297,47,56],[540,297,47,56],[672,297,47,56],[801,297,47,56],[928,297,47,56],[1058,297,47,56],[1183,297,47,56],[1316,297,47,56],[1439,297,47,56],[1568,297,47,56]], scale = 12)
-        #self.Bow_UpLeft = arcade.load_textures("Images/Weapon/Bow_UpLeft.png",[[73,12,26,32],[138,12,26,32],[202,12,26,32],[266,12,26,32]], scale = 12)
-        #self.Bow_UpRight = arcade.load_textures("Images/Weapon/Bow_UpRight.png",[[83,11,35,26],[148,11,35,26],[213,11,35,26],[278,11,35,26]], scale = 14)
-        #self.Bow_DownLeft = arcade.load_textures("Images/Weapon/Bow_DownLeft.png",[[74,34,33,23],[137,34,33,23],[201,34,33,23],[266,34,33,23]], scale = 12)
+        self.Bow_left = arcade.load_textures("Images/Weapon/greatbow.png",[[54,168,47,56],[167,168,47,56],[296,168,44,56],[416,168,47,56],[540,168,47,56],[672,168,47,56],[801,168,47,56],[928,168,47,56],[1058,168,47,56],[1183,168,47,56],[1316,168,47,56],[1439,168,47,56],[1568,168,47,56]], scale = 12)
+        self.Bow_Up = arcade.load_textures("Images/Weapon/greatbow2.png",[[291,20,47,56],[291,151,47,56],[291,273,44,56],[291,293,47,56],[291,530,47,56],[291,654,47,56],[291,784,47,56],[291,911,47,56],[291,1043,47,56],[291,1166,47,56],[291,1295,47,56],[291,1422,47,56],[291,1548,47,56]], scale = 12)
+    #    self.Bow_Down = arcade.load_textures("Images/Weapon/greatbow2.png",[[30,30,47,56],[30,154,47,56],[30,288,44,56],[30,416,47,56],[30,544,47,56],[30,674,47,56],[30,804,47,56],[30,927,47,56],[30,1054,47,56],[30,1187,47,56],[30,1315,47,56],[30,1441,47,56],[30,1566,47,56]], scale = 12)
+        self.Bow_Down = arcade.load_textures("Images/Weapon/greatbow2.png",[[30,550,47,56],[30,550,47,56],[30,550,44,56],[30,550,47,56],[30,550,47,56],[30,550,47,56],[30,550,47,56],[30,550,47,56],[30,550,47,56],[30,550,47,56],[30,550,47,56],[30,550,47,56],[30,550,47,56]], scale = 12)
+
 
         self.Arrow = arcade.Sprite("Images/Weapon/WEAPON_arrow.png", 2, image_x=150, image_y=229, image_width=36, image_height=18)
         self.ArrowSound = arcade.load_sound("Music/Bow10.mp3")
@@ -14,6 +17,9 @@ class Bow:
         self.BowSprite = arcade.Sprite()
         self.BowSprite.width, self.BowSprite.height = 75, 60
         self.BowSprite._texture = self.Bow_Right[0]
+        self.BowSprite._texture = self.Bow_left[0]
+        self.BowSprite._texture = self.Bow_Up[0]
+        self.BowSprite._texture = self.Bow_Down[0]
         self.update_Bow_animation_counter = 0
         self.update_Bow_animation_frame_counter = 5
         self.Bow_gate = 0
@@ -46,12 +52,13 @@ class Bow:
             if self.update_Bow_animation_frame_counter == 5 or self.update_Bow_animation_counter == 0:  #update sverðið breytist á hverjum 5ta frame
                 if Player1.change_x > 0 or Player1.face_direction == "right":
                     self.BowSprite._texture = self.Bow_Right[self.update_Bow_animation_counter]
-            #    elif Player1.change_x < 0 or Player1.face_direction == "left":
-            #        sArrow_go(elf.BowSprite._texture = self.Bow_UpLeft[self.update_Bow_animation_counter]
-            #    elif Player1.change_y > 0 or Player1.face_direction == "up":
-            #        self.BowSprite._texture = self.Bow_UpRight[self.update_Bow_animation_counter]
-            #    elif Player1.change_y < 0 or Player1.face_direction == "down":
-            #        self.BowSprite._texture = self.Bow_DownLeft[self.update_Bow_animation_counter]
+                if Player1.change_x > 0 or Player1.face_direction  == "left":
+                    self.BowSprite._texture = self.Bow_left[self.update_Bow_animation_counter]
+                if Player1.change_y > 0 or Player1.face_direction  == "up":
+                    self.BowSprite._texture = self.Bow_Up[self.update_Bow_animation_counter]
+                if Player1.change_y > 0 or Player1.face_direction  == "down":
+                    self.BowSprite._texture = self.Bow_Up[self.update_Bow_animation_counter]
+
                 self.update_Bow_animation_counter += 1
 
 
@@ -60,12 +67,12 @@ class Bow:
 
             if Player1.change_x > 0 or Player1.face_direction == "right": #uppfæra hvar sverðið er
                 self.BowSprite.center_x, self.BowSprite.center_y = Player1.center_x, Player1.center_y -15
-            #elif Player1.change_x < 0 or Player1.face_direction == "left":
-            #    self.BowSprite.center_x, self.BowSprite.center_y = Player1.center_x - 10, Player1.center_y
-            #elif Player1.change_y > 0 or Player1.face_direction == "up":
-            #    self.BowSprite.center_x, self.BowSprite.center_y = Player1.center_x, Player1.center_y
-            #elif Player1.change_y < 0 or Player1.face_direction == "down":
-            #    self.BowSprite.center_x, self.BowSprite.center_y = Player1.center_x - 4, Player1.center_y - 23
+            if Player1.change_x > 0 or Player1.face_direction == "left": #uppfæra hvar sverðið er
+                self.BowSprite.center_x, self.BowSprite.center_y = Player1.center_x-20, Player1.center_y -17
+            if Player1.change_x > 0 or Player1.face_direction == "up": #uppfæra hvar sverðið er
+                self.BowSprite.center_x, self.BowSprite.center_y = Player1.center_x-15, Player1.center_y +5
+            if Player1.change_x > 0 or Player1.face_direction == "down": #uppfæra hvar sverðið er
+                self.BowSprite.center_x, self.BowSprite.center_y = Player1.center_x-20, Player1.center_y -17
 
             self.update_Bow_animation_frame_counter += 1
 
