@@ -139,7 +139,8 @@ class Levels(arcade.Window):
         self.draw_time = timeit.default_timer() - draw_start_time
 
     move_gate = 0 #Notað til að færa allt þegar skipt er um borð
-    door_move_count = [0, 0, 1]
+    door_move_count = [0, 0, 1, 1]
+    Level_idxBoss = 0
     def update(self, delta_time):
         start_time = timeit.default_timer()
 
@@ -180,7 +181,8 @@ class Levels(arcade.Window):
         # Uppfærum líf
         if self.lastHP > self.Player1.hp:
             self.HP_meter.update(self.Player1)
-        self.rooms[0].DragonHP.updateHP(self.rooms[0].dragon, self.rooms[0].prop_list)
+        if self.Level_idx == 4:
+            self.rooms[3].DragonHP.updateHP(self.rooms[3].dragon, self.rooms[3].prop_list)
 
         # Vistum tímann sem þetta tekur
         self.processing_time = timeit.default_timer() - start_time
@@ -197,7 +199,8 @@ class Levels(arcade.Window):
         if self.move_lenght > 0 and self.move_gate and self.move_height > 0:
             if self.move_gate[0]:
                 if self.Level_idx == 3:
-                    room4 = Room.setup_room_4(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+                    room4 = Room.setup_room_4(self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.rooms[0].wall_list, self.rooms[2].wall_list)
+                    self.rooms[0].wall_list, self.rooms[2].wall_list = arcade.SpriteList(), arcade.SpriteList()
                     self.rooms.append(room4)
                     self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[3].wall_list))
                     self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[3].prop_list))
@@ -208,6 +211,10 @@ class Levels(arcade.Window):
                     self.Level_idx += 1
                 self.move_everything(20,0)
                 self.move_lenght -= 20
+                if self.move_lenght == 0:
+                    self.rooms[2].door.move(0, -800)
+                    self.Level_idxBoss = 1
+
             elif self.move_gate[1]:
 
                 if self.Level_idx == 1:
@@ -275,7 +282,14 @@ class Levels(arcade.Window):
                 self.rooms[2].door.move(-1, 0)
             elif self.door_move_count[2] == self.door_move_dist:
                 self.door_move_count[2] += 1
-                self.rooms[2].door.move(self.door_move_dist, 800)
+                self.rooms[2].door.move(2*self.door_move_dist, 800)
+
+        elif self.Level_idxBoss == 1:
+            if self.door_move_count[3] < self.door_move_dist and self.Player1.center_x < self.SCREEN_WIDTH - 160:
+                self.door_move_count[3] += 1
+                self.rooms[2].door.move(-1, 0)
+            elif self.door_move_count[3] == self.door_move_dist:
+                pass
 
 
     def on_key_press(self, key, modifiers):
