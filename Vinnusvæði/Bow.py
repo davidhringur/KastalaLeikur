@@ -6,8 +6,7 @@ class Bow:
         self.Bow_Right = arcade.load_textures("Images/Weapon/greatbow.png",[[54,297,47,56],[167,297,47,56],[296,297,44,56],[416,297,47,56],[540,297,47,56],[672,297,47,56],[801,297,47,56],[928,297,47,56],[1058,297,47,56],[1183,297,47,56],[1316,297,47,56],[1439,297,47,56],[1568,297,47,56]], scale = 12)
         self.Bow_left = arcade.load_textures("Images/Weapon/greatbow.png",[[54,168,47,56],[167,168,47,56],[296,168,44,56],[416,168,47,56],[540,168,47,56],[672,168,47,56],[801,168,47,56],[928,168,47,56],[1058,168,47,56],[1183,168,47,56],[1316,168,47,56],[1439,168,47,56],[1568,168,47,56]], scale = 12)
         self.Bow_Up = arcade.load_textures("Images/Weapon/greatbow2.png",[[291,20,47,56],[291,151,47,56],[291,273,44,56],[291,293,47,56],[291,530,47,56],[291,654,47,56],[291,784,47,56],[291,911,47,56],[291,1043,47,56],[291,1166,47,56],[291,1295,47,56],[291,1422,47,56],[291,1548,47,56]], scale = 12)
-    #    self.Bow_Down = arcade.load_textures("Images/Weapon/greatbow2.png",[[30,30,47,56],[30,154,47,56],[30,288,44,56],[30,416,47,56],[30,544,47,56],[30,674,47,56],[30,804,47,56],[30,927,47,56],[30,1054,47,56],[30,1187,47,56],[30,1315,47,56],[30,1441,47,56],[30,1566,47,56]], scale = 12)
-        self.Bow_Down = arcade.load_textures("Images/Weapon/greatbow2.png",[[30,550,47,56],[30,550,47,56],[30,550,44,56],[30,550,47,56],[30,550,47,56],[30,550,47,56],[30,550,47,56],[30,550,47,56],[30,550,47,56],[30,550,47,56],[30,550,47,56],[30,550,47,56],[30,550,47,56]], scale = 12)
+        self.Bow_Down = arcade.load_textures("Images/Weapon/greatbow2.png",[[30,30,47,56],[30,154,47,56],[30,288,44,56],[30,416,47,56],[30,544,47,56],[30,674,47,56],[30,804,47,56],[30,927,47,56],[30,1054,47,56],[30,1187,47,56],[30,1315,47,56],[30,1441,47,56],[30,1566,47,56]], scale = 12)
 
 
         self.Arrow = arcade.Sprite("Images/Weapon/WEAPON_arrow.png", 2, image_x=150, image_y=229, image_width=36, image_height=18)
@@ -57,7 +56,7 @@ class Bow:
                 if Player1.change_y > 0 or Player1.face_direction  == "up":
                     self.BowSprite._texture = self.Bow_Up[self.update_Bow_animation_counter]
                 if Player1.change_y > 0 or Player1.face_direction  == "down":
-                    self.BowSprite._texture = self.Bow_Up[self.update_Bow_animation_counter]
+                    self.BowSprite._texture = self.Bow_Down[self.update_Bow_animation_counter]
 
                 self.update_Bow_animation_counter += 1
 
