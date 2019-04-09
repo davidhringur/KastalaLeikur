@@ -1,6 +1,7 @@
 import arcade
 from Bow import Bow
 
+#s
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 600
 
