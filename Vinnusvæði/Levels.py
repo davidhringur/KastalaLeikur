@@ -153,10 +153,10 @@ class Levels(arcade.Window):
 
             self.rooms[i].coin_list.update()
             self.rooms[i].prop_list.update()
-            if self.Player1.Sword.sword_gate == 1:
+            if self.Player1.Sword.sword_gate == 1 or self.Player1.Sword.hit_frames_counter > 0:
                 self.Player1.Sword.hit_enemy(self.rooms[i].enemy_list, self.Player1.face_direction, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
 
-            if self.Player1.Bow.Bow_gate == 1 or self.Player1.Bow.hit_gate != [0,0,0,0]:
+            if self.Player1.Bow.Arrow_gate == 1 or self.Player1.Bow.hit_gate != [0,0,0,0]:
                 self.Player1.Bow.hit_enemy(self.rooms[i].enemy_list, self.Player1.face_direction, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
 
 
@@ -211,9 +211,10 @@ class Levels(arcade.Window):
                     self.Level_idx += 1
                 self.move_everything(20,0)
                 self.move_lenght -= 20
-                if self.move_lenght == 0:
-                    self.rooms[2].door.move(0, -800)
-                    self.Level_idxBoss = 1
+                if self.Level_idx == 3:
+                    if self.move_lenght == 0:
+                        self.rooms[2].door.move(0, -800)
+                        self.Level_idxBoss = 1
 
             elif self.move_gate[1]:
 

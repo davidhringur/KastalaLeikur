@@ -10,6 +10,8 @@ class Bow:
 
 
         self.Arrow = arcade.Sprite("Images/Weapon/WEAPON_arrow.png", 2, image_x=150, image_y=229, image_width=36, image_height=18)
+        print(self.Arrow.points)
+        #self.Arrow.points = ((-60.0, -18.0), (60.0, -18.0), (60.0, 18.0), (-60, 18.0))
         self.ArrowSound = arcade.load_sound("Music/Bow10.mp3")
 
         #Notað í BowShoot
@@ -112,7 +114,7 @@ class Bow:
         if hit_list and self.Arrow_gate == 1:
             for enemy in hit_list:
                 enemys.append(enemy)
-                enemy.hp -= 50
+                enemy.hp -= 25
                 if enemy.hp <= 0:
                     enemy.kill()
                     try:
@@ -134,7 +136,7 @@ class Bow:
         safezoneAdj = 50
 
         for enemy in self.enemys:
-            if face_direction == "left" or self.hit_gate == [1,0,0,0]:  #ýtir óvin til vinstri
+            if self.Arrow.change_x < 0 or self.hit_gate == [1,0,0,0]:  #ýtir óvin til vinstri
                 self.hit_gate = [1,0,0,0]
                 if self.hit_frames_counter > 0:
                     self.hit_frames_counter -= 1
@@ -146,7 +148,7 @@ class Bow:
                     self.hit_gate = [0,0,0,0]
                     self.hit_frames_counter = self.hit_frames
                     self.enemys = arcade.check_for_collision_with_list(self.BowSprite, enemy_sprite_list)
-            elif face_direction == "right" or self.hit_gate == [0,1,0,0]:   #ýtir óvin til hægri
+            elif self.Arrow.change_x > 0 or self.hit_gate == [0,1,0,0]:   #ýtir óvin til hægri
                 self.hit_gate = [0,1,0,0]
                 if self.hit_frames_counter > 0:
                     self.hit_frames_counter -= 1
@@ -158,7 +160,7 @@ class Bow:
                     self.hit_gate = [0,0,0,0]
                     self.hit_frames_counter = self.hit_frames
                     self.enemys = arcade.SpriteList()
-            elif face_direction == "up" or self.hit_gate == [0,0,1,0]:   #ýtir óvin upp
+            elif self.Arrow.change_y > 0 or self.hit_gate == [0,0,1,0]:   #ýtir óvin upp
                 self.hit_gate = [0,0,1,0]
                 if self.hit_frames_counter > 0:
                     self.hit_frames_counter -= 1
@@ -169,7 +171,7 @@ class Bow:
                     self.hit_gate = [0,0,0,0]
                     self.hit_frames_counter = self.hit_frames
                     self.enemys = arcade.check_for_collision_with_list(self.BowSprite, enemy_sprite_list)
-            elif face_direction == "down" or self.hit_gate == [0,0,0,1]:   #ýtir óvin niður
+            elif self.Arrow.change_y < 0 or self.hit_gate == [0,0,0,1]:   #ýtir óvin niður
                 self.hit_gate = [0,0,0,1]
                 if self.hit_frames_counter > 0:
                     self.hit_frames_counter -= 1

@@ -27,7 +27,7 @@ class Pillar(arcade.Sprite):
         self.WoodSound = arcade.load_sound("Music/Wood.mp3")
 
     def updateFire(self, sword, fire_activate):
-        if arcade.check_for_collision(self, sword.SwordSprite) and self.stop == 0 and sword.update_Sword_animation_counter == 3:
+        if arcade.check_for_collision(self, sword.SwordSprite) and self.stop == 0 and sword.update_Sword_animation_counter == 1:
             self._texture = self.pillar_broken_textures[self.pillar_look]
             fire_activate.lever_count += 1
             self.stop = 1

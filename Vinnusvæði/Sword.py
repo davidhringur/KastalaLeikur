@@ -17,9 +17,10 @@ class Sword:
         self.update_Sword_animation_frame_counter = 0
         self.sword_gate = 0
         #self.sword_gate_que = 0
+        self.face_direction_placeholder = None
 
         #Notað í hit_enemy
-        self.hit_frames = 10
+        self.hit_frames = 16
         self.hit_frames_counter, self.hit_gate = self.hit_frames, [0,0,0,0] #Hit_gate: left, right, up, down
         self.enemys = []
 
@@ -74,20 +75,20 @@ class Sword:
 
     def hit_enemy(self, enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT):
         hit_list = arcade.check_for_collision_with_list(self.SwordSprite, enemy_sprite_list)
-        enemys = []
+
         if hit_list and self.sword_gate == 1:
 
             for enemy in hit_list:
-                enemys.append(enemy)
-                enemy.hp -= 10
-                enemy._set_color=(124, 10, 2)
-                if enemy.hp <= 0:
-                    enemy.kill()
-                    try:
-                        enemy.Bow.BowSprite.kill()
-                        enemy.Bow.Arrow.kill()
-                    except:
-                        pass
+                if not enemy in self.enemys: #Bara hitta einusinni i hverri sveiflu
+                    enemy.hp -= 20
+                    if enemy.hp <= 0:
+                        enemy.kill()
+                        try:
+                            enemy.Bow.BowSprite.kill()
+                            enemy.Bow.Arrow.kill()
+                        except:
+                            pass
+                self.enemys.append(enemy)
 
         self.hit_recoil(enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT)
 
@@ -96,11 +97,14 @@ class Sword:
             hit_list = arcade.check_for_collision_with_list(self.SwordSprite, enemy_sprite_list)
             if hit_list:
                 self.enemys = hit_list
+                if self.hit_frames_counter == self.hit_frames:
+                    self.face_direction_placeholder = face_direction
+                    print(face_direction)
 
         safezoneAdj = 50
         try:
             for enemy in self.enemys:
-                if face_direction == "left" or self.hit_gate == [1,0,0,0]:  #ýtir óvin til vinstri
+                if self.face_direction_placeholder == "left" or self.hit_gate == [1,0,0,0]:  #ýtir óvin til vinstri
                     self.hit_gate = [1,0,0,0]
                     if self.hit_frames_counter > 0:
                         self.hit_frames_counter -= 1
@@ -111,7 +115,7 @@ class Sword:
                         self.hit_gate = [0,0,0,0]
                         self.hit_frames_counter = self.hit_frames
                         self.enemys = arcade.check_for_collision_with_list(self.SwordSprite, enemy_sprite_list)
-                elif face_direction == "right" or self.hit_gate == [0,1,0,0]:   #ýtir óvin til hægri
+                elif self.face_direction_placeholder == "right" or self.hit_gate == [0,1,0,0]:   #ýtir óvin til hægri
                     self.hit_gate = [0,1,0,0]
                     if self.hit_frames_counter > 0:
                         self.hit_frames_counter -= 1
@@ -123,7 +127,7 @@ class Sword:
                         self.hit_gate = [0,0,0,0]
                         self.hit_frames_counter = self.hit_frames
                         self.enemys = arcade.check_for_collision_with_list(self.SwordSprite, enemy_sprite_list)
-                elif face_direction == "up" or self.hit_gate == [0,0,1,0]:   #ýtir óvin upp
+                elif self.face_direction_placeholder == "up" or self.hit_gate == [0,0,1,0]:   #ýtir óvin upp
                     self.hit_gate = [0,0,1,0]
                     if self.hit_frames_counter > 0:
                         self.hit_frames_counter -= 1
@@ -134,7 +138,7 @@ class Sword:
                         self.hit_gate = [0,0,0,0]
                         self.hit_frames_counter = self.hit_frames
                         self.enemys = arcade.check_for_collision_with_list(self.SwordSprite, enemy_sprite_list)
-                elif face_direction == "down" or self.hit_gate == [0,0,0,1]:   #ýtir óvin niður
+                elif self.face_direction_placeholder == "down" or self.hit_gate == [0,0,0,1]:   #ýtir óvin niður
                     self.hit_gate = [0,0,0,1]
                     if self.hit_frames_counter > 0:
                         self.hit_frames_counter -= 1
