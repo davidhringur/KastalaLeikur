@@ -99,7 +99,6 @@ class Sword:
                 self.enemys = hit_list
                 if self.hit_frames_counter == self.hit_frames:
                     self.face_direction_placeholder = face_direction
-                    print(face_direction)
 
         safezoneAdj = 50
         try:

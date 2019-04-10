@@ -6,6 +6,7 @@ import random
 import timeit
 import Room
 from HUD import HP_meter
+import pyglet
 
 class Levels(arcade.Window):
 
@@ -47,9 +48,14 @@ class Levels(arcade.Window):
         # Líf leikmanns í síðasta frame
         self.lastHP = None
 
-        #Hljóðfile
+        #Hljóðfile og tónlistarplayer (pyglet player því arcade létu hann ekki inn í sitt library...)
         self.FireSound = arcade.load_sound("Music/Fireball.wav")
 
+        self.player = pyglet.media.Player()
+        self.player.queue(pyglet.media.load("Music/8-Bit_Boss.wav",  streaming=False))
+        self.player.queue(pyglet.media.load("Music/8-Bit_Boss.wav",  streaming=False))
+
+        self.player.play()
 
 
     def setup(self):
@@ -206,15 +212,16 @@ class Levels(arcade.Window):
                     self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[3].prop_list))
                     self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.rooms[3].door))
                     for enemy in self.rooms[3].enemy_list:
-                       self.physics_engine.append(PhysicsEngineHighburn(enemy, self.rooms[3].prop_list))
-                       self.physics_engine.append(PhysicsEngineHighburn(enemy, self.rooms[3].wall_list))
+                        self.physics_engine.append(PhysicsEngineHighburn(enemy, self.rooms[3].prop_list))
+                        self.physics_engine.append(PhysicsEngineHighburn(enemy, self.rooms[3].wall_list))
+                    self.rooms[2].door.move(0, -800)
+                    self.player.next_source()
                     self.Level_idx += 1
                 self.move_everything(20,0)
                 self.move_lenght -= 20
-                if self.Level_idx == 3:
-                    if self.move_lenght == 0:
-                        self.rooms[2].door.move(0, -800)
-                        self.Level_idxBoss = 1
+                if self.move_lenght == 0 and self.Level_idx == 4: # þegar allt er buið að  hreyfast eftir borð 3 setjum við þetta ferli i gang
+                    self.Level_idxBoss = 1
+
 
             elif self.move_gate[1]:
 
@@ -291,6 +298,8 @@ class Levels(arcade.Window):
                 self.rooms[2].door.move(-1, 0)
             elif self.door_move_count[3] == self.door_move_dist:
                 pass
+        #if self.Player1.center_x < self.SCREEN_WIDTH - 200:
+        #    self.Level_idxBoss = 1
 
 
     def on_key_press(self, key, modifiers):

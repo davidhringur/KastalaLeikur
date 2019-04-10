@@ -10,8 +10,6 @@ class Bow:
 
 
         self.Arrow = arcade.Sprite("Images/Weapon/WEAPON_arrow.png", 2, image_x=150, image_y=229, image_width=36, image_height=18)
-        print(self.Arrow.points)
-        #self.Arrow.points = ((-60.0, -18.0), (60.0, -18.0), (60.0, 18.0), (-60, 18.0))
         self.ArrowSound = arcade.load_sound("Music/Bow10.mp3")
 
         #Notað í BowShoot

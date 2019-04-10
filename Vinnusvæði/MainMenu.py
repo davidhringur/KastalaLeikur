@@ -3,7 +3,7 @@ import Player
 import Room
 import os
 from Levels import Levels
-#import pyglet
+import pyglet
 
 class MainMenu(arcade.Window):
 
@@ -42,10 +42,20 @@ class MainMenu(arcade.Window):
         self.p4 = arcade.Sprite("Images/Character/p4_2.png", center_x=self.SCREEN_WIDTH // 1.25, center_y=self.SCREEN_HEIGHT // 5,
                               scale=SPRITE_SCALING)
 
-        self.FantasySound = arcade.load_sound("Music/8-Bit_Boss.wav")
-        arcade.play_sound(self.FantasySound)
-        #self.player = arcade.pyglet.media.Player()
-        #self.player.pause()
+        self.player = pyglet.media.Player()
+        self.FantasySound = pyglet.media.load("Music/menu.wav",  streaming=False)
+
+        self.player.queue(self.FantasySound)
+
+
+        self.player.play()
+        #self.player.next_source()
+
+        #arcade.play_sound(self.FantasySound)
+        #arcade.stop_sound(self.FantasySound)
+        #hi.next_source()
+
+        #print(self.player)
 
     i = 0
     def on_draw(self):
@@ -157,5 +167,5 @@ class MainMenu(arcade.Window):
             window.setup()
             arcade.window_commands.set_window(self)
             arcade.window_commands.close_window()
-            #arcade.sound.stop_sound(self.FantasySound)
+            self.player.pause()
             #self.p.pause()
