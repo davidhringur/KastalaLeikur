@@ -51,9 +51,13 @@ class Dragon(arcade.Sprite):
         self.stage = 1
         self.stage_changer = 0
 
+        self.FireSound = arcade.load_sound("Music/Fireball+2.wav")
 
     #Fall sem ræðst á player
     def Attack(self, player, player_list):
+
+        if self.hp <= 0:
+            self.fireball.kill()
 
         #Meiða ef við förum í drekann
         sign = lambda x: x and (1, -1)[x < 0]
@@ -123,13 +127,14 @@ class Dragon(arcade.Sprite):
                             player.hp -= damage
 
 
-                #if self.hit_gate != [0,0,0,0]:   #Lætur óvin stoppa meðan leykmaður ýtist frá
-                #    self.change_y = 0
-                #    self.change_x = 0
+                if self.hp < 0:
+                    self.fireball.kill()
+
 
             except:
                 pass
-
+        else:
+            self.fireball.kill()
 
 
     def Move(self, player, player_list):
@@ -164,6 +169,7 @@ class Dragon(arcade.Sprite):
         fireball_speed = 10
         fireball_speed_x, fireball_speed_y = int(math.sin(angle)*fireball_speed)*sign(delta_x), int(math.cos(angle)*fireball_speed)*sign(delta_y)
         if self.firebal_animation_frame_counter == 0:
+            arcade.play_sound(self.FireSound)
             player_list.append(self.fireball)
             self.fireball.center_x, self.fireball.center_y = self.center_x, self.center_y
             self.fireball.change_x, self.fireball.change_y = fireball_speed_x, fireball_speed_y

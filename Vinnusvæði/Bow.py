@@ -124,7 +124,7 @@ class Bow:
         self.hit_recoil(enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT)
 
     def hit_recoil(self, enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT):
-        if self.Bow_gate and self.Arrow_gate == 1:
+        if self.Arrow_gate and self.Arrow_gate == 1:
             hit_list = arcade.check_for_collision_with_list(self.Arrow, enemy_sprite_list)
             if hit_list:
                 self.Arrow.kill()
