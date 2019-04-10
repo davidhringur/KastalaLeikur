@@ -43,7 +43,7 @@ class MainMenu(arcade.Window):
                               scale=SPRITE_SCALING)
 
         self.player = pyglet.media.Player()
-        self.FantasySound = pyglet.media.load("Music/menu.wav",  streaming=False)
+        self.FantasySound = pyglet.media.load("Music/Tales_of_Phantasia.wav",  streaming=False)
 
         self.player.queue(self.FantasySound)
 

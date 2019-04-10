@@ -52,8 +52,8 @@ class Levels(arcade.Window):
         self.FireSound = arcade.load_sound("Music/Fireball.wav")
 
         self.player = pyglet.media.Player()
-        self.player.queue(pyglet.media.load("Music/8-Bit_Boss.wav",  streaming=False))
-        self.player.queue(pyglet.media.load("Music/8-Bit_Boss.wav",  streaming=False))
+        self.player.queue(pyglet.media.load("Music/Illusion_of_Gaia.wav",  streaming=False))
+        self.player.queue(pyglet.media.load("Music/Wizardry_8.wav",  streaming=False))
 
         self.player.play()
 
