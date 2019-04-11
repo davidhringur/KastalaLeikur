@@ -1,5 +1,5 @@
 import arcade
-
+#v
 class Bow:
     def __init__(self):
         #Setja inn myndir af boganum
