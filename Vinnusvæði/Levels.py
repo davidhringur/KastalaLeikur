@@ -99,6 +99,10 @@ class Levels(arcade.Window):
         for enemy in self.rooms[0].enemy_list:
             self.physics_engine.append(PhysicsEngineHighburn(enemy, self.rooms[0].wall_list))
 
+        self.move_gate = 0 #Notað til að færa allt þegar skipt er um borð
+        self.door_move_count = [0, 0, 1, 1]
+        self.Level_idxBoss = 0
+
     def move_everything(self, x, y):
         self.player_list.move(x, y)
         for i in range(self.Level_idx):
@@ -154,11 +158,9 @@ class Levels(arcade.Window):
         self.draw_time = timeit.default_timer() - draw_start_time
 
         if self.game_over == 1:
-            self.GameOver.update()
+            self.GameOver.update(self.Player1)
 
-    move_gate = 0 #Notað til að færa allt þegar skipt er um borð
-    door_move_count = [0, 0, 1, 1]
-    Level_idxBoss = 0
+
     def update(self, delta_time):
 
 
@@ -313,8 +315,9 @@ class Levels(arcade.Window):
             elif self.door_move_count[3] == self.door_move_dist:
                 if self.rooms[3].dragon.hp <= 0:
                     self.game_over = 1
-        #if self.Player1.center_x < self.SCREEN_WIDTH - 200:
-        #    self.Level_idxBoss = 1
+
+        if self.Player1.hp <= 0:
+            self.game_over = 1
 
 
     def on_key_press(self, key, modifiers):
@@ -348,8 +351,11 @@ class Levels(arcade.Window):
                 self.GameOver.options += 1
             elif key == arcade.key.ENTER:
                 if self.GameOver.options == 0:
-                    #self.GameOver.newGame()
-                    self.setup()
+                    self.GameOver.newGame()
+                    arcade.window_commands.set_window(self)
+                    self.player.pause()
+                    arcade.window_commands.close_window()
+
                 elif self.GameOver.options == 1:
                     arcade.window_commands.set_window(self)
                     arcade.window_commands.close_window()

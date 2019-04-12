@@ -1,16 +1,21 @@
 import arcade
 
+
 class EndGame(arcade.Window):
     def __init__(self, width, height):
         self.Congrats = arcade.Sprite("Images/Main/Congratulations.png", center_x=width // 2, center_y=height // 4 * 3)
+        self.gameOver = arcade.Sprite("Images/GameOver/GameOver.png", center_x=width // 2, center_y=height // 4 * 3)
         self.PlayAgain = arcade.Sprite("Images/Main/Play-again.png", center_x=width // 2, center_y=height // 4 * 2)
         self.quit = arcade.Sprite("Images/Main/Quit.png", center_x=width // 2, center_y=height // 4)
 
         self.options = 0
         self.i = 0
 
-    def update(self):
-        self.Congrats.draw()
+    def update(self, player):
+        if player.hp <= 0:
+            self.gameOver.draw()
+        else:
+            self.Congrats.draw()
         #print("Hi")
         if self.options == 0:
             self.i += 1
@@ -30,7 +35,10 @@ class EndGame(arcade.Window):
         else:
             self.quit.draw()
     def newGame(self):
-        pass
+        from MainMenu import MainMenu
+        window = MainMenu(1200, 600, "Main Menu")
+
+
 
     def on_key_press(self, key, modifiers):
         # Kallað er á þetta í hvert sinn sem notandi ýtir á takka
