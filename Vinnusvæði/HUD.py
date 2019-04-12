@@ -47,3 +47,5 @@ class Dragon_HP_meter(arcade.Sprite):
             self.kill()
             list.append(self)
         self.change=w
+        if dragon.hp <= 0:
+            self.kill()

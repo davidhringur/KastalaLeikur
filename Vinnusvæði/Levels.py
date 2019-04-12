@@ -7,6 +7,7 @@ import timeit
 import Room
 from HUD import HP_meter
 import pyglet
+from GameOver import *
 
 class Levels(arcade.Window):
 
@@ -24,10 +25,11 @@ class Levels(arcade.Window):
         # Viljum að músin hverfi þegar hún er staðsett yfir glugganum
         self.set_mouse_visible(False)
 
-        #Level insex sem við erum á
-        self.Level_idx = 1
 
         self.MainMenuOptions = MainMenuOptions
+
+        #Level insex sem við erum á
+        self.Level_idx = 1
 
         # Búum til playerinn
         self.Player1 = None
@@ -42,6 +44,10 @@ class Levels(arcade.Window):
         #setja fps svo hann keyri betur
         self.set_update_rate(1 / 80)
 
+
+
+
+    def setup(self):
         #Fylki sem segir okkur havða takki er niðri
         self.LEFT_RIGHT_UP_DOWN_key_is_down = [0,0,0,0]
 
@@ -54,11 +60,12 @@ class Levels(arcade.Window):
         self.player = pyglet.media.Player()
         self.player.queue(pyglet.media.load("Music/Illusion_of_Gaia.wav",  streaming=False))
         self.player.queue(pyglet.media.load("Music/Wizardry_8.wav",  streaming=False))
-
+        self.player.volume = 0.1
         self.player.play()
 
+        #game over
+        self.game_over = 0
 
-    def setup(self):
         # Setjum upp playerinn
         self.Player1 = Player(self.MainMenuOptions,"Images/Character/p1_2.png", scale=2)
         self.Player1.center_x, self.Player1.center_y = 100, 100
@@ -76,6 +83,8 @@ class Levels(arcade.Window):
         self.rooms.append(room1) #room2 er bætt við þegar leikmaður fer á næsta borð
 
         self.HP_meter = HP_meter()
+
+        self.GameOver = EndGame(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
 
         self.move_lenght = self.SCREEN_WIDTH - 40
         self.move_height = self.SCREEN_HEIGHT - 40
@@ -144,10 +153,15 @@ class Levels(arcade.Window):
             pass
         self.draw_time = timeit.default_timer() - draw_start_time
 
+        if self.game_over == 1:
+            self.GameOver.update()
+
     move_gate = 0 #Notað til að færa allt þegar skipt er um borð
     door_move_count = [0, 0, 1, 1]
     Level_idxBoss = 0
     def update(self, delta_time):
+
+
         start_time = timeit.default_timer()
 
         self.lastHP = self.Player1.hp
@@ -214,13 +228,13 @@ class Levels(arcade.Window):
                     for enemy in self.rooms[3].enemy_list:
                         self.physics_engine.append(PhysicsEngineHighburn(enemy, self.rooms[3].prop_list))
                         self.physics_engine.append(PhysicsEngineHighburn(enemy, self.rooms[3].wall_list))
-                    self.rooms[2].door.move(0, -800)
                     self.player.next_source()
                     self.Level_idx += 1
                 self.move_everything(20,0)
                 self.move_lenght -= 20
                 if self.move_lenght == 0 and self.Level_idx == 4: # þegar allt er buið að  hreyfast eftir borð 3 setjum við þetta ferli i gang
                     self.Level_idxBoss = 1
+                    self.rooms[2].door.move(0, -800)
 
 
             elif self.move_gate[1]:
@@ -297,14 +311,15 @@ class Levels(arcade.Window):
                 self.door_move_count[3] += 1
                 self.rooms[2].door.move(-1, 0)
             elif self.door_move_count[3] == self.door_move_dist:
-                pass
+                if self.rooms[3].dragon.hp <= 0:
+                    self.game_over = 1
         #if self.Player1.center_x < self.SCREEN_WIDTH - 200:
         #    self.Level_idxBoss = 1
 
 
     def on_key_press(self, key, modifiers):
         # Kallað er á þetta í hvert sinn sem notandi ýtir á takka
-        if self.Player1.hp >= 0:
+        if self.Player1.hp >= 0 and self.game_over == 0:
             if key == arcade.key.LEFT:
                 self.Player1.change_x += -self.Player1.MOVEMENT_SPEED
                 self.LEFT_RIGHT_UP_DOWN_key_is_down[0] = 1
@@ -322,10 +337,29 @@ class Levels(arcade.Window):
             if key == arcade.key.Z:
                 self.Player1.Bow.Bow_gate = 1
 
+        elif self.game_over == 1:
+            if key == arcade.key.LEFT:
+                pass
+            elif key == arcade.key.RIGHT:
+                pass
+            elif key == arcade.key.UP and self.GameOver.options > 0:
+                self.GameOver.options -= 1
+            elif key == arcade.key.DOWN and self.GameOver.options < 1:
+                self.GameOver.options += 1
+            elif key == arcade.key.ENTER:
+                if self.GameOver.options == 0:
+                    #self.GameOver.newGame()
+                    self.setup()
+                elif self.GameOver.options == 1:
+                    arcade.window_commands.set_window(self)
+                    arcade.window_commands.close_window()
+
+
+
 
     def on_key_release(self, key, modifiers):
         # Kallað er á þetta í hvert sinn sem notandi hættir að ýta á takka
-        if self.Player1.hp >= 0:
+        if self.Player1.hp >= 0 and self.game_over == 0:
             if key == arcade.key.LEFT:
                 self.Player1.change_x += self.Player1.MOVEMENT_SPEED
                 self.LEFT_RIGHT_UP_DOWN_key_is_down[0] = 0

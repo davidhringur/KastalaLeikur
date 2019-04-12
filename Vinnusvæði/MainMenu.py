@@ -46,6 +46,8 @@ class MainMenu(arcade.Window):
         self.FantasySound = pyglet.media.load("Music/Tales_of_Phantasia.wav",  streaming=False)
 
         self.player.queue(self.FantasySound)
+        self.player.volume = 0.1
+
 
 
         self.player.play()
@@ -75,7 +77,6 @@ class MainMenu(arcade.Window):
                 self.i = 0
         else:
             self.p1.draw()
-            i = 0
 
         #Leikmaður 2
         if self.options == [[0, 1,0,0]]:
@@ -86,7 +87,6 @@ class MainMenu(arcade.Window):
                 self.i = 0
         else:
             self.p2.draw()
-            i = 0
 
                 #Leikmaður 3
         if self.options == [[0, 0,1,0]]:
@@ -97,7 +97,6 @@ class MainMenu(arcade.Window):
                 self.i = 0
         else:
             self.p3.draw()
-            i = 0
 
         #Leikmaður 4
         if self.options == [[0,0,0,1]]:
@@ -108,7 +107,6 @@ class MainMenu(arcade.Window):
                 self.i = 0
         else:
             self.p4.draw()
-            i = 0
 
 
 
