@@ -44,6 +44,8 @@ class Levels(arcade.Window):
         #setja fps svo hann keyri betur
         self.set_update_rate(1 / 80)
 
+        self.draw_end = 0
+
 
 
 
@@ -103,6 +105,15 @@ class Levels(arcade.Window):
         self.door_move_count = [0, 0, 1, 1]
         self.Level_idxBoss = 0
 
+        #Texti
+        self.text1_countdown, self.text2_countdown = 300, 800
+        self.help_dragon_text = arcade.Sprite("Images/GameOver/help-dragon-text.png", scale= 0.4)
+        self.help_dragon_text.center_x, self.help_dragon_text.center_y = self.SCREEN_WIDTH/2, 570
+        self.thank_you_text = arcade.Sprite("Images/GameOver/thank-you-text.png", scale= 0.4)
+        self.thank_you_text.center_x, self.thank_you_text.center_y = self.SCREEN_WIDTH/2, 470
+        self.save_charactrer = arcade.Sprite("Images\Character\save_caracter.png",image_x=4,image_y=0,image_width=25,image_height=32, scale=2)
+
+
     def move_everything(self, x, y):
         self.player_list.move(x, y)
         for i in range(self.Level_idx):
@@ -160,6 +171,23 @@ class Levels(arcade.Window):
         if self.game_over == 1:
             self.GameOver.update(self.Player1)
 
+        if self.Level_idx == 1 and self.text1_countdown > 0:
+            self.text1_countdown -= 1
+            self.help_dragon_text.draw()
+        if self.draw_end == 1 and self.text2_countdown > 0:
+            if self.text2_countdown == 800:
+                self.player.queue(pyglet.media.load("Music/Overwatch_8-Bit.wav",  streaming=False))
+                self.player.next_source()
+                #self.savelist = arcade.SpriteList(); self.savelist.append(self.save_charactrer)
+                #self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.savelist))
+            self.text2_countdown -= 1
+            self.save_charactrer.draw()
+            self.Player1.kill()
+            self.player_list.append(self.Player1)
+            self.thank_you_text.draw()
+            if self.text2_countdown == 0:
+                self.game_over = 1
+                self.Player1.change_x, self.Player1.change_y = 0, 0
 
     def update(self, delta_time):
 
@@ -314,10 +342,15 @@ class Levels(arcade.Window):
                 self.rooms[2].door.move(-1, 0)
             elif self.door_move_count[3] == self.door_move_dist:
                 if self.rooms[3].dragon.hp <= 0:
-                    self.game_over = 1
+                    self.save_charactrer.center_x, self.save_charactrer.center_y = self.rooms[3].dragon.center_x, self.rooms[3].dragon.center_y
+                    self.thank_you_text.center_x, self.thank_you_text.center_y = self.save_charactrer.center_x - 100, self.save_charactrer.center_y + 25
+                    self.draw_end = 1
+
+
 
         if self.Player1.hp <= 0:
             self.game_over = 1
+
 
 
     def on_key_press(self, key, modifiers):
