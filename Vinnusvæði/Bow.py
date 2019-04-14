@@ -10,7 +10,7 @@ class Bow:
 
 
         self.Arrow = arcade.Sprite("Images/Weapon/WEAPON_arrow.png", 2, image_x=150, image_y=229, image_width=36, image_height=18)
-        self.ArrowSound = arcade.load_sound("Music/Bow10.mp3")
+        self.ArrowSound = arcade.pyglet.media.load("Music/Bow10.mp3", streaming=False)
 
         #Notað í BowShoot
         self.BowSprite = arcade.Sprite()
@@ -41,7 +41,7 @@ class Bow:
             self.update_Bow_animation_counter = 0
         elif self.Bow_gate and self.update_Bow_animation_counter<13:
             if self.update_Bow_animation_counter == 7 and self.update_Bow_animation_frame_counter == 1:
-                arcade.play_sound(self.ArrowSound)
+                self.ArrowSound.play()
             if Player1.face_direction == "up" or Player1.face_direction == "left": #setja sverð undir kallinn fyrir þessar áttir
                 Player1.kill()
                 player_list.append(Player1.Bow.BowSprite)

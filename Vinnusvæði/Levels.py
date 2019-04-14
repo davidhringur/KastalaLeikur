@@ -57,7 +57,7 @@ class Levels(arcade.Window):
         self.lastHP = None
 
         #Hljóðfile og tónlistarplayer (pyglet player því arcade létu hann ekki inn í sitt library...)
-        self.FireSound = arcade.load_sound("Music/Fireball.wav")
+        self.FireSound = arcade.pyglet.media.load("Music/Fireball.wav")
 
         self.player = pyglet.media.Player()
         self.player.queue(pyglet.media.load("Music/Illusion_of_Gaia.wav",  streaming=False))
@@ -111,7 +111,7 @@ class Levels(arcade.Window):
         self.help_dragon_text.center_x, self.help_dragon_text.center_y = self.SCREEN_WIDTH/2, 570
         self.thank_you_text = arcade.Sprite("Images/GameOver/thank-you-text.png", scale= 0.4)
         self.thank_you_text.center_x, self.thank_you_text.center_y = self.SCREEN_WIDTH/2, 470
-        self.save_charactrer = arcade.Sprite("Images\Character\save_caracter.png",image_x=4,image_y=0,image_width=25,image_height=32, scale=2)
+        self.save_charactrer = arcade.Sprite("Images/Character/save_caracter.png",image_x=4,image_y=0,image_width=25,image_height=32, scale=2)
 
 
     def move_everything(self, x, y):
@@ -321,7 +321,7 @@ class Levels(arcade.Window):
         elif self.Level_idx == 2:
             if self.rooms[1].fire.lever_count == 4 and self.door_move_count[1] < self.door_move_dist:
                 if self.door_move_count[1] == 0:
-                    arcade.play_sound(self.FireSound)
+                    self.FireSound.play()
                 self.door_move_count[1] += 1
                 self.rooms[1].door.move(0, 1)
             elif self.door_move_count[1] == self.door_move_dist:

@@ -7,7 +7,7 @@ class Sword:
         self.sword_UpRight = arcade.load_textures("Images/Weapon/Sword_UpRight.png",[[83,11,35,26],[148,11,35,26],[213,11,35,26],[278,11,35,26]], scale = 14)
         self.sword_DownLeft = arcade.load_textures("Images/Weapon/Sword_DownLeft.png",[[74,34,33,23],[137,34,33,23],[201,34,33,23],[266,34,33,23]], scale = 12)
         #Hljóðfile
-        self.SwordSound = arcade.load_sound("Music/Sword.mp3")
+        self.SwordSound = arcade.pyglet.media.load("Music/Sword.mp3", streaming=False)
 
         #Notað í SwordSwing
         self.SwordSprite = arcade.Sprite()
@@ -32,11 +32,11 @@ class Sword:
                 player_list.append(Player1.Sword.SwordSprite)
                 player_list.append(Player1)
                 if self.update_Sword_animation_counter == 0:
-                    arcade.play_sound(self.SwordSound)
+                    self.SwordSound.play()
             else:
                 player_list.append(Player1.Sword.SwordSprite)
                 if self.update_Sword_animation_counter == 0:
-                    arcade.play_sound(self.SwordSound)
+                    self.SwordSound.play()
 
             if self.update_Sword_animation_frame_counter == frame or self.update_Sword_animation_counter == 0:            #update sverðið breytist á hverjum 5ta frame
 
