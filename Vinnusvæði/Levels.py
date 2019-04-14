@@ -106,12 +106,20 @@ class Levels(arcade.Window):
         self.Level_idxBoss = 0
 
         #Texti
-        self.text1_countdown, self.text2_countdown = 300, 800
+        self.text1_countdown, self.text2_countdown = 300, 600
+        self.box2_countdown, self.box3_countdown = 300, 200
         self.help_dragon_text = arcade.Sprite("Images/GameOver/help-dragon-text.png", scale= 0.4)
         self.help_dragon_text.center_x, self.help_dragon_text.center_y = self.SCREEN_WIDTH/2, 570
         self.thank_you_text = arcade.Sprite("Images/GameOver/thank-you-text.png", scale= 0.4)
         self.thank_you_text.center_x, self.thank_you_text.center_y = self.SCREEN_WIDTH/2, 470
         self.save_charactrer = arcade.Sprite("Images/Character/save_caracter.png",image_x=4,image_y=0,image_width=25,image_height=32, scale=2)
+        self.instructions = arcade.Sprite("Images/Main/instruct.png", scale=0.7)
+        self.instructions.center_x, self.instructions.center_y = self.SCREEN_WIDTH/10*8, 100
+        self.instructions2 = arcade.Sprite("Images/Main/instr2.png", scale=0.7)
+        self.instructions2.center_x, self.instructions2.center_y = self.SCREEN_WIDTH/10*8, 300
+        self.instructions3 = arcade.Sprite("Images/Main/instr3.png", scale=0.7)
+        self.instructions3.center_x, self.instructions3.center_y = self.SCREEN_WIDTH/10*8, 300
+
 
 
     def move_everything(self, x, y):
@@ -174,8 +182,9 @@ class Levels(arcade.Window):
         if self.Level_idx == 1 and self.text1_countdown > 0:
             self.text1_countdown -= 1
             self.help_dragon_text.draw()
+            self.instructions.draw()
         if self.draw_end == 1 and self.text2_countdown > 0:
-            if self.text2_countdown == 800:
+            if self.text2_countdown == 600:
                 self.player.queue(pyglet.media.load("Music/Overwatch_8-Bit.wav",  streaming=False))
                 self.player.next_source()
                 #self.savelist = arcade.SpriteList(); self.savelist.append(self.save_charactrer)
@@ -188,6 +197,14 @@ class Levels(arcade.Window):
             if self.text2_countdown == 0:
                 self.game_over = 1
                 self.Player1.change_x, self.Player1.change_y = 0, 0
+        if self.Level_idx == 2 and self.box2_countdown > 0:
+            self.box2_countdown -= 1
+            if self.box2_countdown < 200:
+                self.instructions2.draw()
+        ##if self.Level_idx == 3 and self.box3_countdown > 0:
+    #        self.box3_countdown -= 1
+#            if self.box3_countdown < 100:
+#                self.instructions3.draw()
 
     def update(self, delta_time):
 
