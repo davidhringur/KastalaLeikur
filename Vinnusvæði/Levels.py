@@ -54,13 +54,16 @@ class Levels(arcade.Window):
         self.lastHP = None
 
         #Hljóðfile og tónlistarplayer (pyglet player því arcade létu hann ekki inn í sitt library...)
-        self.FireSound = arcade.pyglet.media.load("Music/Fireball.wav")
+        try:
+            self.FireSound = arcade.pyglet.media.load("Music/Fireball.wav")
 
-        self.player = pyglet.media.Player()
-        self.player.queue(pyglet.media.load("Music/Illusion_of_Gaia.wav",  streaming=False))
-        self.player.queue(pyglet.media.load("Music/Wizardry_8.wav",  streaming=False))
-        self.player.volume = 0.1
-        self.player.play()
+            self.player = pyglet.media.Player()
+            self.player.queue(pyglet.media.load("Music/Illusion_of_Gaia.wav",  streaming=False))
+            self.player.queue(pyglet.media.load("Music/Wizardry_8.wav",  streaming=False))
+            self.player.volume = 0.1
+            self.player.play()
+        except:
+            print("Hljóð virkar ekki, Þú þarft líklega að installa AVbin, sjá README.md skal.")
 
         #game over
         self.game_over = 0
@@ -163,10 +166,11 @@ class Levels(arcade.Window):
             self.instructions.draw()
         if self.draw_end == 1 and self.text2_countdown > 0:
             if self.text2_countdown == 600:
-                self.player.queue(pyglet.media.load("Music/Overwatch_8-Bit.wav",  streaming=False))
-                self.player.next_source()
-                #self.savelist = arcade.SpriteList(); self.savelist.append(self.save_charactrer)
-                #self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.savelist))
+                try:
+                    self.player.queue(pyglet.media.load("Music/Overwatch_8-Bit.wav",  streaming=False))
+                    self.player.next_source()
+                except:
+                    print("Hljóð virkar ekki, Þú þarft líklega að installa AVbin, sjá README.md skal.")
             self.text2_countdown -= 1
             self.save_charactrer.draw()
             self.Player1.draw()
@@ -244,7 +248,10 @@ class Levels(arcade.Window):
                     for enemy in self.rooms[3].enemy_list:
                         self.physics_engine.append(PhysicsEngineHighburn(enemy, self.rooms[3].prop_list))
                         self.physics_engine.append(PhysicsEngineHighburn(enemy, self.rooms[3].wall_list))
-                    self.player.next_source()
+                    try:
+                        self.player.next_source()
+                    except:
+                        print("Hljóð virkar ekki, Þú þarft líklega að installa AVbin, sjá README.md skal.")
                     self.Level_idx += 1
                 self.move_everything(20,0)
                 self.move_lenght -= 20
@@ -297,7 +304,7 @@ class Levels(arcade.Window):
             self.rooms[0].door.move(1, 0)
         elif self.door_move_count[0] == self.door_move_dist:
             self.door_move_count[0] += 1
-            self.rooms[0].door = arcade.SpriteList()
+            self.rooms[0].door.move(2*self.door_move_dist, 2800)
 
         elif self.Level_idx == 2:
             if self.rooms[1].fire.lever_count == 4 and self.door_move_count[1] < self.door_move_dist:
@@ -307,7 +314,7 @@ class Levels(arcade.Window):
                 self.rooms[1].door.move(0, 1)
             elif self.door_move_count[1] == self.door_move_dist:
                 self.door_move_count[1] += 1
-                self.rooms[1].door = arcade.SpriteList()
+                self.rooms[1].door.move(2*self.door_move_dist, 2800)
 
         elif self.Level_idx == 3:
             if not self.rooms[2].enemy_list and self.door_move_count[2] < self.door_move_dist:
@@ -315,7 +322,7 @@ class Levels(arcade.Window):
                 self.rooms[2].door.move(-1, 0)
             elif self.door_move_count[2] == self.door_move_dist:
                 self.door_move_count[2] += 1
-                self.rooms[2].door.move(2*self.door_move_dist, 800)
+                self.rooms[2].door.move(2*self.door_move_dist, 2800)
 
         elif self.Level_idxBoss == 1:
             if self.door_move_count[3] < self.door_move_dist and self.Player1.center_x < self.SCREEN_WIDTH - 160:

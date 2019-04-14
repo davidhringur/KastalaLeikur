@@ -12,7 +12,10 @@ class Bow:
         self.Arrow = arcade.Sprite("Images/Weapon/WEAPON_arrow.png", 2, image_x=150, image_y=229, image_width=36, image_height=18)
         self.ArrowTexturesRightLeft = arcade.load_textures("Images/Weapon/WEAPON_arrow.png",[[150,229,36,18],[193,92,43, 20]], scale=2)
         self.ArrowTexturesUpDown = arcade.load_textures("Images/Weapon/arrow2.png",[[141,195,15,41],[13,208,15 ,41]], scale=2)
-        self.ArrowSound = arcade.pyglet.media.load("Music/Bow10.mp3", streaming=False)
+        try:
+            self.ArrowSound = arcade.pyglet.media.load("Music/Bow10.mp3", streaming=False)
+        except:
+            print("Hljóð virkar ekki, Þú þarft líklega að installa AVbin, sjá README.md skal.")
 
         #Notað í BowShoot
         self.BowSprite = arcade.Sprite()

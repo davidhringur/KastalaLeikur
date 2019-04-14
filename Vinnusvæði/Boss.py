@@ -51,7 +51,10 @@ class Dragon(arcade.Sprite):
         self.stage = 1
         self.stage_changer = 0
 
-        self.FireSound = arcade.pyglet.media.load("Music/Fireball+2.wav", streaming=False)
+        try:
+            self.FireSound = arcade.pyglet.media.load("Music/Fireball+2.wav", streaming=False)
+        except:
+            print("Hljóð virkar ekki, Þú þarft líklega að installa AVbin, sjá README.md skal.")
 
     #Fall sem ræðst á player
     def Attack(self, player, player_list):
@@ -169,7 +172,10 @@ class Dragon(arcade.Sprite):
         fireball_speed = 10
         fireball_speed_x, fireball_speed_y = int(math.sin(angle)*fireball_speed)*sign(delta_x), int(math.cos(angle)*fireball_speed)*sign(delta_y)
         if self.firebal_animation_frame_counter == 0:
-            self.FireSound.play()
+            try:
+                self.FireSound.play()
+            except:
+                print("Hljóð virkar ekki, Þú þarft líklega að installa AVbin, sjá README.md skal.")
             player_list.append(self.fireball)
             self.fireball.center_x, self.fireball.center_y = self.center_x, self.center_y
             self.fireball.change_x, self.fireball.change_y = fireball_speed_x, fireball_speed_y

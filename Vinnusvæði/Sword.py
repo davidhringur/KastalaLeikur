@@ -7,7 +7,10 @@ class Sword:
         self.sword_UpRight = arcade.load_textures("Images/Weapon/Sword_UpRight.png",[[83,11,35,26],[148,11,35,26],[213,11,35,26],[278,11,35,26]], scale = 14)
         self.sword_DownLeft = arcade.load_textures("Images/Weapon/Sword_DownLeft.png",[[74,34,33,23],[137,34,33,23],[201,34,33,23],[266,34,33,23]], scale = 12)
         #Hljóðfile
-        self.SwordSound = arcade.pyglet.media.load("Music/Sword.mp3", streaming=False)
+        try:
+            self.SwordSound = arcade.pyglet.media.load("Music/Sword.mp3", streaming=False)
+        except:
+            print("Hljóð virkar ekki, Þú þarft líklega að installa AVbin, sjá README.md skal.")
 
         #Notað í SwordSwing
         self.SwordSprite = arcade.Sprite()
@@ -32,11 +35,17 @@ class Sword:
                 player_list.append(Player1.Sword.SwordSprite)
                 player_list.append(Player1)
                 if self.update_Sword_animation_counter == 0:
-                    self.SwordSound.play()
+                    try:
+                        self.SwordSound.play()
+                    except:
+                        print("Hljóð virkar ekki, Þú þarft líklega að installa AVbin, sjá README.md skal.")
             else:
                 player_list.append(Player1.Sword.SwordSprite)
                 if self.update_Sword_animation_counter == 0:
-                    self.SwordSound.play()
+                    try:
+                        self.SwordSound.play()
+                    except:
+                        print("Hljóð virkar ekki, Þú þarft líklega að installa AVbin, sjá README.md skal.")
 
             if self.update_Sword_animation_frame_counter == frame or self.update_Sword_animation_counter == 0:            #update sverðið breytist á hverjum 5ta frame
 
