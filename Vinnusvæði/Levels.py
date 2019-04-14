@@ -8,6 +8,7 @@ import Room
 from HUD import HP_meter
 import pyglet
 from GameOver import *
+import random
 
 class Levels(arcade.Window):
 
@@ -38,9 +39,6 @@ class Levels(arcade.Window):
         self.player_list = None
         self.coun_counter = 0
 
-        # Upplýsingar sem Davíð vill sjá, eyða örgl
-        self.processing_time = 0
-        self.draw_time = 0
         #setja fps svo hann keyri betur
         self.set_update_rate(1 / 80)
 
@@ -112,13 +110,14 @@ class Levels(arcade.Window):
         self.help_dragon_text.center_x, self.help_dragon_text.center_y = self.SCREEN_WIDTH/2, 570
         self.thank_you_text = arcade.Sprite("Images/GameOver/thank-you-text.png", scale= 0.4)
         self.thank_you_text.center_x, self.thank_you_text.center_y = self.SCREEN_WIDTH/2, 470
-        self.save_charactrer = arcade.Sprite("Images/Character/save_caracter.png",image_x=4,image_y=0,image_width=25,image_height=32, scale=2)
         self.instructions = arcade.Sprite("Images/Main/instruct.png", scale=0.7)
         self.instructions.center_x, self.instructions.center_y = self.SCREEN_WIDTH/10*8, 100
         self.instructions2 = arcade.Sprite("Images/Main/instr2.png", scale=0.7)
         self.instructions2.center_x, self.instructions2.center_y = self.SCREEN_WIDTH/10*8, 300
         self.instructions3 = arcade.Sprite("Images/Main/instr3.png", scale=0.7)
         self.instructions3.center_x, self.instructions3.center_y = self.SCREEN_WIDTH/10*8, 300
+        self.save_charactrer = random.choice([arcade.Sprite("Images/Character/save_caracter.png",image_x=4,image_y=0,image_width=25,image_height=32, scale=2), arcade.Sprite("Images/Character/save_caracter2.png",image_x=4,image_y=0,image_width=25,image_height=32, scale=2)])
+
 
 
 
@@ -136,9 +135,6 @@ class Levels(arcade.Window):
             player.center_y -= player.change_y
 
     def on_draw(self):
-        # Timer
-        draw_start_time = timeit.default_timer()
-
         # Köllum á þetta í hvert sinn sem glugginn er opnaður
         arcade.start_render()
 
@@ -159,23 +155,6 @@ class Levels(arcade.Window):
         # Setjum líf inn
         self.HP_meter.bars.draw()
 
-        # Sýna timera
-        output = f"Processing time: {self.processing_time:.3f}"
-        arcade.draw_text(output, 20, self.SCREEN_HEIGHT - 20, arcade.color.BLACK, 16)
-
-        output = f"Drawing time: {self.draw_time:.3f}"
-        arcade.draw_text(output, 20, self.SCREEN_HEIGHT - 40, arcade.color.BLACK, 16)
-
-        output = f"Coins hit: {self.coun_counter:3}"
-        arcade.draw_text(output, 20, self.SCREEN_HEIGHT - 60, arcade.color.BLACK, 16)
-        try:
-            fps = 1 / (self.draw_time + self.processing_time)
-            output = f"Max FPS: {fps:3.1f}"
-            arcade.draw_text(output, 20, self.SCREEN_HEIGHT - 80, arcade.color.BLACK, 16)
-        except:
-            pass
-        self.draw_time = timeit.default_timer() - draw_start_time
-
         if self.game_over == 1:
             self.GameOver.update(self.Player1)
 
@@ -191,8 +170,8 @@ class Levels(arcade.Window):
                 #self.physics_engine.append(PhysicsEngineHighburn(self.Player1, self.savelist))
             self.text2_countdown -= 1
             self.save_charactrer.draw()
-            self.Player1.kill()
-            self.player_list.append(self.Player1)
+            self.Player1.draw()
+            #self.player_list.append(self.Player1)
             self.thank_you_text.draw()
             if self.text2_countdown == 0:
                 self.game_over = 1
@@ -201,15 +180,8 @@ class Levels(arcade.Window):
             self.box2_countdown -= 1
             if self.box2_countdown < 200:
                 self.instructions2.draw()
-        ##if self.Level_idx == 3 and self.box3_countdown > 0:
-    #        self.box3_countdown -= 1
-#            if self.box3_countdown < 100:
-#                self.instructions3.draw()
 
     def update(self, delta_time):
-
-
-        start_time = timeit.default_timer()
 
         self.lastHP = self.Player1.hp
         self.Player1.update()
@@ -251,8 +223,6 @@ class Levels(arcade.Window):
         if self.Level_idx == 4:
             self.rooms[3].DragonHP.updateHP(self.rooms[3].dragon, self.rooms[3].prop_list)
 
-        # Vistum tímann sem þetta tekur
-        self.processing_time = timeit.default_timer() - start_time
 
         #Uppfæra eld á borði 2
         if self.Level_idx == 2:
@@ -281,7 +251,7 @@ class Levels(arcade.Window):
                 self.move_lenght -= 20
                 if self.move_lenght == 0 and self.Level_idx == 4: # þegar allt er buið að  hreyfast eftir borð 3 setjum við þetta ferli i gang
                     self.Level_idxBoss = 1
-                    self.rooms[2].door.move(0, -800)
+                    #self.rooms[2].door.move(0, -800)
 
 
             elif self.move_gate[1]:
@@ -321,11 +291,6 @@ class Levels(arcade.Window):
             self.move_gate = 0
             self.move_lenght = self.SCREEN_WIDTH - 40
             self.move_height = self.SCREEN_HEIGHT - 40
-            #if self.LEFT_RIGHT_UP_DOWN_key_is_down:
-            #    self.Player1.change_x -= self.LEFT_RIGHT_UP_DOWN_key_is_down[0]*self.Player1.MOVEMENT_SPEED
-            #    self.Player1.change_x += self.LEFT_RIGHT_UP_DOWN_key_is_down[1]*self.Player1.MOVEMENT_SPEED
-            #    self.Player1.change_y += self.LEFT_RIGHT_UP_DOWN_key_is_down[2]*self.Player1.MOVEMENT_SPEED
-            #    self.Player1.change_y -= self.LEFT_RIGHT_UP_DOWN_key_is_down[3]*self.Player1.MOVEMENT_SPEED
 
         #Open doors for next Levels
         if self.coun_counter >= 15 and self.door_move_count[0] < self.door_move_dist:
