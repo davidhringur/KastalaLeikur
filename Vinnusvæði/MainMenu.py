@@ -1,6 +1,4 @@
 import arcade
-import Player
-import Room
 import os
 from Levels import Levels
 import pyglet

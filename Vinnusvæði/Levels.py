@@ -3,7 +3,6 @@ from Player import *
 from PhysicsEngineHighburn import *
 import os
 import random
-import timeit
 import Room
 from HUD import HP_meter
 import pyglet
