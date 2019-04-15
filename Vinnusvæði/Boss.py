@@ -53,6 +53,7 @@ class Dragon(arcade.Sprite):
 
         try:
             self.FireSound = arcade.pyglet.media.load("Music/Fireball+2.wav", streaming=False)
+            self.FlapSound = arcade.pyglet.media.load("Music/dragonFlap.mp3", streaming=False)
         except:
             print("Hljóð virkar ekki, Þú þarft líklega að installa AVbin, sjá README.md skal.")
 
@@ -175,7 +176,7 @@ class Dragon(arcade.Sprite):
             try:
                 self.FireSound.play()
             except:
-                print("Hljóð virkar ekki, Þú þarft líklega að installa AVbin, sjá README.md skal.")
+                pass
             player_list.append(self.fireball)
             self.fireball.center_x, self.fireball.center_y = self.center_x, self.center_y
             self.fireball.change_x, self.fireball.change_y = fireball_speed_x, fireball_speed_y
@@ -245,7 +246,11 @@ class Dragon(arcade.Sprite):
                 self._texture = self.walk_up_textures[self.update_animation_counter % 3]
             elif self.face_direction == "down":
                 self._texture = self.walk_down_textures[self.update_animation_counter % 3]
-
+            if self.update_animation_counter % 3 == 1:
+                try:
+                    self.FlapSound.play()
+                except:
+                    pass
 
     def update(self):
         #Færa óvin

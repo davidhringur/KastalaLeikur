@@ -1,4 +1,5 @@
 import arcade
+import random
 
 class Sword:
     def __init__(self):
@@ -9,8 +10,9 @@ class Sword:
         #Hljóðfile
         try:
             self.SwordSound = arcade.pyglet.media.load("Music/Sword.mp3", streaming=False)
+            self.HitSound = arcade.pyglet.media.load("Music/Impact.mp3", streaming=False)
         except:
-            print("Hljóð virkar ekki, Þú þarft líklega að installa AVbin, sjá README.md skal.")
+            pass
 
         #Notað í SwordSwing
         self.SwordSprite = arcade.Sprite()
@@ -26,6 +28,7 @@ class Sword:
         self.hit_frames = 16
         self.hit_frames_counter, self.hit_gate = self.hit_frames, [0,0,0,0] #Hit_gate: left, right, up, down
         self.enemys = []
+        self.enemyOnce = []
 
     def SwordSwing(self, Player1, player_list, frame):
         if self.sword_gate and self.update_Sword_animation_counter<4:
@@ -38,14 +41,14 @@ class Sword:
                     try:
                         self.SwordSound.play()
                     except:
-                        print("Hljóð virkar ekki, Þú þarft líklega að installa AVbin, sjá README.md skal.")
+                        pass
             else:
                 player_list.append(Player1.Sword.SwordSprite)
                 if self.update_Sword_animation_counter == 0:
                     try:
                         self.SwordSound.play()
                     except:
-                        print("Hljóð virkar ekki, Þú þarft líklega að installa AVbin, sjá README.md skal.")
+                        pass
 
             if self.update_Sword_animation_frame_counter == frame or self.update_Sword_animation_counter == 0:            #update sverðið breytist á hverjum 5ta frame
 
@@ -84,11 +87,11 @@ class Sword:
 
     def hit_enemy(self, enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT):
         hit_list = arcade.check_for_collision_with_list(self.SwordSprite, enemy_sprite_list)
-
+        self.hit_recoil(enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT)
         if hit_list and self.sword_gate == 1:
 
             for enemy in hit_list:
-                if not enemy in self.enemys: #Bara hitta einusinni i hverri sveiflu
+                if not enemy in self.enemyOnce: #Bara hitta einusinni i hverri sveiflu
                     enemy.hp -= 20
                     if enemy.hp <= 0:
                         enemy.kill()
@@ -97,9 +100,12 @@ class Sword:
                             enemy.Bow.Arrow.kill()
                         except:
                             pass
-                self.enemys.append(enemy)
+                self.enemyOnce.append(enemy)
 
-        self.hit_recoil(enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT)
+        elif self.hit_frames_counter == self.hit_frames:
+            self.enemyOnce = []
+
+
 
     def hit_recoil(self, enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT):
         if self.sword_gate:
@@ -108,6 +114,10 @@ class Sword:
                 self.enemys = hit_list
                 if self.hit_frames_counter == self.hit_frames:
                     self.face_direction_placeholder = face_direction
+                    try:
+                        self.HitSound.play()
+                    except:
+                        pass
 
         safezoneAdj = 50
         try:

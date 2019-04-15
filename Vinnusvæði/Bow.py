@@ -14,8 +14,9 @@ class Bow:
         self.ArrowTexturesUpDown = arcade.load_textures("Images/Weapon/arrow2.png",[[141,195,15,41],[13,208,15 ,41]], scale=2)
         try:
             self.ArrowSound = arcade.pyglet.media.load("Music/Bow10.mp3", streaming=False)
+            self.HitSound = arcade.pyglet.media.load("Music/Impact.mp3", streaming=False)
         except:
-            print("Hljóð virkar ekki, Þú þarft líklega að installa AVbin, sjá README.md skal.")
+            pass
 
         #Notað í BowShoot
         self.BowSprite = arcade.Sprite()
@@ -121,11 +122,17 @@ class Bow:
 
     def hit_enemy(self, enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT):
         hit_list = arcade.check_for_collision_with_list(self.Arrow, enemy_sprite_list)
-        enemys = []
+        self.hit_recoil(enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT)
+        enemys=[]
         if hit_list and self.Arrow_gate == 1:
             for enemy in hit_list:
                 enemys.append(enemy)
                 enemy.hp -= 25
+                self.Arrow_gate = 0
+                try:
+                    self.HitSound.play()
+                except:
+                    pass
                 if enemy.hp <= 0:
                     enemy.kill()
                     try:
@@ -134,14 +141,14 @@ class Bow:
                     except:
                         pass
 
-        self.hit_recoil(enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT)
+
 
     def hit_recoil(self, enemy_sprite_list, face_direction, SCREEN_WIDTH, SCREEN_HEIGHT):
         if self.Arrow_gate and self.Arrow_gate == 1:
             hit_list = arcade.check_for_collision_with_list(self.Arrow, enemy_sprite_list)
             if hit_list:
                 self.Arrow.kill()
-                self.Arrow_gate = 0
+                #self.Arrow_gate = 0
                 self.enemys = hit_list
 
         safezoneAdj = 50
