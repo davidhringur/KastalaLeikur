@@ -151,8 +151,11 @@ class MainMenu(arcade.Window):
             pass
         elif key == arcade.key.ENTER:
             #Levels(1200, 600, "Highburn Fortress", self.options).switch_to()
+            x, y = self.get_location()
             window = Levels(1200, 600, "Highburn Fortress", self.options)
+            window.set_location(x, y)
             window.setup()
+
             arcade.window_commands.set_window(self)
             arcade.window_commands.close_window()
             try:

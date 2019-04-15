@@ -88,6 +88,7 @@ class Bow:
         if self.update_Bow_animation_counter == 10 or self.Arrow_gate:
             self.Arrow.update()
             if self.update_Arrow_animation_frame_counter == 0:
+                self.Arrow.change_x, self.Arrow.change_y = 0, 0
                 self.Arrow.center_x, self.Arrow.center_y = self.BowSprite.center_x, self.BowSprite.center_y
                 player_list.append(self.Arrow)
 

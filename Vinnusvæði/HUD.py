@@ -49,3 +49,4 @@ class Dragon_HP_meter(arcade.Sprite):
         self.change=w
         if dragon.hp <= 0:
             self.kill()
+            dragon.fireball.kill()
